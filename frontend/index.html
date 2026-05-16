@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Belanja Online Aman dan Cepat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --cartify-green: #00aa5b;
+            --bg-light: #f5f5f5;
+        }
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-main {
+            background-color: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 700px;
+        }
+        .search-bar input {
+            border-radius: 8px 0 0 8px;
+            border: 2px solid var(--cartify-green);
+            padding: 10px 15px;
+            box-shadow: none;
+        }
+        .search-bar input:focus {
+            border-color: var(--cartify-green);
+            box-shadow: none;
+        }
+        .search-bar button {
+            border-radius: 0 8px 8px 0;
+            background-color: var(--cartify-green);
+            color: white;
+            border: 2px solid var(--cartify-green);
+            padding: 10px 25px;
+        }
+        .carousel-item img {
+            height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .category-box {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .category-item {
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s;
+        }
+        .category-item:hover {
+            transform: translateY(-5px);
+            color: var(--cartify-green);
+        }
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background-color: #f0f8f5;
+            color: var(--cartify-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 10px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            border-color: var(--cartify-green);
+        }
+        .product-img-box {
+            height: 180px;
+            background-color: #f8f9fa;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            font-size: 40px;
+        }
+        .product-price {
+            color: var(--cartify-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-main sticky-top shadow-sm">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-md-3">
+                    <a href="#" class="text-decoration-none d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping fs-3" style="color: var(--cartify-green);"></i>
+                        <span class="fs-4 fw-bold" style="color: var(--cartify-green);">Cartify</span>
+                    </a>
+                </div>
+                <div class="col-lg-7 col-md-6 my-3 my-md-0">
+                    <div class="search-bar d-flex mx-auto">
+                        <input type="text" class="form-control" placeholder="Cari laptop, mechanical keyboard, atau lainnya...">
+                        <button class="btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 d-flex justify-content-end align-items-center gap-4">
+                    <a href="#" class="text-secondary position-relative"><i class="fa-solid fa-cart-shopping fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px;">0</span>
+                    </a>
+                    <a href="#" class="text-secondary position-relative"><i class="fa-regular fa-bell fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px;">2</span>
+                    </a>
+                    <div class="vr text-muted" style="height: 24px;"></div>
+                    <a href="buyer-dashboard.html" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 14px;">R</div>
+                        <span class="fw-bold fs-6 d-none d-lg-inline">Ryan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <div id="promoCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-3">
+                <div class="carousel-item active">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white" style="height: 350px; background: linear-gradient(135deg, #00aa5b, #004d29);">
+                        <div class="text-center">
+                            <h1 class="fw-bold display-4">Promo Gadget & Laptop</h1>
+                            <p class="fs-5">Diskon hingga 40% untuk elektronik pilihan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-box mb-5">
+            <h5 class="fw-bold mb-4">Kategori Pilihan</h5>
+            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-laptop"></i></div><span class="fw-semibold small">Elektronik</span></a></div>
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-shirt"></i></div><span class="fw-semibold small">Pakaian</span></a></div>
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-burger"></i></div><span class="fw-semibold small">Makanan</span></a></div>
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-gamepad"></i></div><span class="fw-semibold small">Gaming & Hobi</span></a></div>
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-book"></i></div><span class="fw-semibold small">Buku & Edukasi</span></a></div>
+                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-ellipsis"></i></div><span class="fw-semibold small">Lainnya</span></a></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Rekomendasi Untukmu</h4>
+            <a href="#" class="text-decoration-none fw-bold" style="color: var(--cartify-green);">Lihat Semua</a>
+        </div>
+        
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-5">
+            <div class="col">
+                <a href="#" class="product-card">
+                    <div class="product-img-box"><i class="fa-solid fa-laptop"></i></div>
+                    <div class="p-3">
+                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Lenovo LOQ 15IRX9</h6>
+                        <div class="product-price mb-2">Rp 14.500.000</div>
+                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.9 | Terjual 120+</span></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="product-card">
+                    <div class="product-img-box"><i class="fa-regular fa-keyboard"></i></div>
+                    <div class="p-3">
+                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Keyboard VortexSeries</h6>
+                        <div class="product-price mb-2">Rp 850.000</div>
+                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.8 | Terjual 450+</span></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="product-card">
+                    <div class="product-img-box"><i class="fa-solid fa-dragon"></i></div>
+                    <div class="p-3">
+                        <h6 class="text-truncate mb-1" style="font-size: 14px;">D&D Starter Set</h6>
+                        <div class="product-price mb-2">Rp 350.000</div>
+                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>5.0 | Terjual 30+</span></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="product-card">
+                    <div class="product-img-box"><i class="fa-solid fa-book"></i></div>
+                    <div class="p-3">
+                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Buku Unreal Engine</h6>
+                        <div class="product-price mb-2">Rp 120.000</div>
+                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.7 | Terjual 85+</span></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#" class="product-card">
+                    <div class="product-img-box"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="p-3">
+                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Arduino Uno R3</h6>
+                        <div class="product-price mb-2">Rp 210.000</div>
+                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.9 | Terjual 1rb+</span></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Akun Saya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --cartify-green: #00aa5b; --bg-light: #f8f9fa; }
+        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; }
+        .navbar-custom { background-color: white; border-bottom: 1px solid #e3e6f0; }
+        .profile-banner { background: linear-gradient(135deg, #00aa5b 0%, #008f4c 100%); color: white; border-radius: 16px; border: none; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); background-color: white; }
+        .badge-status { font-size: 13px; padding: 6px 14px; border-radius: 20px; }
+        .nav-profile-link { color: #495057; font-weight: 500; padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-profile-link:hover, .nav-profile-link.active { background-color: rgba(0, 170, 91, 0.08); color: var(--cartify-green); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom py-3 sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="index.html" style="color: var(--cartify-green) !important;">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Cartify
+            </a>
+            <div class="d-flex align-items-center ms-auto gap-4">
+                <a href="seller-dashboard.html" class="btn btn-outline-success btn-sm fw-bold rounded-pill px-3">Beralih ke Seller</a>
+                <div class="vr text-muted" style="height: 20px;"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px;">R</div>
+                    <span class="fw-bold d-none d-md-inline" style="font-size: 14px;">Ryan Maulana</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="card-custom p-3">
+                    <div class="text-center py-3">
+                        <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center fw-bold mx-auto mb-2" style="width: 64px; height: 64px; font-size: 24px;">R</div>
+                        <h6 class="fw-bold mb-0">Ryan Maulana B. P.</h6>
+                        <small class="text-muted">Member Sejak 2024</small>
+                    </div>
+                    <hr class="text-muted my-2">
+                    <nav class="nav flex-column mt-2">
+                        <a class="nav-profile-link active" href="#"><i class="fa-regular fa-user"></i> Profil Saya</a>
+                        <a class="nav-profile-link" href="#"><i class="fa-solid fa-receipt"></i> Pesanan Saya</a>
+                        <a class="nav-profile-link" href="#"><i class="fa-regular fa-heart"></i> Wishlist</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="card profile-banner p-4 shadow-sm mb-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-9 text-center text-md-start">
+                            <h3 class="fw-bold mb-1">Ryan Maulana Bagus Putra</h3>
+                            <p class="mb-0 opacity-75" style="font-size: 14px;"><i class="fa-regular fa-envelope me-1"></i> ryanmaulana@student.telkomuniversity.ac.id</p>
+                        </div>
+                        <div class="col-md-3 text-center text-md-end">
+                            <button class="btn btn-light btn-sm px-3 fw-bold rounded-pill text-success shadow-sm"><i class="fa-solid fa-user-pen me-1"></i>Edit Profil</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4 mb-4 border-start border-4 border-warning">
+                    <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-truck-fast me-2 text-warning"></i>Pesanan Aktif</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center bg-light-subtle">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center text-secondary" style="width: 44px; height: 44px;"><i class="fa-solid fa-dragon"></i></div>
+                                <div><h6 class="mb-0 fw-bold" style="font-size: 15px;">Dungeons & Dragons Starter Set</h6><small class="text-muted">INV-1004 • Estimasi tiba: 18 Mei 2026</small></div>
+                            </div>
+                            <span class="badge bg-success badge-status text-uppercase">Dikirim</span>
+                        </div>
+                        <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center bg-light-subtle">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center text-secondary" style="width: 44px; height: 44px;"><i class="fa-solid fa-book-open"></i></div>
+                                <div><h6 class="mb-0 fw-bold" style="font-size: 15px;">Buku Panduan Unreal Engine Blueprint</h6><small class="text-muted">INV-1005 • Sedang Dikemas Penjual</small></div>
+                            </div>
+                            <span class="badge bg-warning text-dark badge-status text-uppercase">Diproses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4">
+                    <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-clock-rotate-left me-2 text-secondary"></i>Riwayat Pembelian</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <tbody>
+                                <tr>
+                                    <td class="py-3 border-0">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center text-secondary" style="width: 44px; height: 44px;"><i class="fa-solid fa-microchip"></i></div>
+                                            <div><h6 class="mb-0 fw-bold" style="font-size: 15px;">Arduino Uno R3 Board</h6><small class="text-muted">Selesai: 10 Mei 2026</small></div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 border-0 text-end">
+                                        <span class="badge bg-secondary badge-status text-uppercase me-2">Selesai</span>
+                                        <button class="btn btn-sm btn-outline-success px-3 fw-bold" style="border-radius: 6px;">Beri Ulasan</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -30,6 +30,25 @@ public class App {
             notifPertama.markAsRead();
         }
         
-        System.out.println("\n=== TESTING SELESAI ===");
+        System.out.println("\n\n=== TESTING MODUL MANAJEMEN PRODUK ===");
+        
+        // 1. Inisialisasi ProductManager
+        ProductManager manager = new ProductManager();
+
+        // 2. Memasukkan Data Awal (Dummy Data)
+        Elektronik hp = new Elektronik("E01", "Poco X7 Pro", 4500000, 4.8, 10, 12);
+        Makanan roti = new Makanan("M01", "Sari Roti Coklat", 15000, 4.5, 50, "2026-06-05");
+        Pakaian kaos = new Pakaian("P01", "Kaos Polos Hitam", 50000, 4.7, 100, "L");
+
+        System.out.println("[1] Menambahkan Produk ke Katalog...");
+        manager.tambahProduk(hp);
+        manager.tambahProduk(roti);
+        manager.tambahProduk(kaos);
+
+        // 3. Menampilkan produk ke terminal
+        System.out.println("\n[2] Katalog Produk Saat Ini:");
+        manager.lihatSemuaProduk();
+
+        System.out.println("\n=== TESTING KESELURUHAN SELESAI ===");
     }
 }

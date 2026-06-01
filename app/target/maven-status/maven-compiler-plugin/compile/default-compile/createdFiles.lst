@@ -1,0 +1,6 @@
+com\cartify\Product.class
+com\cartify\ProductManager.class
+com\cartify\Stockable.class
+com\cartify\Elektronik.class
+com\cartify\Makanan.class
+com\cartify\Pakaian.class

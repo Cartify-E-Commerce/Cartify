@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Belanja Mudah, Cepat, dan Tepercaya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --cartify-green: #00aa5b;
+            --cartify-dark: #004d29;
+            --bg-light: #f8f9fa;
+        }
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #00aa5b 0%, #004d29 100%);
+            color: white;
+            padding: 160px 0 100px 0;
+            position: relative;
+            clip-path: ellipse(110% 100% at 50% 0%);
+        }
+        .navbar-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1030;
+            background-color: transparent !important;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .navbar-custom.scrolled {
+            background-color: white !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 10px 0;
+        }
+        .navbar-brand-custom {
+            color: white !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        .navbar-custom.scrolled .navbar-brand-custom {
+            color: var(--cartify-green) !important;
+        }
+        .navbar-custom.scrolled .btn-light-custom {
+            background-color: var(--cartify-green);
+            color: white !important;
+        }
+        .btn-light-custom {
+            background-color: white;
+            color: var(--cartify-green) !important;
+            font-weight: 700;
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .btn-light-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            background-color: #f1f1f1;
+        }
+        .btn-outline-white {
+            color: white !important;
+            border: 2px solid white;
+            font-weight: 700;
+            padding: 12px 35px;
+            border-radius: 50px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn-outline-white:hover {
+            background-color: white;
+            color: var(--cartify-green) !important;
+            transform: translateY(-3px);
+        }
+        .card-feature {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .card-feature:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+        }
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background-color: rgba(0, 170, 91, 0.08);
+            color: var(--cartify-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cartify-green);
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR TRANSPARAN -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-custom" href="landing.html">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Cartify
+            </a>
+            <div class="ms-auto">
+                <a href="login.html" class="btn btn-light-custom px-4 py-2 small fw-bold" style="font-size: 14px;"><i class="fa-solid fa-right-to-bracket me-1"></i>Masuk Akun</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="row align-items-center py-5">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <span class="badge bg-white text-success px-3 py-2 mb-3 fw-bold rounded-pill shadow-sm" style="font-size: 12px;">Platform E-Commerce Modern</span>
+                    <h1 class="display-3 fw-bold mb-3 lh-sm">Belanja Mudah, Nyaman, dan Hemat</h1>
+                    <p class="fs-5 mb-4 opacity-90">Cartify menghadirkan pengalaman belanja online terbaik untuk kebutuhan harian Anda. Temukan produk-produk pilihan berkualitas tinggi dari kategori Elektronik, Makanan, hingga Fashion kekinian dengan penawaran menarik.</p>
+                    <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3">
+                        <a href="index.html" class="btn btn-light-custom"><i class="fa-solid fa-bag-shopping me-2"></i>Mulai Berbelanja</a>
+                        <a href="login.html" class="btn btn-outline-white"><i class="fa-solid fa-store me-2"></i>Gabung sebagai Seller</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block text-center position-relative">
+                    <div style="font-size: 250px; color: rgba(255,255,255,0.15); animation: float 6s ease-in-out infinite;">
+                        <i class="fa-solid fa-shopping-bag"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FITUR UTAMA SECTION -->
+    <div class="container my-5 py-5">
+        <div class="text-center mb-5 max-width-700 mx-auto">
+            <span class="text-success fw-bold text-uppercase" style="font-size: 13px; letter-spacing: 2px;">Mengapa Cartify?</span>
+            <h2 class="fw-bold text-dark mt-2">Layanan Terbaik untuk Kepuasan Belanja Anda</h2>
+            <p class="text-muted">Nikmati kemudahan transaksi, pengiriman cepat, dan sistem keamanan terjamin di platform kami.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa-solid fa-tags"></i></div>
+                    <h5 class="fw-bold text-dark">Katalog Produk Pilihan</h5>
+                    <p class="text-muted small">Temukan beragam kategori produk pilihan mulai dari Elektronik premium, Fashion kekinian, hingga Makanan lezat yang terkurasi secara profesional.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h5 class="fw-bold text-dark">Pengiriman Cepat & Lacak Instan</h5>
+                    <p class="text-muted small">Dapatkan pembaruan status pesanan secara real-time langsung dari penjual hingga paket Anda mendarat dengan aman di depan pintu rumah.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h5 class="fw-bold text-dark">Pembayaran Aman & Praktis</h5>
+                    <p class="text-muted small">Sistem checkout instan terintegrasi dengan verifikasi otomatis untuk menjamin kelancaran dan keamanan setiap transaksi belanja Anda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATISTIK INTERAKTIF -->
+    <div class="bg-light py-5 border-top border-bottom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-number">10k+</div>
+                        <div class="text-muted small fw-semibold">Pengguna Aktif</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-number">99%</div>
+                        <div class="text-muted small fw-semibold">Toko Tepercaya</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-number">50k+</div>
+                        <div class="text-muted small fw-semibold">Transaksi Berhasil</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-number">4.9</div>
+                        <div class="text-muted small fw-semibold">Rating Kepuasan Pelanggan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-1 small opacity-75">&copy; 2026 Cartify E-Commerce. Platform Belanja Online Modern.</p>
+            <p class="mb-0 small opacity-50">Ryan Maulana Bagus Putra • Solusi Belanja Tepercaya Anda</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+    </style>
+</body>
+</html>

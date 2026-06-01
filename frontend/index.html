@@ -83,6 +83,7 @@
             color: inherit;
             display: block;
             height: 100%;
+            cursor: pointer;
         }
         .product-card:hover {
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -104,6 +105,16 @@
             font-weight: 700;
             font-size: 1.1rem;
         }
+        .rating-bar {
+            background-color: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .rating-bar-fill {
+            background-color: #ffc107;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -112,119 +123,545 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-2 col-md-3">
-                    <a href="#" class="text-decoration-none d-flex align-items-center gap-2">
+                    <a href="index.html" class="text-decoration-none d-flex align-items-center gap-2">
                         <i class="fa-solid fa-cart-shopping fs-3" style="color: var(--cartify-green);"></i>
                         <span class="fs-4 fw-bold" style="color: var(--cartify-green);">Cartify</span>
                     </a>
                 </div>
                 <div class="col-lg-7 col-md-6 my-3 my-md-0">
-                    <div class="search-bar d-flex mx-auto">
-                        <input type="text" class="form-control" placeholder="Cari laptop, mechanical keyboard, atau lainnya...">
-                        <button class="btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
+                    <form onsubmit="searchProducts(event);" class="search-bar d-flex mx-auto">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Cari laptop, mechanical keyboard, atau lainnya...">
+                        <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
                 </div>
                 <div class="col-lg-3 col-md-3 d-flex justify-content-end align-items-center gap-4">
-                    <a href="#" class="text-secondary position-relative"><i class="fa-solid fa-cart-shopping fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px;">0</span>
+                    <!-- Keranjang Belanja Drawer Trigger -->
+                    <a href="#" class="text-secondary position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                        <i class="fa-solid fa-cart-shopping fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge" style="font-size: 9px; display: none;">0</span>
                     </a>
-                    <a href="#" class="text-secondary position-relative"><i class="fa-regular fa-bell fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 9px;">2</span>
+                    
+                    <a href="buyer-dashboard.html" class="text-secondary position-relative">
+                        <i class="fa-regular fa-bell fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifBadge" style="font-size: 9px; display: none;">0</span>
                     </a>
                     <div class="vr text-muted" style="height: 24px;"></div>
-                    <a href="buyer-dashboard.html" class="text-decoration-none text-dark d-flex align-items-center gap-2">
-                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 14px;">R</div>
-                        <span class="fw-bold fs-6 d-none d-lg-inline">Ryan</span>
-                    </a>
+                    
+                    <div id="userNavbarSection">
+                        <!-- Mengganti tombol login/register secara dinamis -->
+                        <a href="login.html" class="btn btn-sm btn-success rounded-pill px-3 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i>Masuk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OFFCANVAS KERANJANG BELANJA -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 400px;">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel"><i class="fa-solid fa-cart-shopping text-success me-2"></i>Keranjang Belanja</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cartItemsContainer" class="flex-grow-1 overflow-y-auto mb-3">
+                <!-- Dinamis dimuat disini -->
+            </div>
+            <div class="border-top pt-3 mt-auto" id="cartSummarySection">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-semibold text-muted">Total Pembayaran:</span>
+                    <span class="fw-bold fs-5 text-success" id="cartTotalAmount">Rp 0</span>
+                </div>
+                <button onclick="checkoutCart()" class="btn btn-success w-100 rounded-pill py-2 fw-bold" id="checkoutBtn"><i class="fa-solid fa-credit-card me-1"></i>Checkout & Bayar Lunas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL PRODUK PREMIUM (POLIMORFISME & RATING CALCULATOR) -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-header border-0 pb-0 position-relative" style="z-index: 10;">
+                    <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5" id="productDetailBody">
+                    <!-- Dinamis dimuat disini oleh JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container my-4">
-        <div id="promoCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel">
+        <div id="promoCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
             <div class="carousel-inner rounded-3">
+                <!-- Slide 1: Gadget/Electronics -->
                 <div class="carousel-item active">
-                    <div class="w-100 d-flex align-items-center justify-content-center text-white" style="height: 350px; background: linear-gradient(135deg, #00aa5b, #004d29);">
-                        <div class="text-center">
-                            <h1 class="fw-bold display-4">Promo Gadget & Laptop</h1>
-                            <p class="fs-5">Diskon hingga 40% untuk elektronik pilihan</p>
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 280px; background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1555532538-dcdbd01d373d?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-3" style="z-index: 2;">
+                            <h1 class="fw-bold display-5 mb-2">Selamat Datang di Cartify!</h1>
+                            <p class="fs-5">Temukan Gadget, Laptop & Aksesoris Terlengkap dengan Harga Terbaik</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2: Fashion -->
+                <div class="carousel-item">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 280px; background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-3" style="z-index: 2;">
+                            <h1 class="fw-bold display-5 mb-2">Gaya Tren Kekinian</h1>
+                            <p class="fs-5">Koleksi Fashion Casual Premium untuk Menunjang Penampilan Keren Anda</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3: Food/Culinary -->
+                <div class="carousel-item">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 280px; background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-3" style="z-index: 2;">
+                            <h1 class="fw-bold display-5 mb-2">Kuliner Lezat & Segar</h1>
+                            <p class="fs-5">Manjakan Lidah Anda dengan Makanan Segar Pilihan Terbaik Setiap Hari</p>
                         </div>
                     </div>
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
 
         <div class="category-box mb-5">
             <h5 class="fw-bold mb-4">Kategori Pilihan</h5>
             <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-laptop"></i></div><span class="fw-semibold small">Elektronik</span></a></div>
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-shirt"></i></div><span class="fw-semibold small">Pakaian</span></a></div>
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-burger"></i></div><span class="fw-semibold small">Makanan</span></a></div>
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-gamepad"></i></div><span class="fw-semibold small">Gaming & Hobi</span></a></div>
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-book"></i></div><span class="fw-semibold small">Buku & Edukasi</span></a></div>
-                <div class="col"><a href="#" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-ellipsis"></i></div><span class="fw-semibold small">Lainnya</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts('Elektronik'); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-laptop"></i></div><span class="fw-semibold small">Elektronik</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts('Pakaian'); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-shirt"></i></div><span class="fw-semibold small">Pakaian</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts('Makanan'); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-burger"></i></div><span class="fw-semibold small">Makanan</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts('Gaming'); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-gamepad"></i></div><span class="fw-semibold small">Gaming & Hobi</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts('Buku'); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-book"></i></div><span class="fw-semibold small">Buku & Edukasi</span></a></div>
+                <div class="col"><a href="#" onclick="filterProducts(''); return false;" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-ellipsis"></i></div><span class="fw-semibold small">Semua Kategori</span></a></div>
             </div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold mb-0">Rekomendasi Untukmu</h4>
-            <a href="#" class="text-decoration-none fw-bold" style="color: var(--cartify-green);">Lihat Semua</a>
+            <h4 class="fw-bold mb-0" id="sectionTitle">Rekomendasi Untukmu</h4>
+            <a href="#" onclick="filterProducts(''); return false;" class="text-decoration-none fw-bold" style="color: var(--cartify-green);">Lihat Semua</a>
         </div>
         
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-5">
-            <div class="col">
-                <a href="#" class="product-card">
-                    <div class="product-img-box"><i class="fa-solid fa-laptop"></i></div>
-                    <div class="p-3">
-                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Lenovo LOQ 15IRX9</h6>
-                        <div class="product-price mb-2">Rp 14.500.000</div>
-                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.9 | Terjual 120+</span></div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a href="#" class="product-card">
-                    <div class="product-img-box"><i class="fa-regular fa-keyboard"></i></div>
-                    <div class="p-3">
-                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Keyboard VortexSeries</h6>
-                        <div class="product-price mb-2">Rp 850.000</div>
-                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.8 | Terjual 450+</span></div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a href="#" class="product-card">
-                    <div class="product-img-box"><i class="fa-solid fa-dragon"></i></div>
-                    <div class="p-3">
-                        <h6 class="text-truncate mb-1" style="font-size: 14px;">D&D Starter Set</h6>
-                        <div class="product-price mb-2">Rp 350.000</div>
-                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>5.0 | Terjual 30+</span></div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a href="#" class="product-card">
-                    <div class="product-img-box"><i class="fa-solid fa-book"></i></div>
-                    <div class="p-3">
-                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Buku Unreal Engine</h6>
-                        <div class="product-price mb-2">Rp 120.000</div>
-                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.7 | Terjual 85+</span></div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a href="#" class="product-card">
-                    <div class="product-img-box"><i class="fa-solid fa-microchip"></i></div>
-                    <div class="p-3">
-                        <h6 class="text-truncate mb-1" style="font-size: 14px;">Arduino Uno R3</h6>
-                        <div class="product-price mb-2">Rp 210.000</div>
-                        <div class="d-flex align-items-center gap-1 text-muted" style="font-size: 12px;"><i class="fa-solid fa-star text-warning"></i><span>4.9 | Terjual 1rb+</span></div>
-                    </div>
-                </a>
-            </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-5" id="productContainer">
+            <!-- Produk akan dimuat secara dinamis disini -->
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let isLoggedIn = false;
+        let userRole = 'Guest';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateDashboardSummary();
+
+            // Sesi check interval
+            setInterval(updateDashboardSummary, 4000);
+        });
+
+        function loadProducts(kategori = '', search = '') {
+            let url = '/api/products?';
+            if (kategori) url += `kategori=${encodeURIComponent(kategori)}&`;
+            if (search) url += `search=${encodeURIComponent(search)}&`;
+
+            const container = document.getElementById('productContainer');
+            
+            if (search) {
+                document.getElementById('sectionTitle').innerText = `Hasil pencarian: "${search}"`;
+            } else if (kategori) {
+                document.getElementById('sectionTitle').innerText = `Kategori: ${kategori}`;
+            } else {
+                document.getElementById('sectionTitle').innerText = 'Rekomendasi Untukmu';
+            }
+
+            container.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-success" role="status"></div></div>';
+
+            fetch(url)
+                .then(res => res.json())
+                .then(products => {
+                    container.innerHTML = '';
+                    if (products.length === 0) {
+                        container.innerHTML = '<div class="col-12 text-center py-5 text-muted"><i class="fa-regular fa-folder-open fs-2 mb-2 d-block"></i>Tidak ada produk ditemukan.</div>';
+                        return;
+                    }
+
+                    products.forEach(p => {
+                        let iconClass = 'fa-solid fa-box';
+                        if (p.kategori.toLowerCase().includes('elektronik') || p.kategori.toLowerCase().includes('laptop')) {
+                            iconClass = 'fa-solid fa-laptop';
+                        } else if (p.kategori.toLowerCase().includes('makanan') || p.kategori.toLowerCase().includes('roti')) {
+                            iconClass = 'fa-solid fa-burger';
+                        } else if (p.kategori.toLowerCase().includes('pakaian') || p.kategori.toLowerCase().includes('baju') || p.kategori.toLowerCase().includes('jaket')) {
+                            iconClass = 'fa-solid fa-shirt';
+                        } else if (p.kategori.toLowerCase().includes('key') || p.kategori.toLowerCase().includes('keyboard')) {
+                            iconClass = 'fa-regular fa-keyboard';
+                        }
+
+                        const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.harga);
+
+                        const cardHtml = `
+                            <div class="col">
+                                <div class="product-card h-100 d-flex flex-column" onclick="openProductDetail('${p.id}')">
+                                    <div class="product-img-box"><i class="${iconClass}"></i></div>
+                                    <div class="p-3 d-flex flex-column flex-grow-1">
+                                        <h6 class="text-truncate mb-1 fw-bold" style="font-size: 14px;" title="${p.namaProduk}">${p.namaProduk}</h6>
+                                        <small class="text-muted text-truncate mb-2" style="font-size: 11px;">${p.infoKhusus || ''}</small>
+                                        <div class="product-price mb-2 mt-auto" style="font-size: 14px;">${formatHarga}</div>
+                                        <div class="d-flex align-items-center justify-content-between mt-2" style="font-size: 12px;">
+                                            <span class="text-muted"><i class="fa-solid fa-star text-warning"></i> ${p.rating.toFixed(1)}</span>
+                                            <span class="text-muted">Stok: ${p.stok}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', cardHtml);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching products:', err);
+                    container.innerHTML = '<div class="col-12 text-center py-5 text-danger">Gagal memuat produk.</div>';
+                });
+        }
+
+        function filterProducts(kategori) {
+            document.getElementById('searchInput').value = '';
+            loadProducts(kategori);
+        }
+
+        function searchProducts(e) {
+            e.preventDefault();
+            const val = document.getElementById('searchInput').value.trim();
+            loadProducts('', val);
+        }
+
+        // FUNGSI MEMBUKA MODAL DETAIL PRODUK DINAMIS (POLIMORFISME & RATING CALCULATOR)
+        function openProductDetail(productId) {
+            const body = document.getElementById('productDetailBody');
+            body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-success" role="status"></div></div>';
+            
+            const detailModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+            detailModal.show();
+
+            fetch(`/api/products/detail?productId=${encodeURIComponent(productId)}`)
+                .then(res => res.json())
+                .then(p => {
+                    let iconClass = 'fa-solid fa-box';
+                    if (p.kategori.toLowerCase().includes('elektronik')) iconClass = 'fa-solid fa-laptop';
+                    else if (p.kategori.toLowerCase().includes('makanan')) iconClass = 'fa-solid fa-burger';
+                    else if (p.kategori.toLowerCase().includes('pakaian')) iconClass = 'fa-solid fa-shirt';
+
+                    const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.harga);
+
+                    // Render spesifikasi dinamis (polimorfisme)
+                    let specHtml = '';
+                    for (const [key, value] of Object.entries(p.spesifikasi)) {
+                        specHtml += `
+                            <div class="row py-1 border-bottom border-light">
+                                <div class="col-4 fw-semibold text-muted small">${key}</div>
+                                <div class="col-8 text-dark small">${value}</div>
+                            </div>
+                        `;
+                    }
+
+                    // Render Review sebaran (RatingCalculator)
+                    let reviewsHtml = '';
+                    if (p.reviews.length === 0) {
+                        reviewsHtml = '<p class="text-muted small py-2">Belum ada ulasan untuk barang ini.</p>';
+                    } else {
+                        p.reviews.forEach(r => {
+                            reviewsHtml += `
+                                <div class="p-3 mb-2 border rounded-3 bg-light-subtle">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="fw-bold small text-dark">${r.namaBuyer}</span>
+                                        <span class="small text-muted">${r.tanggal}</span>
+                                    </div>
+                                    <div class="mb-2" style="color: #ffc107; font-size: 11px;">
+                                        ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
+                                        ${'<i class="fa-regular fa-star"></i>'.repeat(5 - r.rating)}
+                                    </div>
+                                    <p class="mb-0 text-muted small" style="font-size: 13px;">"${r.komentar}"</p>
+                                    ${r.balasan ? `<div class="mt-2 p-2 bg-success-subtle rounded border-start border-3 border-success small text-muted"><b>Balasan Seller:</b> "${r.balasan}"</div>` : ''}
+                                </div>
+                            `;
+                        });
+                    }
+
+                    // Render sebaran bintang
+                    const total = p.totalReviews || 1;
+                    const getPercent = (count) => ((count / total) * 100).toFixed(0);
+
+                    body.innerHTML = `
+                        <div class="row g-4">
+                            <!-- Sisi Kiri: Gambar, Rating, Ulasan -->
+                            <div class="col-md-5">
+                                <div class="text-center bg-light rounded-4 py-5 mb-4 position-relative" style="font-size: 80px; color: var(--cartify-green);">
+                                    <i class="${iconClass}"></i>
+                                    <span class="badge bg-success position-absolute top-0 start-0 m-3 fs-6">${p.kategori}</span>
+                                </div>
+                                
+                                <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-star text-warning me-2"></i>Ulasan Pembeli</h6>
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <h1 class="fw-bold mb-0 text-dark">${p.averageRating.toFixed(1)}</h1>
+                                    <div>
+                                        <div style="color: #ffc107; font-size: 14px;">
+                                            ${'<i class="fa-solid fa-star"></i>'.repeat(Math.round(p.averageRating))}
+                                            ${'<i class="fa-regular fa-star"></i>'.repeat(5 - Math.round(p.averageRating))}
+                                        </div>
+                                        <small class="text-muted">${p.totalReviews} ulasan terkumpul</small>
+                                    </div>
+                                </div>
+
+                                <!-- Progress bar sebaran rating (RatingCalculator) -->
+                                <div class="d-flex flex-column gap-2 mb-4">
+                                    ${[5, 4, 3, 2, 1].map(star => {
+                                        const count = p.distribution[star] || 0;
+                                        return `
+                                            <div class="d-flex align-items-center gap-2" style="font-size: 11px;">
+                                                <span class="text-muted fw-bold" style="width: 15px;">${star}</span>
+                                                <i class="fa-solid fa-star text-warning" style="font-size: 9px;"></i>
+                                                <div class="flex-grow-1 rating-bar"><div class="rating-bar-fill" style="width: ${getPercent(count)}%;"></div></div>
+                                                <span class="text-muted" style="width: 25px; text-align: right;">${count}</span>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                            
+                            <!-- Sisi Kanan: Nama Produk, Harga, Spesifikasi, Aksi -->
+                            <div class="col-md-7 d-flex flex-column">
+                                <h3 class="fw-bold text-dark mb-1">${p.nama}</h3>
+                                <div class="product-price fs-3 mb-3">${formatHarga}</div>
+                                
+                                <div class="mb-4 text-muted small lh-lg" style="font-size: 14px;">
+                                    <b>Deskripsi Produk:</b><br>${p.deskripsi}
+                                </div>
+
+                                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-circle-info text-success me-2"></i>Spesifikasi Kelas Dinamis</h6>
+                                <div class="mb-4">
+                                    ${specHtml}
+                                </div>
+
+                                <div class="mt-auto border-top pt-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="fw-bold text-muted small">Status Ketersediaan:</span>
+                                        <span class="badge ${p.stok > 0 ? 'bg-success' : 'bg-danger'} px-3 py-2 fs-6">
+                                            ${p.stok > 0 ? `Ready (Stok: ${p.stok})` : 'Habis'}
+                                        </span>
+                                    </div>
+                                    <button onclick="addToCart('${p.id}'); loadCart(); bootstrap.Modal.getInstance(document.getElementById('productDetailModal')).hide();" 
+                                            class="btn btn-success w-100 rounded-pill py-3 fw-bold fs-5 ${p.stok === 0 ? 'disabled' : ''}">
+                                        <i class="fa-solid fa-cart-plus me-2"></i>Tambah ke Keranjang
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="text-muted my-4">
+                        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-comments text-success me-2"></i>Daftar Ulasan Pengguna</h6>
+                        <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                            ${reviewsHtml}
+                        </div>
+                    `;
+                })
+                .catch(err => {
+                    console.error('Error fetching detail:', err);
+                    body.innerHTML = '<div class="text-center py-5 text-danger">Gagal memuat detail produk.</div>';
+                });
+        }
+
+        // FUNGSI KERANJANG BELANJA
+        function loadCart() {
+            if (!isLoggedIn) {
+                document.getElementById('cartItemsContainer').innerHTML = `
+                    <div class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-lock fs-1 mb-3 d-block opacity-25"></i>
+                        Harap masuk/login terlebih dahulu untuk melihat keranjang.
+                    </div>
+                `;
+                document.getElementById('cartSummarySection').style.display = 'none';
+                return;
+            }
+
+            const container = document.getElementById('cartItemsContainer');
+            fetch('/api/cart')
+                .then(res => res.json())
+                .then(cart => {
+                    container.innerHTML = '';
+                    document.getElementById('cartBadge').innerText = cart.items.length;
+                    document.getElementById('cartBadge').style.display = cart.items.length === 0 ? 'none' : 'inline-block';
+
+                    if (cart.items.length === 0) {
+                        container.innerHTML = `
+                            <div class="text-center py-5 text-muted">
+                                <i class="fa-solid fa-cart-shopping fs-1 mb-3 d-block opacity-25"></i>
+                                Keranjang belanja Anda kosong.
+                            </div>
+                        `;
+                        document.getElementById('cartSummarySection').style.display = 'none';
+                        return;
+                    }
+
+                    document.getElementById('cartSummarySection').style.display = 'block';
+                    const formatTotal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(cart.total);
+                    document.getElementById('cartTotalAmount').innerText = formatTotal;
+
+                    cart.items.forEach(item => {
+                        const subtotalFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(item.subtotal);
+                        const itemHtml = `
+                            <div class="card p-3 mb-2 border-0 bg-light shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="fw-bold text-truncate" style="width: 220px; font-size: 14px;">${item.nama}</div>
+                                    <button onclick="removeFromCart('${item.productId}')" class="btn btn-sm btn-outline-danger border-0 p-1"><i class="fa-regular fa-trash-can"></i></button>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 align-items-center" style="font-size: 13px;">
+                                    <span class="text-muted">Jumlah: ${item.quantity} x</span>
+                                    <span class="fw-semibold text-success">${subtotalFormatted}</span>
+                                </div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', itemHtml);
+                    });
+                })
+                .catch(err => console.error('Error loading cart:', err));
+        }
+
+        function addToCart(productId) {
+            if (!isLoggedIn) {
+                alert('Peringatan: Harap masuk/login terlebih dahulu sebelum berbelanja!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `productId=${encodeURIComponent(productId)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    loadCart();
+                    updateDashboardSummary();
+                    const offcanvas = new bootstrap.Offcanvas(document.getElementById('cartOffcanvas'));
+                    offcanvas.show();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Error adding to cart:', err));
+        }
+
+        function removeFromCart(productId) {
+            fetch('/api/cart/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `productId=${encodeURIComponent(productId)}`
+            })
+            .then(res => res.json())
+            .then(() => {
+                loadCart();
+                updateDashboardSummary();
+            })
+            .catch(err => console.error('Error removing item:', err));
+        }
+
+        function checkoutCart() {
+            const btn = document.getElementById('checkoutBtn');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Memproses...';
+            btn.disabled = true;
+
+            fetch('/api/cart/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i>Checkout & Bayar Lunas';
+                btn.disabled = false;
+
+                if (data.status === 'success') {
+                    alert('Transaksi Berhasil! Pembayaran lunas. Barang akan dikemas oleh penjual dan status akan diupdate via Observer. Silakan pantau halaman Buyer Dashboard.');
+                    loadCart();
+                    updateDashboardSummary();
+                    const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
+                    if (offcanvas) offcanvas.hide();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => {
+                console.error('Error during checkout:', err);
+                btn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i>Checkout & Bayar Lunas';
+                btn.disabled = false;
+            });
+        }
+
+        function updateDashboardSummary() {
+            fetch('/api/dashboard/summary')
+                .then(res => res.json())
+                .then(data => {
+                    isLoggedIn = data.loggedIn;
+                    userRole = data.role;
+
+                    const navbarSec = document.getElementById('userNavbarSection');
+                    if (isLoggedIn) {
+                        let linkDashboard = userRole === 'Seller' ? 'seller-dashboard.html' : 'buyer-dashboard.html';
+                        navbarSec.innerHTML = `
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="${linkDashboard}" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 14px;">
+                                        ${data.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="fw-bold fs-6 d-none d-lg-inline">${data.name.split(' ')[0]}</span>
+                                </a>
+                                <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-pill px-2 border-0" title="Keluar"><i class="fa-solid fa-power-off"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        navbarSec.innerHTML = `
+                            <a href="login.html" class="btn btn-sm btn-success rounded-pill px-3 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i>Masuk</a>
+                        `;
+                    }
+
+                    const notifBadge = document.getElementById('notifBadge');
+                    if (notifBadge) {
+                        notifBadge.innerText = data.unreadNotifications;
+                        notifBadge.style.display = data.unreadNotifications === 0 ? 'none' : 'inline-block';
+                    }
+
+                    const cartBadge = document.getElementById('cartBadge');
+                    if (cartBadge) {
+                        cartBadge.innerText = data.cartCount;
+                        cartBadge.style.display = data.cartCount === 0 ? 'none' : 'inline-block';
+                    }
+                })
+                .catch(err => console.error('Error fetching summary:', err));
+        }
+
+        function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar akun?')) {
+                fetch('/api/logout')
+                    .then(res => res.json())
+                    .then(() => {
+                        alert('Anda telah keluar.');
+                        window.location.href = 'login.html';
+                    })
+                    .catch(err => console.error(err));
+            }
+        }
+    </script>
 </body>
 </html>

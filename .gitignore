@@ -1,0 +1,6 @@
+/app/target/
+*.class
+*.log
+.gemini
+*.lock
+.system_generated/

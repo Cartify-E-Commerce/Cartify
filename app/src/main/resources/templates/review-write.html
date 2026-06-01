@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Beri Ulasan Produk</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-primary: #059669;
+            --emerald-light: #10b981;
+            --emerald-accent: #e6f4ea;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-light: rgba(15, 23, 42, 0.05);
+            --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 45px rgba(5, 150, 105, 0.08);
+        }
+        body {
+            background-color: var(--bg-main);
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.04) 0%, transparent 45%);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 620px;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .review-card:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-hover);
+        }
+        .review-header {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.04) 0%, rgba(16, 185, 129, 0.01) 100%);
+            border-bottom: 1px solid var(--border-light);
+            padding: 30px;
+            text-align: center;
+        }
+        .review-body {
+            padding: 35px 30px;
+        }
+        
+        .star-select {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .star-option {
+            font-size: 2.5rem;
+            color: rgba(15, 23, 42, 0.08);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .star-option:hover, .star-option.selected {
+            color: #fbbf24;
+            transform: scale(1.2);
+            filter: drop-shadow(0 4px 10px rgba(251, 191, 36, 0.4));
+        }
+        
+        .badge-emerald {
+            background: var(--emerald-accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--emerald-primary);
+            font-weight: 600;
+        }
+
+        .form-label-custom {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .form-control-custom {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: all 0.3s;
+            outline: none !important;
+        }
+        .form-control-custom:focus {
+            background: #ffffff;
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+            color: var(--text-primary);
+        }
+        .form-control-custom::placeholder {
+            color: #94a3b8;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+            filter: brightness(1.05);
+            color: white;
+        }
+        .btn-cancel {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .btn-cancel:hover {
+            color: var(--emerald-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="review-card shadow-lg">
+        <div class="review-header">
+            <h4 class="fw-bold mb-1 text-dark"><i class="fa-regular fa-star me-2" style="color: #fbbf24; filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3));"></i>Beri Ulasan & Rating</h4>
+            <p class="mb-0 small text-secondary" style="font-weight: 300;">Bagikan pengalaman belanja Anda untuk membantu pembeli lain!</p>
+        </div>
+        
+        <div class="review-body">
+            <!-- Rincian Produk -->
+            <div class="d-flex align-items-center gap-3 p-3 rounded-4 mb-4" style="background: var(--bg-main); border: 1px solid var(--border-light);">
+                <div class="rounded d-flex align-items-center justify-content-center text-emerald" style="width: 50px; height: 50px; font-size: 22px; background: var(--emerald-accent); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--emerald-primary) !important;">
+                    <i th:class="${product.category == 'Elektronik' ? 'fa-solid fa-laptop' : (product.category == 'Makanan' ? 'fa-solid fa-burger' : 'fa-solid fa-shirt')}"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold text-dark mb-0" th:text="${product.name}">Nama Produk</h6>
+                    <span class="badge badge-emerald px-2 py-0.5 mt-1 rounded-pill small" th:text="${'Kategori: ' + product.category}" style="font-size: 10px;">Elektronik</span>
+                </div>
+            </div>
+
+            <!-- Form Ulasan -->
+            <form th:action="@{/review/add}" method="POST" onsubmit="return validateForm()">
+                <input type="hidden" name="productId" th:value="${product.productId}">
+                <input type="hidden" name="transactionId" th:value="${transactionId}">
+                
+                <!-- Bintang Rating Selector -->
+                <div class="mb-4 text-center">
+                    <label class="form-label-custom d-block mb-3">BERAPA BINTANG RATING PRODUK INI?</label>
+                    <div class="star-select">
+                        <i class="fa-solid fa-star star-option" data-value="1" onclick="selectStar(1)"></i>
+                        <i class="fa-solid fa-star star-option" data-value="2" onclick="selectStar(2)"></i>
+                        <i class="fa-solid fa-star star-option" data-value="3" onclick="selectStar(3)"></i>
+                        <i class="fa-solid fa-star star-option" data-value="4" onclick="selectStar(4)"></i>
+                        <i class="fa-solid fa-star star-option" data-value="5" onclick="selectStar(5)"></i>
+                    </div>
+                    <!-- Hidden input to hold rating value -->
+                    <input type="hidden" id="ratingInput" name="rating" value="0" required>
+                    <small class="text-danger d-none" id="ratingError" style="font-size: 13px;">Harap pilih minimal 1 bintang!</small>
+                </div>
+
+                <!-- Input Komentar -->
+                <div class="mb-4">
+                    <label class="form-label-custom" for="comment">ULASAN TEKS / KOMENTAR ANDA</label>
+                    <textarea id="comment" name="comment" class="form-control form-control-custom w-100" rows="4" placeholder="Tuliskan pendapat jujur Anda tentang produk ini (kelebihan, kekurangan, kualitas bahan dll)..." required></textarea>
+                </div>
+
+                <div class="d-flex flex-column gap-3 align-items-center mt-4">
+                    <button type="submit" class="btn btn-submit w-100 fs-6"><i class="fa-solid fa-paper-plane me-2"></i>Kirim Ulasan Sekarang</button>
+                    <a th:href="@{/buyer/dashboard}" class="btn-cancel"><i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectStar(value) {
+            document.getElementById('ratingInput').value = value;
+            document.getElementById('ratingError').classList.add('d-none');
+            
+            const stars = document.querySelectorAll('.star-option');
+            stars.forEach((star, index) => {
+                if (index < value) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        function validateForm() {
+            const val = document.getElementById('ratingInput').value;
+            if (val === "0" || val === "") {
+                document.getElementById('ratingError').classList.remove('d-none');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

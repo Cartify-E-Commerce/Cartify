@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Seller Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-primary: #059669;
+            --emerald-light: #10b981;
+            --emerald-accent: #e6f4ea;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-light: rgba(15, 23, 42, 0.05);
+            --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 45px rgba(5, 150, 105, 0.08);
+        }
+        body {
+            background-color: var(--bg-main);
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-primary);
+        }
+        
+        /* Navbar Main */
+        .navbar-main {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+        .navbar-brand-custom {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-brand-custom i {
+            color: var(--emerald-light);
+            filter: drop-shadow(0 4px 8px var(--emerald-glow));
+        }
+
+        /* Glass Cards */
+        .card-custom {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-custom:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .stat-icon-revenue {
+            background: var(--emerald-accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--emerald-primary);
+        }
+        .stat-icon-product {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #2563eb;
+        }
+        .stat-icon-order {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #d97706;
+        }
+
+        .form-label-custom {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-control-custom {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-control-custom:focus {
+            background: #ffffff;
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+            color: var(--text-primary);
+            outline: none;
+        }
+        .form-control-custom::placeholder {
+            color: #94a3b8;
+        }
+        
+        select.form-control-custom option {
+            background-color: #ffffff;
+            color: var(--text-primary);
+        }
+
+        /* Active Product Card Inside Catalog */
+        .catalog-item-card {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .catalog-item-card:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Table */
+        .table-custom {
+            color: var(--text-primary) !important;
+        }
+        .table-custom tbody tr {
+            border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+            transition: all 0.3s;
+        }
+        .table-custom tbody tr:hover {
+            background: rgba(16, 185, 129, 0.02) !important;
+        }
+        
+        /* Badges */
+        .badge-emerald {
+            background: var(--emerald-accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--emerald-primary);
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn-emerald {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white !important;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-emerald:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.2);
+            filter: brightness(1.05);
+        }
+        .btn-outline-custom {
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            background: #ffffff;
+            color: var(--text-primary) !important;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-outline-custom:hover {
+            background: var(--emerald-primary);
+            border-color: var(--emerald-light);
+            color: white !important;
+            box-shadow: 0 4px 12px var(--emerald-glow);
+        }
+        
+        .list-row-item {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .list-row-item:hover {
+            border-color: var(--emerald-light);
+            background: var(--emerald-accent);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-main sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand-custom text-decoration-none" href="/index">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cartify Seller Hub</span>
+            </a>
+            <div class="d-flex align-items-center ms-auto gap-4">
+                <a href="/buyer/dashboard" class="btn btn-outline-custom btn-sm rounded-pill px-4"><i class="fa-solid fa-user me-1"></i>Beralih ke Buyer</a>
+                <div class="vr" style="height: 24px; background-color: rgba(15,23,42,0.1); opacity: 1;"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.shopName, 0, 1).toUpperCase()}">S</div>
+                    <span class="fw-bold d-none d-md-inline text-dark" id="navSellerName" style="font-size: 14px;" th:text="${user.shopName}">Toko Ryan</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- Statistik Banner -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card-custom p-4 d-flex align-items-center justify-content-between shadow-sm">
+                    <div>
+                        <small class="text-secondary fw-bold text-uppercase d-block mb-1.5" style="font-size: 11px; letter-spacing: 0.5px;">TOTAL PENDAPATAN TOKO</small>
+                        <h3 class="fw-bold mb-1" id="statRevenue" style="color: var(--emerald-primary); text-shadow: 0 2px 10px var(--emerald-glow);" th:text="'Rp ' + ${#numbers.formatDecimal(user.totalRevenue, 0, 'POINT', 0, 'COMMA')}">Rp 0</h3>
+                    </div>
+                    <div class="stat-icon stat-icon-revenue"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom p-4 d-flex align-items-center justify-content-between shadow-sm">
+                    <div>
+                        <small class="text-secondary fw-bold text-uppercase d-block mb-1.5" style="font-size: 11px; letter-spacing: 0.5px;">KATALOG PRODUK AKTIF</small>
+                        <h3 class="fw-bold text-dark mb-1" id="statProducts" th:text="${totalProducts}">0</h3>
+                    </div>
+                    <div class="stat-icon stat-icon-product"><i class="fa-solid fa-box"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom p-4 d-flex align-items-center justify-content-between shadow-sm">
+                    <div>
+                        <small class="text-secondary fw-bold text-uppercase d-block mb-1.5" style="font-size: 11px; letter-spacing: 0.5px;">PESANAN MASUK (TOTAL)</small>
+                        <h3 class="fw-bold mb-1" id="statOrders" style="color: #d97706; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15);" th:text="${pesananMasuk}">0</h3>
+                    </div>
+                    <div class="stat-icon stat-icon-order"><i class="fa-solid fa-receipt"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Form Input Produk Baru -->
+            <div class="col-lg-4">
+                <div class="card-custom p-4 shadow-sm" style="border-left: 4px solid var(--emerald-light) !important;">
+                    <h5 class="fw-bold text-dark mb-4" style="letter-spacing: -0.5px;"><i class="fa-solid fa-circle-plus text-success me-2" style="color: var(--emerald-primary);"></i>Daftarkan Produk Baru</h5>
+                    <form action="/product/add" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label-custom">ID PRODUK (UNIQUE ID)</label>
+                            <input type="text" name="id" class="form-control form-control-custom w-100" placeholder="Contoh: E01, M01..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">NAMA BARANG</label>
+                            <input type="text" name="nama" class="form-control form-control-custom w-100" placeholder="Masukkan nama barang..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">KATEGORI PRODUK</label>
+                            <select name="kategori" id="selectKategori" class="form-select form-control-custom w-100" onchange="toggleInfoKhususLabel()" required>
+                                <option value="Elektronik">Elektronik (Gadget, Laptop)</option>
+                                <option value="Makanan">Makanan (Camilan, Roti)</option>
+                                <option value="Pakaian">Pakaian (Fashion, Jaket)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">HARGA JUAL (RP)</label>
+                            <input type="number" name="harga" class="form-control form-control-custom w-100" placeholder="Contoh: 150000" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">STOK BARANG AWAL</label>
+                            <input type="number" name="stok" class="form-control form-control-custom w-100" placeholder="Jumlah barang" required>
+                        </div>
+                        <!-- Deskripsi Barang -->
+                        <div class="mb-3">
+                            <label class="form-label-custom">DESKRIPSI BARANG</label>
+                            <textarea name="description" class="form-control form-control-custom w-100" rows="3" placeholder="Deskripsi lengkap produk..." required></textarea>
+                        </div>
+
+                        <!-- Bidang Khusus Elektronik -->
+                        <div id="fieldsElektronik" class="category-specific-fields mb-3">
+                            <div class="mb-3">
+                                <label class="form-label-custom">MEREK / BRAND ELEKTRONIK</label>
+                                <input type="text" name="brand" id="inputBrand" class="form-control form-control-custom w-100" placeholder="Contoh: Asus, Apple, Logi...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom">MASA GARANSI (BULAN)</label>
+                                <input type="number" name="warrantyMonths" id="inputWarranty" class="form-control form-control-custom w-100" placeholder="Contoh: 12">
+                            </div>
+                        </div>
+
+                        <!-- Bidang Khusus Makanan -->
+                        <div id="fieldsMakanan" class="category-specific-fields mb-3 d-none">
+                            <div class="mb-3">
+                                <label class="form-label-custom">TANGGAL KEDALUWARSA</label>
+                                <input type="date" name="expiryDate" id="inputExpiry" class="form-control form-control-custom w-100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom">BERAT BERSIH (GRAM)</label>
+                                <input type="number" step="any" name="weightGram" id="inputWeight" class="form-control form-control-custom w-100" placeholder="Contoh: 250">
+                            </div>
+                        </div>
+
+                        <!-- Bidang Khusus Pakaian -->
+                        <div id="fieldsPakaian" class="category-specific-fields mb-3 d-none">
+                            <div class="mb-3">
+                                <label class="form-label-custom">UKURAN PAKAIAN (SIZE)</label>
+                                <select name="size" id="selectSize" class="form-select form-control-custom w-100">
+                                    <option value="S">S (Small)</option>
+                                    <option value="M" selected>M (Medium)</option>
+                                    <option value="L">L (Large)</option>
+                                    <option value="XL">XL (X-Large)</option>
+                                    <option value="XXL">XXL (Double XL)</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom">BAHAN PAKAIAN</label>
+                                <input type="text" name="material" id="inputMaterial" class="form-control form-control-custom w-100" placeholder="Contoh: Cotton Combed 30s...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom">WARNA PAKAIAN</label>
+                                <input type="text" name="color" id="inputColor" class="form-control form-control-custom w-100" placeholder="Contoh: Hitam, Navy, Sage Green...">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-emerald w-100 py-3 fw-bold rounded-3"><i class="fa-solid fa-floppy-disk me-2"></i>Simpan Produk Baru</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Daftar Produk Aktif & Pesanan Masuk -->
+            <div class="col-lg-8">
+                <!-- PANEL PRODUK AKTIF -->
+                <div class="card-custom p-4 mb-4 shadow-sm" style="border-left: 4px solid #3b82f6 !important;">
+                    <h5 class="fw-bold mb-4 text-dark" style="letter-spacing: -0.5px;"><i class="fa-solid fa-boxes-stacked text-primary me-2"></i>Katalog Produk Aktif di Toko Anda</h5>
+                    <div class="row row-cols-1 row-cols-md-2 g-3" id="activeProductsContainer">
+                        <div class="col" th:each="p : ${products}">
+                            <div class="card catalog-item-card p-3 h-100 d-flex flex-column shadow-sm border-0">
+                                <div class="d-flex align-items-center gap-3 mb-2">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center text-success" style="width: 50px; height: 50px; font-size: 24px; background: var(--emerald-accent); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--emerald-primary) !important;">
+                                        <i th:class="${p.category == 'Elektronik' ? 'fa-solid fa-laptop' : (p.category == 'Makanan' ? 'fa-solid fa-burger' : 'fa-solid fa-shirt')}"></i>
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <h6 class="fw-bold mb-0 text-truncate text-dark" th:text="${p.name}">Nama Barang</h6>
+                                        <small class="text-secondary" style="font-size: 12px; font-weight: 300;" th:text="${p.category} + ' • ID: ' + ${p.productId}">Kategori • ID</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center my-2 mt-auto">
+                                    <span class="fw-bold fs-5" style="color: var(--emerald-primary);" th:text="'Rp ' + ${#numbers.formatDecimal(p.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
+                                    <span class="badge badge-emerald px-2 py-1 small">Stok: <span th:text="${p.stock}">0</span></span>
+                                </div>
+                                <form action="/product/delete" method="POST" class="mt-2 border-top pt-2 d-flex justify-content-end" style="border-color: rgba(15,23,42,0.05) !important;">
+                                    <input type="hidden" name="id" th:value="${p.productId}">
+                                    <button type="submit" class="btn btn-sm text-danger border-0 p-1 bg-transparent small font-weight-bold" style="font-size: 12px;"><i class="fa-regular fa-trash-can me-1"></i>Hapus Produk</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div th:if="${#lists.isEmpty(products)}" class="col-12 text-center py-5 text-secondary" style="font-weight: 300; font-size: 14px;">Belum ada barang terdaftar di toko Anda.</div>
+                    </div>
+                </div>
+
+                <!-- PANEL PESANAN MASUK -->
+                <div class="card-custom p-4 shadow-sm" style="border-left: 4px solid #f59e0b !important;">
+                    <h5 class="fw-bold mb-4 text-dark" style="letter-spacing: -0.5px;"><i class="fa-solid fa-receipt text-warning me-2"></i>Sistem Kelola Pesanan Masuk (Real-time Status)</h5>
+                    <div class="table-responsive">
+                        <table class="table table-custom align-middle" style="border-radius: 12px; overflow: hidden; background: transparent;">
+                            <thead>
+                                <tr style="background: rgba(15,23,42,0.02); border-bottom: 1px solid rgba(15,23,42,0.05);">
+                                    <th class="text-dark small">Order ID</th>
+                                    <th class="text-dark small">Pembeli</th>
+                                    <th class="text-dark small">Item Pesanan</th>
+                                    <th class="text-dark small">Total</th>
+                                    <th class="text-dark small">Metode / Status</th>
+                                    <th class="text-dark small">Aksi Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody" style="background: transparent;">
+                                <tr th:each="o : ${incomingOrders}" style="background: transparent;">
+                                    <td class="fw-bold small text-dark" th:text="${o.transactionId}">ID-123</td>
+                                    <td>
+                                        <span class="fw-semibold text-dark small" th:text="${o.buyer.name}">Ryan</span><br>
+                                        <small class="text-secondary" style="font-size: 11px; font-weight: 300;" th:text="${o.buyer.address}">Alamat</small>
+                                    </td>
+                                    <td>
+                                        <div th:each="item : ${o.itemList}" class="small text-secondary" style="font-weight: 300;">
+                                            <span th:text="${item.product.name} + ' (x' + ${item.quantity} + ')'">Product x1</span>
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold small" style="color: var(--emerald-primary);" th:text="'Rp ' + ${#numbers.formatDecimal(o.totalAmount, 0, 'POINT', 0, 'COMMA')}">Rp 0</td>
+                                    <td>
+                                        <span class="badge badge-emerald px-2 py-0.5 mb-1" style="font-size: 10px;" th:text="${o.paymentStatus}">PAID</span><br>
+                                        <span class="badge text-uppercase text-white" th:classappend="${o.status.name() == 'PENDING' ? 'bg-dark border border-secondary' : (o.status.name() == 'PROCESSING' ? 'bg-warning text-dark' : (o.status.name() == 'SHIPPED' ? 'bg-primary' : (o.status.name() == 'DELIVERED' ? 'bg-success' : 'bg-danger')))}" th:text="${o.status.name()}">STATUS</span>
+                                    </td>
+                                    <td>
+                                        <form action="/orders/update" method="POST" class="d-flex align-items-center gap-2">
+                                            <input type="hidden" name="transactionId" th:value="${o.transactionId}">
+                                            <select name="status" class="form-select form-select-sm" style="font-size: 12px; width: 130px; border-radius: 8px; border: 1px solid rgba(15,23,42,0.15); padding: 6px 28px 6px 12px; background-color: #ffffff; color: var(--text-primary);" required>
+                                                <option value="PROCESSING" th:selected="${o.status.name() == 'PROCESSING'}">PROCESSING</option>
+                                                <option value="SHIPPED" th:selected="${o.status.name() == 'SHIPPED'}">SHIPPED</option>
+                                                <option value="DELIVERED" th:selected="${o.status.name() == 'DELIVERED'}">DELIVERED</option>
+                                                <option value="CANCELLED" th:selected="${o.status.name() == 'CANCELLED'}">CANCELLED</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-emerald btn-sm d-flex align-items-center justify-content-center shadow-sm" style="width: 32px; height: 32px; border-radius: 8px;" title="Simpan Status"><i class="fa-solid fa-floppy-disk"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(incomingOrders)}">
+                                    <td colspan="6" class="text-center py-5 text-secondary" style="font-weight: 300; font-size: 14px;"><i class="fa-regular fa-folder-open fs-2 mb-2 d-block opacity-50"></i>Belum ada pesanan masuk saat ini.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PANEL ULASAN MASUK -->
+                <div class="card-custom p-4 mt-4 shadow-sm" style="border-left: 4px solid #06b6d4 !important;">
+                    <h5 class="fw-bold mb-4 text-dark" style="letter-spacing: -0.5px;"><i class="fa-regular fa-star text-info me-2"></i>Daftar Ulasan & Rating Pembeli</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <div th:each="r : ${reviews}" class="p-4 list-row-item shadow-sm border-0">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <span class="fw-bold text-dark" th:text="${r.buyer.name}">Pembeli</span>
+                                    <span class="text-secondary small" style="font-weight: 300;" th:text="' ulasan untuk ' + ${r.product.name}">Kaos</span>
+                                </div>
+                                <div class="text-warning small" style="font-size: 13px;">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                        <i th:class="${i <= r.rating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="mb-0 text-secondary small" style="font-style: italic; font-weight: 300;" th:text="'&quot;' + ${r.comment} + '&quot;'">"Komentar ulasan"</p>
+                            
+                            <!-- Form Balasan atau Teks Balasan -->
+                            <div class="mt-3.5 p-3 rounded" style="background: rgba(15,23,42,0.02); border-left: 3px solid #06b6d4;">
+                                <div th:if="${#strings.isEmpty(r.reply)}">
+                                    <form th:action="@{/review/reply}" method="POST" class="d-flex gap-2 align-items-center">
+                                        <input type="hidden" name="reviewId" th:value="${r.reviewId}">
+                                        <input type="text" name="replyText" class="form-control form-control-custom py-1.5" style="font-size: 13px;" placeholder="Ketik balasan ulasan..." required>
+                                        <button type="submit" class="btn btn-emerald btn-sm fw-bold px-3.5 py-2"><i class="fa-solid fa-reply me-1"></i>Balas</button>
+                                    </form>
+                                </div>
+                                <div th:if="${!#strings.isEmpty(r.reply)}">
+                                    <small class="text-dark d-block mb-1"><b>Balasan Anda:</b></small>
+                                    <small class="text-secondary" style="font-weight: 300;" th:text="${r.reply}">Balasan seller</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${#lists.isEmpty(reviews)}" class="text-center py-4 text-secondary" style="font-weight: 300; font-size: 14px;">Belum ada ulasan masuk untuk produk Anda.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleInfoKhususLabel() {
+            const kategori = document.getElementById('selectKategori').value;
+            
+            // Hide all specific field blocks and disable inputs
+            document.querySelectorAll('.category-specific-fields').forEach(block => {
+                block.classList.add('d-none');
+                block.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = true;
+                    input.required = false;
+                });
+            });
+            
+            // Show selected category block & enable its inputs
+            if (kategori === 'Elektronik') {
+                const block = document.getElementById('fieldsElektronik');
+                block.classList.remove('d-none');
+                block.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = false;
+                    if (input.id === 'inputBrand' || input.id === 'inputWarranty') input.required = true;
+                });
+            } else if (kategori === 'Makanan') {
+                const block = document.getElementById('fieldsMakanan');
+                block.classList.remove('d-none');
+                block.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = false;
+                    if (input.id === 'inputExpiry' || input.id === 'inputWeight') input.required = true;
+                });
+            } else if (kategori === 'Pakaian') {
+                const block = document.getElementById('fieldsPakaian');
+                block.classList.remove('d-none');
+                block.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = false;
+                    if (input.id === 'inputMaterial' || input.id === 'inputColor') input.required = true;
+                });
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            toggleInfoKhususLabel();
+        });
+    </script>
+</body>
+</html>

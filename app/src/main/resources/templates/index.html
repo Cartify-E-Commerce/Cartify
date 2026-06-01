@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Belanja Online Aman dan Cepat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-primary: #059669;
+            --emerald-light: #10b981;
+            --emerald-accent: #e6f4ea;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-light: rgba(15, 23, 42, 0.05);
+            --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 45px rgba(5, 150, 105, 0.08);
+        }
+        body {
+            background-color: var(--bg-main);
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-primary);
+        }
+        
+        /* Navbar Main */
+        .navbar-main {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+        .navbar-brand-custom {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-brand-custom i {
+            color: var(--emerald-light);
+            filter: drop-shadow(0 4px 8px var(--emerald-glow));
+        }
+
+        /* Search Bar */
+        .search-bar {
+            width: 100%;
+            max-width: 700px;
+        }
+        .search-bar input {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 50px 0 0 50px;
+            padding: 12px 24px;
+            color: var(--text-primary);
+            font-size: 14px;
+            box-shadow: none !important;
+            transition: all 0.3s;
+        }
+        .search-bar input:focus {
+            background: #ffffff;
+            border-color: var(--emerald-light);
+            box-shadow: 0 0 10px var(--emerald-glow) !important;
+            color: var(--text-primary);
+        }
+        .search-bar input::placeholder {
+            color: #94a3b8;
+        }
+        .search-bar button {
+            border-radius: 0 50px 50px 0;
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            box-shadow: 0 4px 12px var(--emerald-glow);
+            transition: all 0.3s;
+        }
+        .search-bar button:hover {
+            filter: brightness(1.05);
+            color: white;
+        }
+
+        /* Carousel Promo */
+        .carousel-inner img {
+            border-radius: 20px;
+        }
+        
+        /* Category Section */
+        .category-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow-soft);
+        }
+        .category-item {
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .category-item:hover {
+            transform: translateY(-8px);
+            color: var(--emerald-primary);
+        }
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: var(--emerald-accent);
+            color: var(--emerald-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 12px;
+            transition: all 0.3s;
+        }
+        .category-item:hover .category-icon {
+            background: var(--emerald-primary);
+            color: white;
+            box-shadow: 0 8px 20px var(--emerald-glow);
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-hover);
+        }
+        .product-img-box {
+            height: 180px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--emerald-primary);
+            font-size: 44px;
+            transition: all 0.3s;
+        }
+        .product-card:hover .product-img-box {
+            background: var(--emerald-accent);
+            font-size: 50px;
+        }
+        .product-price {
+            color: var(--emerald-primary);
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: -0.5px;
+        }
+        
+        /* Offcanvas Drawer */
+        .offcanvas-custom {
+            background: #ffffff !important;
+            border-left: 1px solid var(--border-light) !important;
+            color: var(--text-primary);
+        }
+        .offcanvas-header {
+            border-bottom: 1px solid var(--border-light);
+        }
+        .offcanvas-body {
+            padding: 24px;
+        }
+        .cart-item-card {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border-light) !important;
+            border-radius: 14px;
+            transition: all 0.3s;
+        }
+        .cart-item-card:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Modal Product Premium */
+        .modal-content-custom {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 28px;
+            color: var(--text-primary);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* General Badges & Icons */
+        .badge-emerald {
+            background: var(--emerald-accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--emerald-primary);
+            font-weight: 600;
+        }
+        .rating-bar {
+            background-color: rgba(15, 23, 42, 0.08);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .rating-bar-fill {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            height: 100%;
+        }
+        
+        /* Buttons */
+        .btn-emerald {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white !important;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-emerald:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.2);
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR MAIN STICKY -->
+    <div class="navbar-main sticky-top shadow-sm">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-md-3">
+                    <a href="/index" class="navbar-brand-custom text-decoration-none">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Cartify</span>
+                    </a>
+                </div>
+                <div class="col-lg-7 col-md-6 my-3 my-md-0">
+                    <form action="/index" method="GET" class="search-bar d-flex mx-auto">
+                        <input type="hidden" name="kategori" th:value="${selectedCategory}" th:if="${selectedCategory != null}">
+                        <input type="text" name="search" class="form-control" placeholder="Cari laptop, mechanical keyboard, atau lainnya..." th:value="${searchKeyword}">
+                        <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+                <div class="col-lg-3 col-md-3 d-flex justify-content-end align-items-center gap-4">
+                    <!-- Keranjang Belanja Drawer Trigger -->
+                    <a href="#" class="text-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                        <i class="fa-solid fa-cart-shopping fs-5" style="transition: color 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#0f172a'"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge" th:text="${cartCount}" th:style="${cartCount > 0} ? 'font-size: 9px; display: inline-block;' : 'font-size: 9px; display: none;'">0</span>
+                    </a>
+                    
+                    <a href="/buyer/dashboard" class="text-dark position-relative">
+                        <i class="fa-regular fa-bell fs-5" style="transition: color 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#0f172a'"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifBadge" th:text="${unreadNotifications}" th:style="${unreadNotifications > 0} ? 'font-size: 9px; display: inline-block;' : 'font-size: 9px; display: none;'">0</span>
+                    </a>
+                    <div class="vr" style="height: 24px; background-color: rgba(15,23,42,0.1); opacity: 1;"></div>
+                    
+                    <div id="userNavbarSection">
+                        <div th:if="${user != null}" class="d-flex align-items-center gap-3">
+                            <a th:href="${user.role == 'Seller' ? '/seller/dashboard' : '/buyer/dashboard'}" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 34px; height: 34px; font-size: 14px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%); box-shadow: 0 4px 10px var(--emerald-glow);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
+                                    U
+                                </div>
+                                <span class="fw-bold fs-6 d-none d-lg-inline" th:text="${user.name}">Ryan</span>
+                            </a>
+                            <a href="/logout" class="btn btn-sm rounded-circle p-2 text-danger border-0" title="Keluar" style="background: rgba(239, 68, 68, 0.05);"><i class="fa-solid fa-power-off"></i></a>
+                        </div>
+                        <a th:if="${user == null}" href="/login" class="btn btn-sm btn-emerald rounded-pill px-4 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i>Masuk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OFFCANVAS KERANJANG BELANJA -->
+    <div class="offcanvas offcanvas-end offcanvas-custom" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 420px;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel"><i class="fa-solid fa-cart-shopping text-success me-2"></i>Keranjang Belanja</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cartItemsContainer" class="flex-grow-1 overflow-y-auto mb-3">
+                <div th:if="${user == null}" class="text-center py-5 text-secondary">
+                    <i class="fa-solid fa-lock fs-1 mb-3 d-block opacity-25"></i>
+                    Harap masuk/login terlebih dahulu untuk melihat keranjang.
+                </div>
+                <div th:if="${user != null && (user.role != 'Buyer' || (user.role == 'Buyer' && (user.cart == null || #lists.isEmpty(user.cart.itemList))))}" class="text-center py-5 text-secondary">
+                    <i class="fa-solid fa-cart-shopping fs-1 mb-3 d-block opacity-25" style="color: var(--emerald-primary);"></i>
+                    Keranjang belanja Anda kosong.
+                </div>
+                
+                <th:block th:if="${user != null && user.role == 'Buyer' && user.cart != null}">
+                    <div th:each="item : ${user.cart.itemList}" class="card p-3 mb-2 cart-item-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="fw-bold text-truncate text-dark" style="width: 220px; font-size: 14px;" th:text="${item.product.name}">Nama Produk</div>
+                            <form action="/cart/remove" method="POST" class="d-inline">
+                                <input type="hidden" name="productId" th:value="${item.product.productId}">
+                                <button type="submit" class="btn btn-sm text-danger border-0 p-1" style="background: transparent;"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 align-items-center" style="font-size: 13px;">
+                            <span class="text-secondary">Jumlah: <span th:text="${item.quantity}">1</span> x</span>
+                            <span class="fw-semibold text-emerald" style="color: var(--emerald-primary);" th:text="'Rp ' + ${#numbers.formatDecimal(item.calculateSubtotal(), 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            
+            <div th:if="${user != null && user.role == 'Buyer' && user.cart != null && !#lists.isEmpty(user.cart.itemList)}" class="border-top pt-3 mt-auto" style="border-color: var(--border-light) !important;" id="cartSummarySection">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-semibold text-secondary">Total Pembayaran:</span>
+                    <span class="fw-bold fs-5 text-emerald" style="color: var(--emerald-primary);" th:text="'Rp ' + ${#numbers.formatDecimal(user.cart.calculateTotal(), 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
+                </div>
+                <form action="/cart/checkout" method="POST">
+                    <button type="submit" class="btn btn-emerald w-100 rounded-pill py-2.5 fw-bold" id="checkoutBtn"><i class="fa-solid fa-credit-card me-2"></i>Checkout & Bayar Lunas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL PRODUK PREMIUM -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header border-0 pb-0 position-relative" style="z-index: 10;">
+                    <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5" id="productDetailBody">
+                    <!-- Loaded via AJAX -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <!-- Promo Carousel -->
+        <div id="promoCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner rounded-4" style="border: 1px solid var(--border-light);">
+                <div class="carousel-item active">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 300px; background: linear-gradient(rgba(15,23,42,0.1), rgba(15,23,42,0.5)), url('https://images.unsplash.com/photo-1555532538-dcdbd01d373d?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-4" style="z-index: 2;">
+                            <span class="badge badge-emerald px-3 py-2 mb-2 rounded-pill small">Gaya Baru</span>
+                            <h1 class="fw-bold display-5 mb-2 text-white" style="letter-spacing: -1px;">Selamat Datang di Cartify!</h1>
+                            <p class="fs-5 text-white-50" style="font-weight: 300;">Temukan Gadget, Laptop & Aksesoris Terlengkap dengan Harga Terbaik</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 300px; background: linear-gradient(rgba(15,23,42,0.1), rgba(15,23,42,0.5)), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-4" style="z-index: 2;">
+                            <span class="badge badge-emerald px-3 py-2 mb-2 rounded-pill small">Tren Terkini</span>
+                            <h1 class="fw-bold display-5 mb-2 text-white" style="letter-spacing: -1px;">Gaya Tren Kekinian</h1>
+                            <p class="fs-5 text-white-50" style="font-weight: 300;">Koleksi Fashion Casual Premium untuk Menunjang Penampilan Keren Anda</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="w-100 d-flex align-items-center justify-content-center text-white position-relative" style="height: 300px; background: linear-gradient(rgba(15,23,42,0.1), rgba(15,23,42,0.5)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80') no-repeat center center; background-size: cover;">
+                        <div class="text-center px-4" style="z-index: 2;">
+                            <span class="badge badge-emerald px-3 py-2 mb-2 rounded-pill small">Kuliner Mantap</span>
+                            <h1 class="fw-bold display-5 mb-2 text-white" style="letter-spacing: -1px;">Kuliner Lezat & Segar</h1>
+                            <p class="fs-5 text-white-50" style="font-weight: 300;">Manjakan Lidah Anda dengan Makanan Segar Pilihan Terbaik Setiap Hari</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Categories -->
+        <div class="category-box mb-5">
+            <h5 class="fw-bold mb-4 text-dark" style="letter-spacing: -0.5px;"><i class="fa-solid fa-grip me-2" style="color: var(--emerald-primary);"></i>Kategori Pilihan</h5>
+            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-4 justify-content-center">
+                <div class="col"><a th:href="@{/index(kategori='Elektronik')}" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-laptop"></i></div><span class="fw-semibold small">Elektronik</span></a></div>
+                <div class="col"><a th:href="@{/index(kategori='Pakaian')}" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-shirt"></i></div><span class="fw-semibold small">Pakaian</span></a></div>
+                <div class="col"><a th:href="@{/index(kategori='Makanan')}" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-burger"></i></div><span class="fw-semibold small">Makanan</span></a></div>
+                <div class="col"><a th:href="@{/index}" class="category-item d-block"><div class="category-icon"><i class="fa-solid fa-ellipsis"></i></div><span class="fw-semibold small">Semua Kategori</span></a></div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <h4 class="fw-bold mb-0 text-dark" id="sectionTitle" th:text="${selectedCategory != null} ? 'Kategori: ' + ${selectedCategory} : (${searchKeyword != null && !searchKeyword.isEmpty()} ? 'Hasil pencarian: ' + ${searchKeyword} : 'Rekomendasi Untukmu')">Rekomendasi Untukmu</h4>
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <!-- Sorting Dropdown -->
+                <div class="d-flex align-items-center gap-2">
+                    <small class="text-secondary fw-semibold text-nowrap" style="font-size: 13px;"><i class="fa-solid fa-arrow-down-up-navigation me-1"></i>Urutkan:</small>
+                    <select id="ajaxSortSelect" class="form-select form-select-sm" style="font-size: 13px; width: 160px; border-radius: 20px; border: 1px solid rgba(15,23,42,0.1); padding: 5px 28px 5px 12px; background-color: #ffffff; color: var(--text-primary); cursor: pointer;" required>
+                        <option value="" th:selected="${selectedSort == null || selectedSort == ''}">Default</option>
+                        <option value="price_asc" th:selected="${selectedSort == 'price_asc'}">Harga Termurah</option>
+                        <option value="price_desc" th:selected="${selectedSort == 'price_desc'}">Harga Termahal</option>
+                        <option value="rating_desc" th:selected="${selectedSort == 'rating_desc'}">Rating Tertinggi</option>
+                        <option value="newest" th:selected="${selectedSort == 'newest'}">Produk Terbaru</option>
+                    </select>
+                </div>
+                <a href="/index" class="text-decoration-none fw-bold text-nowrap" style="color: var(--emerald-primary);">Lihat Semua <i class="fa-solid fa-arrow-right-long ms-1"></i></a>
+            </div>
+        </div>
+        
+        <!-- Products Loop -->
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 mb-5" id="productContainer">
+            <div class="col" th:each="p : ${products}">
+                <div class="product-card h-100 d-flex flex-column" th:data-product-id="${p.productId}" onclick="openProductDetail(this.getAttribute('data-product-id'))">
+                    <div class="product-img-box">
+                        <i th:class="${p.category == 'Elektronik' ? 'fa-solid fa-laptop' : (p.category == 'Makanan' ? 'fa-solid fa-burger' : 'fa-solid fa-shirt')}"></i>
+                    </div>
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <h6 class="text-truncate mb-1 fw-bold text-dark" style="font-size: 14px;" th:text="${p.name}" th:title="${p.name}">Nama Produk</h6>
+                        <small class="text-secondary text-truncate mb-2" style="font-size: 11px; font-weight: 300;" th:text="${p.description}">Deskripsi</small>
+                        <div class="product-price mb-2 mt-auto" style="font-size: 14px;" th:text="'Rp ' + ${#numbers.formatDecimal(p.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</div>
+                        <div class="d-flex align-items-center justify-content-between mt-2" style="font-size: 12px; border-top: 1px solid var(--border-light); pt-2;">
+                            <span class="text-secondary"><i class="fa-solid fa-star text-warning me-1"></i> <span class="text-dark" th:text="${#numbers.formatDecimal(p.averageRating, 1, 1)}">5.0</span></span>
+                            <span class="text-secondary">Stok: <span class="text-dark" th:text="${p.stock}">0</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(products)}" class="col-12 text-center py-5 text-secondary">
+                <i class="fa-regular fa-folder-open fs-2 mb-2 d-block opacity-50"></i>Tidak ada produk ditemukan.
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-5" style="background: #ffffff; border-top: 1px solid var(--border-light);">
+        <div class="container">
+            <p class="mb-1 small text-secondary">&copy; 2026 Cartify E-Commerce. Platform Belanja Online Modern.</p>
+            <p class="mb-0 small text-muted" style="font-weight: 300;">Ryan Maulana Bagus Putra • IF-48-06 • Universitas Telkom</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:inline="javascript">
+        const isLoggedIn = [[${user != null}]];
+        
+        function openProductDetail(productId) {
+            const body = document.getElementById('productDetailBody');
+            body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-emerald" style="color: var(--emerald-light);" role="status"></div></div>';
+            
+            const detailModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+            detailModal.show();
+
+            fetch(`/api/products/detail?productId=${encodeURIComponent(productId)}`)
+                .then(res => res.json())
+                .then(p => {
+                    let iconClass = 'fa-solid fa-box';
+                    if (p.kategori.toLowerCase().includes('elektronik')) iconClass = 'fa-solid fa-laptop';
+                    else if (p.kategori.toLowerCase().includes('makanan')) iconClass = 'fa-solid fa-burger';
+                    else if (p.kategori.toLowerCase().includes('pakaian')) iconClass = 'fa-solid fa-shirt';
+
+                    const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.harga);
+
+                    let specHtml = '<div class="row g-3">';
+                    for (const [key, value] of Object.entries(p.spesifikasi)) {
+                        let iconClass = 'fa-solid fa-circle-info text-secondary';
+                        const kLower = key.toLowerCase();
+                        if (kLower === 'brand') iconClass = 'fa-solid fa-copyright text-primary';
+                        else if (kLower === 'garansi') iconClass = 'fa-solid fa-shield-halved text-success';
+                        else if (kLower === 'expired') iconClass = 'fa-solid fa-calendar-days text-danger';
+                        else if (kLower === 'expiredstatus') iconClass = 'fa-solid fa-heart-pulse text-warning';
+                        else if (kLower === 'berat') iconClass = 'fa-solid fa-weight-hanging text-info';
+                        else if (kLower === 'ukuran') iconClass = 'fa-solid fa-ruler-combined text-primary';
+                        else if (kLower === 'bahan') iconClass = 'fa-solid fa-circle-nodes text-success';
+                        else if (kLower === 'warna') iconClass = 'fa-solid fa-palette text-warning';
+                        else if (kLower.includes('sedia') || kLower.includes('tags')) iconClass = 'fa-solid fa-tags text-secondary';
+
+                        specHtml += `
+                            <div class="col-md-6 col-12">
+                                <div class="p-3 rounded-4 h-100" style="background: var(--bg-main); border: 1px solid var(--border-light); transition: border-color 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='rgba(15,23,42,0.05)'">
+                                    <div class="d-flex align-items-center gap-2 mb-1.5">
+                                        <i class="${iconClass}" style="font-size: 14px;"></i>
+                                        <span class="text-secondary fw-semibold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">${key}</span>
+                                    </div>
+                                    <div class="text-dark fw-bold" style="font-size: 13px; margin-left: 22px;">${value}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    specHtml += '</div>';
+
+                    let reviewsHtml = '';
+                    if (p.reviews.length === 0) {
+                        reviewsHtml = '<p class="text-secondary small py-2">Belum ada ulasan untuk barang ini.</p>';
+                    } else {
+                        p.reviews.forEach(r => {
+                            reviewsHtml += `
+                                <div class="p-3 mb-2 rounded-3" style="background: var(--bg-card); border: 1px solid var(--border-light);">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="fw-bold small text-dark">${r.namaBuyer}</span>
+                                        <span class="small text-secondary" style="font-size: 11px;">${r.tanggal}</span>
+                                    </div>
+                                    <div class="mb-2" style="color: #ffc107; font-size: 11px;">
+                                        ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
+                                        ${'<i class="fa-regular fa-star"></i>'.repeat(5 - r.rating)}
+                                    </div>
+                                    <p class="mb-0 text-secondary small" style="font-size: 13px;">"${r.komentar}"</p>
+                                    ${r.balasan ? `<div class="mt-2 p-2 rounded small text-secondary" style="background: var(--emerald-accent); border-left: 3px solid var(--emerald-primary);"><b>Balasan Seller:</b> "${r.balasan}"</div>` : ''}
+                                </div>
+                            `;
+                        });
+                    }
+
+                    const total = p.totalReviews || 1;
+                    const getPercent = (count) => ((count / total) * 100).toFixed(0);
+
+                    body.innerHTML = `
+                        <div class="row g-4">
+                            <div class="col-md-5">
+                                <div class="text-center rounded-4 py-5 mb-4 position-relative" style="font-size: 80px; color: var(--emerald-primary); background: var(--bg-main); border: 1px solid var(--border-light);">
+                                    <i class="${iconClass}"></i>
+                                    <span class="badge badge-emerald position-absolute top-0 start-0 m-3 fs-6">${p.kategori}</span>
+                                </div>
+                                
+                                <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-star text-warning me-2"></i>Ulasan Pembeli</h6>
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <h1 class="fw-bold mb-0 text-dark">${p.averageRating.toFixed(1)}</h1>
+                                    <div>
+                                        <div style="color: #ffc107; font-size: 14px;">
+                                            ${'<i class="fa-solid fa-star"></i>'.repeat(Math.round(p.averageRating))}
+                                            ${'<i class="fa-regular fa-star"></i>'.repeat(5 - Math.round(p.averageRating))}
+                                        </div>
+                                        <small class="text-secondary">${p.totalReviews} ulasan terkumpul</small>
+                                    </div>
+                                </div>
+ 
+                                <div class="d-flex flex-column gap-2 mb-4">
+                                    ${[5, 4, 3, 2, 1].map(star => {
+                                        const count = p.distribution[star] || 0;
+                                        return `
+                                            <div class="d-flex align-items-center gap-2" style="font-size: 11px;">
+                                                <span class="text-secondary fw-bold" style="width: 15px;">${star}</span>
+                                                <i class="fa-solid fa-star text-warning" style="font-size: 9px;"></i>
+                                                <div class="flex-grow-1 rating-bar"><div class="rating-bar-fill" style="width: ${getPercent(count)}%;"></div></div>
+                                                <span class="text-secondary" style="width: 25px; text-align: right;">${count}</span>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-7 d-flex flex-column">
+                                <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.5px;">${p.nama}</h3>
+                                <div class="product-price fs-3 mb-3">${formatHarga}</div>
+                                
+                                <div class="mb-4 text-secondary small lh-lg" style="font-size: 14px; font-weight: 300;">
+                                    <b class="text-dark">Deskripsi Produk:</b><br>${p.deskripsi}
+                                </div>
+ 
+                                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-circle-info text-emerald me-2" style="color: var(--emerald-primary);"></i>Spesifikasi Kelas Dinamis</h6>
+                                <div class="mb-4">
+                                    ${specHtml}
+                                </div>
+ 
+                                <div class="mt-auto border-top pt-3" style="border-color: var(--border-light) !important;">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="fw-bold text-secondary small">Status Ketersediaan:</span>
+                                        <span class="badge ${p.stok > 0 ? 'badge-emerald' : 'bg-danger'} px-3 py-2 fs-6">
+                                            ${p.stok > 0 ? `Ready (Stok: ${p.stok})` : 'Habis'}
+                                        </span>
+                                    </div>
+                                    <form action="/cart/add" method="POST">
+                                        <input type="hidden" name="productId" value="${p.id}">
+                                        <button type="submit" class="btn btn-emerald w-100 rounded-pill py-3 fw-bold fs-5 ${p.stok === 0 ? 'disabled' : ''}">
+                                            <i class="fa-solid fa-cart-plus me-2"></i>Tambah ke Keranjang
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <hr class="my-4" style="background-color: var(--border-light); opacity: 0.8;">
+                        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-comments text-emerald me-2" style="color: var(--emerald-primary);"></i>Daftar Ulasan Pengguna</h6>
+                        <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                            ${reviewsHtml}
+                        </div>
+                    `;
+                })
+                .catch(err => {
+                    console.error('Error fetching detail:', err);
+                    body.innerHTML = '<div class="text-center py-5 text-danger">Gagal memuat detail produk.</div>';
+                });
+        }
+
+        // AJAX Zero-Reload Catalog Filtering and Search
+        document.addEventListener("DOMContentLoaded", function() {
+            const productContainer = document.getElementById("productContainer");
+            const sectionTitle = document.getElementById("sectionTitle");
+            
+            function setupListeners() {
+                const searchForm = document.querySelector("form.search-bar");
+                const categoryLinks = document.querySelectorAll(".category-item");
+                const sortSelect = document.getElementById("ajaxSortSelect");
+
+                if (searchForm) {
+                    searchForm.onsubmit = null;
+                    searchForm.addEventListener("submit", function(e) {
+                        e.preventDefault();
+                        const formData = new FormData(searchForm);
+                        const params = new URLSearchParams();
+                        for (const [key, val] of formData.entries()) {
+                            if (val) params.append(key, val);
+                        }
+                        if (sortSelect && sortSelect.value) {
+                            params.append("sortBy", sortSelect.value);
+                        }
+                        const url = "/index?" + params.toString();
+                        loadCatalog(url);
+                    });
+                }
+
+                categoryLinks.forEach(link => {
+                    link.onclick = null;
+                    link.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        let href = link.getAttribute("href");
+                        if (sortSelect && sortSelect.value) {
+                            const urlObj = new URL(window.location.origin + href);
+                            urlObj.searchParams.set("sortBy", sortSelect.value);
+                            href = urlObj.pathname + urlObj.search;
+                        }
+                        loadCatalog(href);
+                    });
+                });
+
+                if (sortSelect) {
+                    sortSelect.onchange = null;
+                    sortSelect.addEventListener("change", function() {
+                        const urlObj = new URL(window.location.href);
+                        if (sortSelect.value) {
+                            urlObj.searchParams.set("sortBy", sortSelect.value);
+                        } else {
+                            urlObj.searchParams.delete("sortBy");
+                        }
+                        loadCatalog(urlObj.pathname + urlObj.search);
+                    });
+                }
+            }
+
+            function loadCatalog(url) {
+                if (!productContainer) return;
+                
+                // Opacity Fade Out
+                productContainer.style.transition = "opacity 0.2s ease";
+                productContainer.style.opacity = "0.3";
+
+                fetch(url)
+                    .then(res => res.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, "text/html");
+                        
+                        const newContainer = doc.getElementById("productContainer");
+                        const newTitle = doc.getElementById("sectionTitle");
+                        const newSearchForm = doc.querySelector("form.search-bar");
+                        const newSortSelect = doc.getElementById("ajaxSortSelect");
+
+                        if (newContainer) {
+                            productContainer.innerHTML = newContainer.innerHTML;
+                        }
+                        if (newTitle && sectionTitle) {
+                            sectionTitle.innerHTML = newTitle.innerHTML;
+                        }
+                        if (newSearchForm) {
+                            const searchForm = document.querySelector("form.search-bar");
+                            if (searchForm) {
+                                searchForm.innerHTML = newSearchForm.innerHTML;
+                            }
+                        }
+                        if (newSortSelect) {
+                            const sortSelect = document.getElementById("ajaxSortSelect");
+                            if (sortSelect) {
+                                sortSelect.innerHTML = newSortSelect.innerHTML;
+                                sortSelect.value = newSortSelect.value;
+                            }
+                        }
+
+                        // Push state
+                        history.pushState(null, "", url);
+                        
+                        // Setup listeners for newly hot-replaced elements if needed
+                        setupListeners();
+                        
+                        // Opacity Fade In
+                        productContainer.style.opacity = "1";
+                    })
+                    .catch(err => {
+                        console.error("AJAX Error loading catalog:", err);
+                        productContainer.style.opacity = "1";
+                    });
+            }
+
+            setupListeners();
+
+            // Handle back/forward history navigation
+            window.addEventListener("popstate", function() {
+                if (!productContainer) return;
+                productContainer.style.transition = "opacity 0.2s ease";
+                productContainer.style.opacity = "0.3";
+                
+                fetch(window.location.href)
+                    .then(res => res.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, "text/html");
+                        const newContainer = doc.getElementById("productContainer");
+                        const newTitle = doc.getElementById("sectionTitle");
+                        const newSearchForm = doc.querySelector("form.search-bar");
+
+                        if (newContainer) productContainer.innerHTML = newContainer.innerHTML;
+                        if (newTitle && sectionTitle) sectionTitle.innerHTML = newTitle.innerHTML;
+                        if (newSearchForm) {
+                            const searchForm = document.querySelector("form.search-bar");
+                            if (searchForm) {
+                                searchForm.innerHTML = newSearchForm.innerHTML;
+                            }
+                        }
+                        setupListeners();
+                        productContainer.style.opacity = "1";
+                    })
+                    .catch(() => {
+                        productContainer.style.opacity = "1";
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

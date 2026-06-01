@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Akun Saya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-primary: #059669;
+            --emerald-light: #10b981;
+            --emerald-accent: #e6f4ea;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-light: rgba(15, 23, 42, 0.05);
+            --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 45px rgba(5, 150, 105, 0.08);
+        }
+        body {
+            background-color: var(--bg-main);
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-primary);
+        }
+        
+        /* Navbar Main */
+        .navbar-main {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+        .navbar-brand-custom {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-brand-custom i {
+            color: var(--emerald-light);
+            filter: drop-shadow(0 4px 8px var(--emerald-glow));
+        }
+
+        /* Glass Cards */
+        .card-custom {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-custom:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Profile Banner */
+        .profile-banner {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 25px var(--emerald-glow);
+            padding: 30px;
+        }
+
+        .badge-status {
+            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .badge-emerald {
+            background: var(--emerald-accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--emerald-primary);
+            font-weight: 600;
+        }
+
+        .nav-profile-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .nav-profile-link:hover, .nav-profile-link.active {
+            background: var(--emerald-accent);
+            color: var(--emerald-primary);
+            font-weight: bold;
+        }
+
+        /* Notifications & Orders */
+        .list-row-item {
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .list-row-item:hover {
+            border-color: var(--emerald-light);
+            box-shadow: var(--shadow-soft);
+            background: var(--emerald-accent);
+        }
+
+        /* Buttons */
+        .btn-emerald {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white !important;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-emerald:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.2);
+            filter: brightness(1.05);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            background: #ffffff;
+            color: var(--text-primary) !important;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-outline-custom:hover {
+            background: var(--emerald-primary);
+            border-color: var(--emerald-light);
+            color: white !important;
+            box-shadow: 0 4px 12px var(--emerald-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR MAIN -->
+    <nav class="navbar navbar-expand-lg navbar-main sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand-custom text-decoration-none" href="/index">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cartify</span>
+            </a>
+            <div class="d-flex align-items-center ms-auto gap-4">
+                <a href="/seller/dashboard" class="btn btn-emerald btn-sm rounded-pill px-4" style="font-size: 13px;"><i class="fa-solid fa-store me-1"></i>Beralih ke Seller</a>
+                <div class="vr" style="height: 24px; background-color: rgba(15,23,42,0.1); opacity: 1;"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                    <span class="fw-bold d-none d-md-inline text-dark" id="navBuyerName" style="font-size: 14px;" th:text="${user.name}">Ryan Maulana</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="card-custom p-4">
+                    <div class="text-center py-3">
+                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold mx-auto mb-3" style="width: 72px; height: 72px; font-size: 26px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%); box-shadow: 0 8px 20px var(--emerald-glow);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                        <h6 class="fw-bold mb-1 text-dark" id="sidebarBuyerName" th:text="${user.name}">Ryan Maulana B. P.</h6>
+                        <span class="badge badge-emerald px-2.5 py-1 mb-2 rounded-pill small" id="sidebarRole" th:text="'Role: ' + ${user.role}" style="font-size: 11px;">Member Buyer</span>
+                    </div>
+                    <hr style="background-color: rgba(15, 23, 42, 0.08); opacity: 0.8; margin: 15px 0;">
+                    <nav class="nav flex-column gap-1">
+                        <a class="nav-profile-link active" href="#"><i class="fa-regular fa-user"></i> Profil Saya</a>
+                        <a class="nav-profile-link" href="/index"><i class="fa-solid fa-arrow-left"></i> Belanja Lagi</a>
+                        <a class="nav-profile-link text-danger" href="/logout"><i class="fa-solid fa-power-off"></i> Keluar</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="col-lg-9">
+                <div class="profile-banner mb-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-8 text-center text-md-start">
+                            <h3 class="fw-bold mb-1 text-white" id="profileHeaderName" th:text="${user.name}">Ryan Maulana Bagus Putra</h3>
+                            <p class="mb-0 text-white-50 small" style="font-weight: 300; color: rgba(255,255,255,0.85) !important;"><i class="fa-regular fa-envelope me-1"></i> <span id="profileHeaderEmail" th:text="${user.email}">ryanmaulana@student.telkomuniversity.ac.id</span></p>
+                        </div>
+                        <div class="col-md-4 text-center text-md-end">
+                            <button class="btn btn-light btn-sm fw-bold rounded-pill px-4 py-2.5 text-success shadow-sm" data-bs-toggle="modal" data-bs-target="#reviewHistoryModal" style="color: var(--emerald-primary) !important;"><i class="fa-regular fa-star me-1.5"></i>Riwayat Ulasan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTIFIKASI SYSTEM -->
+                <div class="card-custom p-4 mb-4" style="border-left: 4px solid var(--emerald-light) !important;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0 text-dark" style="letter-spacing: -0.5px;"><i class="fa-regular fa-bell me-2 text-success" style="color: var(--emerald-primary);"></i>Notifikasi Real-time (Observer Pattern)</h5>
+                        <form action="/notifications/read" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-custom rounded-pill px-3 py-1.5" style="font-size: 12px;"><i class="fa-solid fa-check-double me-1"></i>Tandai Semua Dibaca</button>
+                        </form>
+                    </div>
+                    <div class="d-flex flex-column gap-2" id="notificationContainer" style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                        <div th:each="n : ${notifications}" class="p-3 list-row-item d-flex justify-content-between align-items-center" th:style="${n.isRead} ? 'opacity: 0.65;' : 'background: var(--emerald-accent); border-color: rgba(16, 185, 129, 0.2);'">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="fs-4">
+                                    <i th:class="${n.isRead} ? 'fa-solid fa-envelope-open text-muted' : 'fa-solid fa-envelope text-success'"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 14px;" th:class="${!n.isRead} ? 'text-dark fw-semibold' : 'text-secondary'" th:text="${n.message}">Message</div>
+                                    <small class="text-secondary" style="font-size: 11px; font-weight: 300;" th:text="${n.createdAt}">Date</small>
+                                </div>
+                            </div>
+                            <form th:if="${!n.isRead}" action="/notifications/read" method="POST" class="d-inline">
+                                <input type="hidden" name="notificationId" th:value="${n.notificationId}">
+                                <button type="submit" class="btn btn-sm btn-outline-custom py-1 px-2 border rounded" title="Tandai dibaca"><i class="fa-solid fa-check"></i></button>
+                            </form>
+                        </div>
+                        <div th:if="${#lists.isEmpty(notifications)}" class="text-center py-3 text-secondary" style="font-size: 14px; font-weight: 300;">Belum ada notifikasi baru.</div>
+                    </div>
+                </div>
+
+                <!-- DAFTAR PESANAN AKTIF -->
+                <div class="card-custom p-4 mb-4" style="border-left: 4px solid #f59e0b !important;">
+                    <h5 class="fw-bold mb-4 text-dark" style="letter-spacing: -0.5px;"><i class="fa-solid fa-truck-fast me-2 text-warning"></i>Pesanan & Transaksi Aktif</h5>
+                    <div class="d-flex flex-column gap-3" id="activeOrdersContainer">
+                        <div th:each="o : ${orders}" class="p-3 list-row-item d-flex justify-content-between align-items-center shadow-sm">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded d-flex align-items-center justify-content-center text-success" style="width: 46px; height: 46px; font-size: 20px; background: var(--emerald-accent); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--emerald-primary) !important;"><i class="fa-solid fa-receipt"></i></div>
+                                <div>
+                                    <div th:if="${o.status.name() != 'DELIVERED'}">
+                                        <h6 class="mb-1 fw-bold text-dark" style="font-size: 15px;">
+                                            <span th:each="item, iter : ${o.itemList}" th:text="${item.product.name} + ' (x' + ${item.quantity} + ')' + (${iter.last} ? '' : ', ')">Items</span>
+                                        </h6>
+                                    </div>
+                                    <div th:if="${o.status.name() == 'DELIVERED'}">
+                                        <div th:each="item : ${o.itemList}" class="d-flex align-items-center gap-2 mb-1">
+                                            <span class="fw-bold small text-dark" th:text="${item.product.name} + ' (x' + ${item.quantity} + ')'">Product x1</span>
+                                            <a th:if="${!reviewedKeys.contains(o.transactionId + '_' + item.product.productId)}" th:href="@{/review/write(productId=${item.product.productId}, transactionId=${o.transactionId})}" class="btn btn-sm btn-emerald py-0 px-2 fw-semibold" style="font-size: 10px; border-radius: 4px;"><i class="fa-regular fa-star me-1"></i>Beri Ulasan</a>
+                                            <span th:if="${reviewedKeys.contains(o.transactionId + '_' + item.product.productId)}" class="badge bg-secondary py-1 px-2 fw-semibold small" style="font-size: 10px; border-radius: 4px;"><i class="fa-solid fa-circle-check me-1"></i>Sudah Diulas</span>
+                                        </div>
+                                    </div>
+                                    <small class="text-secondary" style="font-size: 12px; font-weight: 300;">
+                                        <span th:text="${o.transactionId}">TX-ID</span> • Total: <b class="text-dark" th:text="'Rp ' + ${#numbers.formatDecimal(o.totalAmount, 0, 'POINT', 0, 'COMMA')}">Rp 0</b> • Pembayaran: <span class="badge badge-emerald px-2 py-0.5" style="font-size: 10px;" th:text="${o.paymentStatus}">UNPAID</span>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge badge-status text-uppercase text-white" th:classappend="${o.status.name() == 'PENDING' ? 'bg-warning text-dark' : (o.status.name() == 'PROCESSING' ? 'bg-primary' : (o.status.name() == 'SHIPPED' ? 'bg-info text-dark' : (o.status.name() == 'DELIVERED' ? 'bg-success' : 'bg-danger')))}" th:text="${o.status.name()}">STATUS</span>
+                                <div class="mt-1.5" style="font-size: 11px; color: var(--text-secondary); font-weight: 300;" th:text="${o.createdAt}">Created At</div>
+                                
+                                <!-- Aksi Pembayaran, Pembatalan & Penerimaan -->
+                                <div class="mt-2.5 d-flex gap-2 justify-content-end">
+                                    <a th:if="${o.paymentStatus == 'UNPAID' and o.status.name() == 'PENDING'}" th:href="@{/payment(transactionId=${o.transactionId})}" class="btn btn-sm btn-emerald fw-bold py-1 px-3" style="font-size: 11px;"><i class="fa-solid fa-credit-card me-1.5"></i>Bayar</a>
+                                    
+                                    <form th:if="${o.status.name() == 'SHIPPED'}" th:action="@{/orders/complete}" method="POST" class="d-inline">
+                                        <input type="hidden" name="transactionId" th:value="${o.transactionId}">
+                                        <button type="submit" class="btn btn-sm btn-emerald fw-bold py-1 px-3" style="font-size: 11px;" onclick="return confirm('Apakah Anda yakin barang sudah diterima dengan baik?')"><i class="fa-solid fa-circle-check me-1.5"></i>Terima Barang</button>
+                                    </form>
+                                    
+                                    <form th:if="${o.status.name() == 'PENDING'}" th:action="@{/orders/cancel}" method="POST" class="d-inline">
+                                        <input type="hidden" name="transactionId" th:value="${o.transactionId}">
+                                        <button type="submit" class="btn btn-sm text-danger border-0 p-1 bg-transparent small" style="font-size: 11px; font-weight: 600;" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')"><i class="fa-solid fa-xmark me-1"></i>Batal</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${#lists.isEmpty(orders)}" class="text-center py-5 text-secondary" style="font-weight: 300; font-size: 14px;">
+                            <i class="fa-solid fa-truck-fast fs-1 mb-3 d-block opacity-25" style="color: var(--emerald-light);"></i>Anda belum memiliki riwayat pesanan. Mulailah berbelanja!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL RIWAYAT ULASAN -->
+    <div class="modal fade" id="reviewHistoryModal" tabindex="-1" aria-labelledby="reviewHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 24px; border: 1px solid var(--border-light); box-shadow: var(--shadow-hover); overflow: hidden; background: #ffffff;">
+                <div class="modal-header border-0 pb-0" style="padding: 25px 30px;">
+                    <h5 class="modal-title fw-bold text-dark" id="reviewHistoryModalLabel"><i class="fa-regular fa-star text-warning me-2"></i>Riwayat Ulasan Saya</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px 30px 35px; max-height: 450px; overflow-y: auto;">
+                    <div class="d-flex flex-column gap-3">
+                        <div th:each="r : ${myReviews}" class="p-3 rounded-4" style="background: var(--bg-main); border: 1px solid var(--border-light);">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-0.5" th:text="${r.product.name}">Nama Produk</h6>
+                                    <small class="text-secondary" style="font-size: 11px; font-weight: 300;" th:text="'ID Transaksi: ' + ${r.transactionId}">ID-123</small>
+                                </div>
+                                <div class="text-warning small" style="font-size: 12px;">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
+                                        <i th:class="${i <= r.rating ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="mb-0 text-secondary small" style="font-style: italic; font-weight: 300; font-size: 13.5px;" th:text="'&quot;' + ${r.comment} + '&quot;'">"Komentar ulasan"</p>
+                            
+                            <!-- Balasan Seller -->
+                            <div th:if="${!#strings.isEmpty(r.reply)}" class="mt-2.5 p-2.5 rounded-3 small text-secondary" style="background: var(--emerald-accent); border-left: 3px solid var(--emerald-primary); font-size: 12.5px;">
+                                <b>Tanggapan Penjual:</b> <span th:text="${r.reply}">Balasan seller</span>
+                            </div>
+                        </div>
+                        <div th:if="${#lists.isEmpty(myReviews)}" class="text-center py-5 text-secondary" style="font-weight: 300; font-size: 14px;">
+                            <i class="fa-regular fa-star fs-1 mb-2 d-block opacity-25" style="color: var(--emerald-light);"></i>Anda belum menulis ulasan apa pun.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

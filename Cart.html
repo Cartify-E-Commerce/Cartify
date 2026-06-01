@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    padding:30px;
+}
+
+.cart-container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.cart-header{
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
+}
+
+.cart-title{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px 20px;
+    border-bottom:1px solid #ddd;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 20px;
+    border-bottom:1px solid #ddd;
+}
+
+.left-section{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.product-image{
+    width:70px;
+    height:70px;
+    background:#ecece3;
+    border-radius:8px;
+}
+
+.product-info h4{
+    margin-bottom:8px;
+}
+
+.product-info p{
+    color:#666;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.quantity button{
+    width:30px;
+    height:30px;
+    border:1px solid #ccc;
+    background:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.summary{
+    background:#f2f2eb;
+    margin:15px;
+    padding:20px;
+    border-radius:10px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.total{
+    border-top:1px solid #ccc;
+    padding-top:15px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.checkout-btn{
+    width:calc(100% - 30px);
+    margin:15px;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:#16a085;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.checkout-btn:hover{
+    background:#13856d;
+}
+</style>
+</head>
+<body>
+
+<div class="cart-container">
+
+    <div class="cart-header">
+        KERANJANG BELANJA
+    </div>
+
+    <div class="cart-title">
+        <input type="checkbox">
+        <h3>Keranjang Saya</h3>
+    </div>
+
+    <div class="cart-item">
+        <div class="left-section">
+            <input type="checkbox">
+            <div class="product-image"></div>
+
+            <div class="product-info">
+                <h4>Laptop ASUS</h4>
+                <p>Rp 8.000.000</p>
+            </div>
+        </div>
+
+        <div class="quantity">
+            <button>-</button>
+            <span>2</span>
+            <button>+</button>
+        </div>
+    </div>
+
+    <div class="cart-item">
+        <div class="left-section">
+            <input type="checkbox">
+            <div class="product-image"></div>
+
+            <div class="product-info">
+                <h4>Mouse Gaming</h4>
+                <p>Rp 250.000</p>
+            </div>
+        </div>
+
+        <div class="quantity">
+            <button>-</button>
+            <span>1</span>
+            <button>+</button>
+        </div>
+    </div>
+
+    <div class="summary">
+        <h3>Ringkasan Belanja</h3>
+
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>Rp 16.250.000</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Ongkir</span>
+            <span>Rp 20.000</span>
+        </div>
+
+        <div class="summary-row total">
+            <span>Total</span>
+            <span>Rp 16.270.000</span>
+        </div>
+    </div>
+
+    <button class="checkout-btn">
+        Checkout (2 item dipilih)
+    </button>
+
+</div>
+
+</body>
+</html>

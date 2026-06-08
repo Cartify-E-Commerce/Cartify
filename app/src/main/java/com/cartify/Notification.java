@@ -19,7 +19,7 @@ public class Notification {
 
     public void send() {
         // Simulasi pengiriman notifikasi
-        System.out.println("Mengirim notifikasi: " + message);
+        System.out.println("Mengirim notifikasi : " + message);
     }
 
     public void markAsRead() {

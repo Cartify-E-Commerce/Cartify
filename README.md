@@ -19,9 +19,6 @@
 Seluruh berkas dokumentasi resmi proyek Tugas Besar ini disimpan di dalam folder [`docs/`](./docs/):
 - 📄 **Laporan Akhir Tugas Besar (PDF)**: [`Laporan_Tugas_Besar_PBO.pdf`](./docs/Laporan_Tugas_Besar_PBO.pdf)
 - 📊 **UML Class Diagram (PDF)**: [`Class_Diagram_Cartify.pdf`](./docs/Class_Diagram_Cartify.pdf)
-- 🛠️ **UML Source Codes**:
-  - [class_diagram.mermaid](./docs/class_diagram.mermaid) (Mermaid Format)
-  - [class_diagram.puml](./docs/class_diagram.puml) (PlantUML Format)
 
 ---
 

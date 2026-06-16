@@ -1,0 +1,17 @@
+{
+  "name": "cartify-monorepo",
+  "version": "1.0.0",
+  "description": "Cartify Full-Stack Monorepo",
+  "scripts": {
+    "install:all": "npm install --prefix frontend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "run-backend.bat",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "\"C:\\Users\\Ryan Maulana\\.m2\\wrapper\\dists\\apache-maven-3.6.3-bin\\1iopthnavndlasol9gbrbg6bf2\\apache-maven-3.6.3\\bin\\mvn.cmd\" -f backend/pom.xml clean package",
+    "build": "npm run build:frontend && npm run build:backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

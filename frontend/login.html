@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Masuk atau Daftar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --cartify-green: #00aa5b;
+            --bg-light: #f4f6f9;
+        }
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #00aa5b, #008f4c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .login-body {
+            padding: 40px 30px;
+        }
+        .nav-tabs-custom {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 30px;
+        }
+        .nav-link-custom {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            color: #6c757d;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .nav-link-custom.active {
+            color: var(--cartify-green);
+            border-bottom-color: var(--cartify-green);
+        }
+        .form-control-custom {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+        }
+        .form-control-custom:focus {
+            border-color: var(--cartify-green);
+            box-shadow: 0 0 0 0.2rem rgba(0, 170, 91, 0.15);
+        }
+        .btn-custom {
+            background-color: var(--cartify-green);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .btn-custom:hover {
+            background-color: #008f4c;
+            color: white;
+        }
+        .role-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .role-btn {
+            flex: 1;
+            border: 2px solid #e3e6f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.2s;
+        }
+        .role-btn.active {
+            border-color: var(--cartify-green);
+            color: var(--cartify-green);
+            background-color: rgba(0, 170, 91, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card shadow-lg">
+        <div class="login-header">
+            <h3 class="fw-bold mb-1"><i class="fa-solid fa-cart-shopping me-2"></i>Cartify</h3>
+            <p class="mb-0 opacity-75">Platform E-Commerce Modern, Aman, dan Tepercaya</p>
+        </div>
+        
+        <div class="login-body">
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs-custom">
+                <a href="#" class="nav-link-custom active" id="tabLogin" onclick="switchTab('login')">Masuk</a>
+                <a href="#" class="nav-link-custom" id="tabRegister" onclick="switchTab('register')">Daftar Akun</a>
+            </div>
+
+            <!-- FORM LOGIN -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small text-muted">Email / Username</label>
+                    <input type="email" id="loginEmail" class="form-control form-control-custom" placeholder="contoh@student.telkomuniversity.ac.id" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small text-muted">Password</label>
+                    <input type="password" id="loginPassword" class="form-control form-control-custom" placeholder="Password Anda..." required>
+                </div>
+                <button type="submit" class="btn btn-custom w-100"><i class="fa-solid fa-right-to-bracket me-2"></i>Masuk Sekarang</button>
+            </form>
+
+            <!-- FORM REGISTER -->
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small text-muted">Pilih Peran Akun (Role)</label>
+                    <div class="role-btn-group">
+                        <div class="role-btn active" id="roleBuyer" onclick="setRole('Buyer')"><i class="fa-solid fa-user me-2"></i>Buyer</div>
+                        <div class="role-btn" id="roleSeller" onclick="setRole('Seller')"><i class="fa-solid fa-store me-2"></i>Seller</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small text-muted">Nama Lengkap</label>
+                    <input type="text" id="regName" class="form-control form-control-custom" placeholder="Nama lengkap Anda..." required>
+                </div>
+                <div class="mb-3" id="shopNameGroup" style="display: none;">
+                    <label class="form-label fw-semibold small text-muted">Nama Toko (Khusus Seller)</label>
+                    <input type="text" id="regShopName" class="form-control form-control-custom" placeholder="Nama toko online Anda...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small text-muted">Email</label>
+                    <input type="email" id="regEmail" class="form-control form-control-custom" placeholder="contoh@student.telkomuniversity.ac.id" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small text-muted">Password</label>
+                    <input type="password" id="regPassword" class="form-control form-control-custom" placeholder="Buat password aman..." required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small text-muted">Alamat Lengkap</label>
+                    <textarea id="regAddress" class="form-control form-control-custom" rows="2" placeholder="Alamat rumah..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-custom w-100"><i class="fa-solid fa-user-plus me-2"></i>Daftar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedRole = 'Buyer';
+
+        function switchTab(mode) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+
+            if (mode === 'login') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                tabLogin.classList.remove('active');
+                tabRegister.classList.add('active');
+            }
+        }
+
+        function setRole(role) {
+            selectedRole = role;
+            const buyerBtn = document.getElementById('roleBuyer');
+            const sellerBtn = document.getElementById('roleSeller');
+            const shopNameGroup = document.getElementById('shopNameGroup');
+            const shopInput = document.getElementById('regShopName');
+
+            if (role === 'Buyer') {
+                buyerBtn.classList.add('active');
+                sellerBtn.classList.remove('active');
+                shopNameGroup.style.display = 'none';
+                shopInput.removeAttribute('required');
+            } else {
+                buyerBtn.classList.remove('active');
+                sellerBtn.classList.add('active');
+                shopNameGroup.style.display = 'block';
+                shopInput.setAttribute('required', 'required');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Login Berhasil! Selamat datang di Cartify.');
+                    if (data.role === 'Seller') {
+                        window.location.href = 'seller-dashboard.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Error logging in:', err));
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const shopName = document.getElementById('regShopName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const address = document.getElementById('regAddress').value;
+
+            let bodyParams = `role=${encodeURIComponent(selectedRole)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&address=${encodeURIComponent(address)}`;
+            if (selectedRole === 'Seller') {
+                bodyParams += `&shopName=${encodeURIComponent(shopName)}`;
+            }
+
+            fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: bodyParams
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Pendaftaran Akun Berhasil! Silakan Masuk menggunakan email Anda.');
+                    switchTab('login');
+                    document.getElementById('loginEmail').value = email;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Error registering:', err));
+        }
+    </script>
+</body>
+</html>

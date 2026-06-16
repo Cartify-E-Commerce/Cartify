@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify Seller Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --cartify-green: #00aa5b; --bg-light: #f0f3f7; }
+        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; width: 260px; padding: 20px; background-color: white; border-right: 1px solid #e3e6f0; }
+        .sidebar .nav-link { font-weight: 500; color: #6c757d; padding: 12px 15px; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .sidebar .nav-link:hover { background-color: #f8f9fa; color: var(--cartify-green); }
+        .sidebar .nav-link.active { background-color: rgba(0, 170, 91, 0.1); color: var(--cartify-green); font-weight: bold; }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .navbar-top { background-color: white; border-bottom: 1px solid #e3e6f0; padding: 15px 40px; margin-left: 260px; }
+        .card-stat { border: none; border-radius: 12px; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s; }
+        .card-stat:hover { transform: translateY(-3px); }
+        .stat-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="d-flex align-items-center mb-4 px-2">
+            <h3 class="fw-bold" style="color: var(--cartify-green);"><i class="fa-solid fa-bag-shopping me-2"></i>Cartify</h3>
+            <span class="badge bg-dark ms-2" style="font-size: 10px;">Seller</span>
+        </div>
+        <hr class="text-muted">
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link active" href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a class="nav-link" href="buyer-dashboard.html"><i class="fa-solid fa-user"></i> Dashboard Buyer</a>
+            <a class="nav-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda</a>
+            <a class="nav-link text-danger" href="#" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Keluar</a>
+        </nav>
+    </div>
+
+    <div class="navbar-top d-flex justify-content-end align-items-center sticky-top shadow-sm">
+        <div class="d-flex align-items-center gap-4">
+            <a href="buyer-dashboard.html" class="text-secondary position-relative"><i class="fa-regular fa-bell fs-4"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="navNotifBadge" style="font-size: 10px; display: none;">0</span></a>
+            <div class="vr text-muted" style="height: 24px;"></div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 38px; height: 38px;">T</div>
+                <div><p class="mb-0 fw-bold lh-1" id="shopNameHeader">Toko Ryan</p><small class="text-muted" style="font-size: 12px;">Seller Regular</small></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-1" id="sellerWelcomeName">Selamat Datang di Seller Center, Ryan!</h3>
+                <p class="text-muted mb-0">Berikut adalah performa toko online kamu secara real-time.</p>
+            </div>
+            <button onclick="window.location.reload();" class="btn btn-outline-success rounded-pill fw-bold"><i class="fa-solid fa-sync me-1"></i>Refresh Data</button>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card-stat p-4 bg-white d-flex align-items-center justify-content-between">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Total Pendapatan</small>
+                        <h4 class="fw-bold mb-0 mt-1" id="statPenjualan" style="color: var(--cartify-green);">Rp 0</h4>
+                    </div>
+                    <div class="stat-icon bg-success-subtle text-success"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat p-4 bg-white d-flex align-items-center justify-content-between">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Transaksi Penjualan</small>
+                        <h4 class="fw-bold mb-0 mt-1 text-warning" id="statPesanan">0</h4>
+                    </div>
+                    <div class="stat-icon bg-warning-subtle text-warning"><i class="fa-solid fa-boxes-stacked"></i></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat p-4 bg-white d-flex align-items-center justify-content-between">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Total Produk Toko</small>
+                        <h4 class="fw-bold mb-0 mt-1 text-secondary" id="statProduk">0 Item</h4>
+                    </div>
+                    <div class="stat-icon bg-light text-secondary"><i class="fa-solid fa-box-archive"></i></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat p-4 bg-white d-flex align-items-center justify-content-between">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Notifikasi Belum Dibaca</small>
+                        <h4 class="fw-bold mb-0 mt-1 text-primary" id="statNotif">0</h4>
+                    </div>
+                    <div class="stat-icon bg-primary-subtle text-primary"><i class="fa-regular fa-bell"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Kolom Kiri: Form Tambah Produk Baru -->
+            <div class="col-lg-5">
+                <div class="card border-0 p-4 shadow-sm" style="border-radius: 12px; background-color: white;">
+                    <h5 class="fw-bold mb-3 text-success"><i class="fa-solid fa-plus-circle me-2"></i>Tambah Produk Baru</h5>
+                    <form id="addProductForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">ID Produk</label>
+                            <input type="text" id="prodId" class="form-control" placeholder="Contoh: E03, M03" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Nama Produk</label>
+                            <input type="text" id="prodNama" class="form-control" placeholder="Nama barang..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Kategori</label>
+                            <select id="prodKategori" class="form-select" onchange="adjustInfoKhususPlaceholder()" required>
+                                <option value="Elektronik">Elektronik</option>
+                                <option value="Makanan">Makanan</option>
+                                <option value="Pakaian">Pakaian</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-semibold small">Harga (Rupiah)</label>
+                                <input type="number" id="prodHarga" class="form-control" placeholder="100000" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-semibold small">Stok Awal</label>
+                                <input type="number" id="prodStok" class="form-control" placeholder="10" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" id="infoKhususLabel">Garansi (Bulan)</label>
+                            <input type="text" id="prodInfoKhusus" class="form-control" placeholder="Masukkan lama garansi dalam angka..." required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 rounded-pill fw-bold py-2"><i class="fa-solid fa-save me-1"></i>Simpan Produk</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Daftar Produk Aktif -->
+            <div class="col-lg-7">
+                <div class="card border-0 p-4 shadow-sm" style="border-radius: 12px; background-color: white; margin-bottom: 24px;">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-boxes-flat text-success me-2"></i>Daftar Produk Aktif</h5>
+                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sellerProductList">
+                                <!-- Baris produk dimuat dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PESANAN MASUK -->
+                <div class="card border-0 p-4 shadow-sm" style="border-radius: 12px; background-color: white;">
+                    <h5 class="fw-bold mb-3 text-warning"><i class="fa-solid fa-boxes-stacked me-2"></i>Pesanan Masuk (Kelola Transaksi)</h5>
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID Transaksi</th>
+                                    <th>Pembeli</th>
+                                    <th>Item</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="incomingOrdersList">
+                                <!-- Baris pesanan masuk dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="card border-0 p-4 shadow-sm" style="border-radius: 12px;">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-success me-2"></i>Grafik Pendapatan Toko</h5>
+                    <div style="position: relative; height:240px; width:100%"><canvas id="revenueChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSummary();
+            loadProducts();
+            loadIncomingOrders();
+            initChart();
+
+            // Refresh data pesanan secara real-time setiap 4 detik
+            setInterval(() => {
+                loadSummary();
+                loadIncomingOrders();
+            }, 4000);
+        });
+
+        function adjustInfoKhususPlaceholder() {
+            const kat = document.getElementById('prodKategori').value;
+            const label = document.getElementById('infoKhususLabel');
+            const input = document.getElementById('prodInfoKhusus');
+
+            if (kat === 'Elektronik') {
+                label.innerText = 'Garansi (Bulan)';
+                input.placeholder = 'Contoh: 12';
+                input.type = 'number';
+            } else if (kat === 'Makanan') {
+                label.innerText = 'Tanggal Kadaluarsa';
+                input.placeholder = 'YYYY-MM-DD (Contoh: 2026-06-05)';
+                input.type = 'text';
+            } else if (kat === 'Pakaian') {
+                label.innerText = 'Ukuran';
+                input.placeholder = 'S, M, L, XL, atau All Size';
+                input.type = 'text';
+            }
+        }
+
+        function loadSummary() {
+            fetch('/api/dashboard/summary')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        alert('Akses Ditolak: Harap masuk/login terlebih dahulu!');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    if (data.role !== 'Seller') {
+                        alert('Akses Ditolak: Halaman ini khusus untuk Akun Toko Seller. Mengarahkan Anda ke beranda...');
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    document.getElementById('sellerWelcomeName').innerText = `Selamat Datang di Seller Center, ${data.name}!`;
+                    document.getElementById('shopNameHeader').innerText = data.name;
+
+                    const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(data.totalPenjualan);
+                    document.getElementById('statPenjualan').innerText = formatHarga;
+                    document.getElementById('statPesanan').innerText = `${data.pesananMasuk} Transaksi`;
+                    document.getElementById('statProduk').innerText = `${data.totalProduk} Item`;
+                    document.getElementById('statNotif').innerText = data.unreadNotifications;
+
+                    const badge = document.getElementById('navNotifBadge');
+                    if (badge) {
+                        badge.innerText = data.unreadNotifications;
+                        badge.style.display = data.unreadNotifications === 0 ? 'none' : 'inline-block';
+                    }
+                })
+                .catch(err => console.error('Error fetching summary:', err));
+        }
+
+        function loadProducts() {
+            const tbody = document.getElementById('sellerProductList');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border spinner-border-sm text-success" role="status"></div></td></tr>';
+
+            fetch('/api/products')
+                .then(res => res.json())
+                .then(products => {
+                    tbody.innerHTML = '';
+                    if (products.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Belum ada produk terdaftar.</td></tr>';
+                        return;
+                    }
+
+                    products.forEach(p => {
+                        const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.harga);
+                        const row = `
+                            <tr>
+                                <td><code>${p.id}</code></td>
+                                <td>
+                                    <div class="fw-bold">${p.namaProduk}</div>
+                                    <small class="text-muted">Stok: ${p.stok} | Rating: ${p.rating.toFixed(1)}</small>
+                                </td>
+                                <td><span class="badge bg-success-subtle text-success border border-success-subtle">${p.kategori}</span></td>
+                                <td class="fw-semibold">${formatHarga}</td>
+                                <td class="text-center">
+                                    <button onclick="deleteProduct('${p.id}')" class="btn btn-sm btn-outline-danger border-0 rounded-circle" title="Hapus"><i class="fa-regular fa-trash-can fs-5"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching products:', err);
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Gagal memuat produk.</td></tr>';
+                });
+        }
+
+        function loadIncomingOrders() {
+            const tbody = document.getElementById('incomingOrdersList');
+            fetch('/api/orders')
+                .then(res => res.json())
+                .then(orders => {
+                    tbody.innerHTML = '';
+                    if (orders.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Belum ada pesanan masuk.</td></tr>';
+                        return;
+                    }
+
+                    orders.reverse().forEach(o => {
+                        let itemNames = o.items.map(i => `${i.nama} (x${i.quantity})`).join(', ');
+                        const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(o.totalAmount);
+                        
+                        let badgeColor = 'bg-secondary';
+                        if (o.status === 'PENDING') badgeColor = 'bg-dark';
+                        else if (o.status === 'PROCESSING') badgeColor = 'bg-warning text-dark';
+                        else if (o.status === 'SHIPPED') badgeColor = 'bg-primary';
+                        else if (o.status === 'DELIVERED') badgeColor = 'bg-success';
+                        else if (o.status === 'CANCELLED') badgeColor = 'bg-danger';
+
+                        let actionButtons = '';
+                        if (o.status === 'PROCESSING') {
+                            actionButtons = `
+                                <button onclick="updateOrderStatus('${o.transactionId}', 'SHIPPED')" class="btn btn-sm btn-primary rounded-pill px-2 py-1 small fw-bold" style="font-size: 11px;"><i class="fa-solid fa-truck-fast me-1"></i>Kirim</button>
+                            `;
+                        } else if (o.status === 'SHIPPED') {
+                            actionButtons = `
+                                <button onclick="updateOrderStatus('${o.transactionId}', 'DELIVERED')" class="btn btn-sm btn-success rounded-pill px-2 py-1 small fw-bold" style="font-size: 11px;"><i class="fa-solid fa-check me-1"></i>Selesaikan</button>
+                            `;
+                        } else {
+                            actionButtons = `<span class="text-muted small" style="font-size: 11px;"><i class="fa-solid fa-check-circle"></i> Selesai</span>`;
+                        }
+
+                        const row = `
+                            <tr>
+                                <td><code>${o.transactionId}</code></td>
+                                <td><div class="fw-semibold">${o.buyerName}</div></td>
+                                <td><div class="text-truncate" style="max-width: 150px;" title="${itemNames}">${itemNames}</div></td>
+                                <td class="fw-bold">${formatHarga}</td>
+                                <td><span class="badge ${badgeColor} text-uppercase" style="font-size: 10px;">${o.status}</span></td>
+                                <td class="text-center">${actionButtons}</td>
+                            </tr>
+                        `;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(err => console.error('Error fetching incoming orders:', err));
+        }
+
+        function updateOrderStatus(transactionId, status) {
+            fetch('/api/orders/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `transactionId=${encodeURIComponent(transactionId)}&status=${encodeURIComponent(status)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    loadIncomingOrders();
+                    loadSummary();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Error updating order status:', err));
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('prodId').value;
+            const nama = document.getElementById('prodNama').value;
+            const kategori = document.getElementById('prodKategori').value;
+            const harga = document.getElementById('prodHarga').value;
+            const stok = document.getElementById('prodStok').value;
+            const infoKhusus = document.getElementById('prodInfoKhusus').value;
+
+            const bodyParams = `id=${encodeURIComponent(id)}&nama=${encodeURIComponent(nama)}&kategori=${encodeURIComponent(kategori)}&harga=${encodeURIComponent(harga)}&stok=${encodeURIComponent(stok)}&infoKhusus=${encodeURIComponent(infoKhusus)}`;
+
+            fetch('/api/products/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: bodyParams
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Produk berhasil ditambahkan!');
+                    document.getElementById('addProductForm').reset();
+                    adjustInfoKhususPlaceholder();
+                    loadProducts();
+                    loadSummary();
+                } else {
+                    alert('Gagal menambahkan produk!');
+                }
+            })
+            .catch(err => console.error('Error adding product:', err));
+        });
+
+        function deleteProduct(id) {
+            if (!confirm(`Apakah Anda yakin ingin menghapus produk dengan ID ${id}?`)) {
+                return;
+            }
+
+            fetch('/api/products/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${encodeURIComponent(id)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                loadProducts();
+                loadSummary();
+            })
+            .catch(err => console.error('Error deleting product:', err));
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx, { 
+                type: 'bar', 
+                data: { 
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], 
+                    datasets: [{ 
+                        label: 'Pendapatan (Rupiah)', 
+                        data: [1200000, 1900000, 3000000, 2500000, 4500000, 3800000], 
+                        backgroundColor: '#00aa5b', 
+                        borderRadius: 6 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false 
+                } 
+            });
+        }
+
+        function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                fetch('/api/logout')
+                    .then(res => res.json())
+                    .then(() => {
+                        window.location.href = 'login.html';
+                    })
+                    .catch(err => console.error(err));
+            }
+        }
+    </script>
+</body>
+</html>

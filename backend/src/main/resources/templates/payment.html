@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Halaman Pembayaran</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-primary: #059669;
+            --emerald-light: #10b981;
+            --emerald-accent: #e6f4ea;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-light: rgba(15, 23, 42, 0.05);
+            --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 45px rgba(15, 23, 42, 0.06);
+        }
+        body {
+            background-color: var(--bg-main);
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .invoice-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 680px;
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .invoice-card:hover {
+            border-color: var(--emerald-light);
+            box-shadow: 0 25px 60px rgba(5, 150, 105, 0.06);
+        }
+        .invoice-header {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.02) 100%);
+            border-bottom: 1px solid var(--border-light);
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .invoice-body {
+            padding: 35px 30px;
+        }
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--emerald-primary);
+            text-shadow: 0 2px 10px var(--emerald-glow);
+            letter-spacing: -1px;
+        }
+        .details-box {
+            background: var(--bg-main);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+        .item-row {
+            border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+            padding: 14px 0;
+        }
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        .form-label-custom {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Payment Methods Grid */
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        @media (max-width: 576px) {
+            .payment-methods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .payment-method-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+        .payment-method-card:hover {
+            border-color: var(--emerald-light);
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--emerald-glow);
+        }
+        .payment-method-card.selected {
+            border-color: var(--emerald-primary);
+            background: rgba(16, 185, 129, 0.06);
+            box-shadow: 0 8px 25px var(--emerald-glow);
+        }
+        .payment-method-card.selected::after {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--emerald-primary);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+        }
+        .method-icon {
+            font-size: 20px;
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .payment-method-card.selected .method-icon {
+            background: var(--emerald-primary);
+            color: #ffffff;
+        }
+        .method-details h6 {
+            margin: 0 0 2px 0;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .method-details small {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.2);
+            filter: brightness(1.05);
+            color: white;
+        }
+        .btn-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .btn-back:hover {
+            color: var(--text-primary);
+        }
+        .alert-custom {
+            border-radius: 16px;
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #ef4444;
+            font-size: 14px;
+            padding: 16px 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-card shadow-lg">
+        <div class="invoice-header">
+            <h3 class="fw-bold mb-1"><i class="fa-solid fa-credit-card me-2"></i>Invoice Pembayaran</h3>
+            <p class="mb-0 small text-secondary" th:text="${'ID Transaksi: ' + transaction.transactionId}">ID Transaksi: TX-123456</p>
+            <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 px-3 py-2 fw-bold" style="border-radius: 20px; font-size: 11px;">PENDING & UNPAID</span>
+        </div>
+        
+        <div class="invoice-body">
+            <!-- Alert Error jika pembayaran kurang -->
+            <div th:if="${param.error}" class="alert alert-custom mb-4 d-flex align-items-start gap-3" role="alert">
+                <i class="fa-solid fa-triangle-exclamation fs-5 mt-0.5"></i>
+                <div>
+                    <b class="d-block mb-1" style="color: var(--text-primary);">Pembayaran Gagal!</b> Uang yang Anda bayarkan kurang dari total tagihan. Harap masukkan nominal yang pas atau lebih.
+                </div>
+            </div>
+
+            <div class="text-center mb-5">
+                <span class="small text-secondary fw-bold text-uppercase d-block mb-1" style="letter-spacing: 0.5px;">TOTAL YANG HARUS DIBAYAR</span>
+                <span class="price-tag" th:text="${'Rp ' + #numbers.formatInteger(transaction.totalAmount, 0, 'POINT')}">Rp 14.500.000</span>
+            </div>
+
+            <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-list-check me-2" style="color: var(--emerald-primary);"></i>Rincian Belanjaan</h5>
+            <div class="details-box">
+                <div th:each="item : ${transaction.itemList}" class="item-row d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fw-bold text-dark" th:text="${item.product.name}">Nama Produk</span>
+                        <span class="text-secondary d-block small mt-1" th:text="${item.quantity + ' x Rp ' + #numbers.formatInteger(item.product.price, 0, 'POINT')}">1 x Rp 14.500.000</span>
+                    </div>
+                    <span class="fw-bold" style="color: var(--emerald-primary);" th:text="${'Rp ' + #numbers.formatInteger(item.calculateSubtotal(), 0, 'POINT')}">Rp 14.500.000</span>
+                </div>
+            </div>
+
+            <!-- Form Pembayaran menggunakan Payable.pay() -->
+            <form th:action="@{/payment/process}" method="POST" class="mb-2">
+                <input type="hidden" name="transactionId" th:value="${transaction.transactionId}">
+                <input type="hidden" id="amount" name="amount" th:value="${transaction.totalAmount}">
+                
+                <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-wallet me-2" style="color: var(--emerald-primary);"></i>Pilih Metode Pembayaran</h5>
+                
+                <div class="payment-methods-grid">
+                    <!-- Bank BCA -->
+                    <div class="payment-method-card selected" onclick="selectPaymentMethod('bca', event)">
+                        <div class="method-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="method-details">
+                            <h6>BCA Virtual Account</h6>
+                            <small>Verifikasi Otomatis</small>
+                        </div>
+                    </div>
+                    <!-- Bank Mandiri -->
+                    <div class="payment-method-card" onclick="selectPaymentMethod('mandiri', event)">
+                        <div class="method-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="method-details">
+                            <h6>Mandiri VA</h6>
+                            <small>Verifikasi Otomatis</small>
+                        </div>
+                    </div>
+                    <!-- GoPay -->
+                    <div class="payment-method-card" onclick="selectPaymentMethod('gopay', event)">
+                        <div class="method-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <div class="method-details">
+                            <h6>GoPay / QRIS</h6>
+                            <small>Bayar Instan 1-Klik</small>
+                        </div>
+                    </div>
+                    <!-- DANA -->
+                    <div class="payment-method-card" onclick="selectPaymentMethod('dana', event)">
+                        <div class="method-icon"><i class="fa-solid fa-wallet"></i></div>
+                        <div class="method-details">
+                            <h6>DANA Wallet</h6>
+                            <small>Bayar Instan</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Petunjuk Pembayaran Dinamis -->
+                <div class="details-box p-3 mb-4 text-secondary small" id="paymentInstructions">
+                    <i class="fa-solid fa-circle-info me-2 text-success"></i>
+                    <span>Metode terpilih: <b>BCA Virtual Account</b>. Tekan "Bayar Lunas Sekarang" untuk menyimulasikan pembayaran virtual yang didebit secara real-time dari saldo Anda.</span>
+                </div>
+
+                <div class="d-flex flex-column gap-3 align-items-center mt-4">
+                    <button type="submit" class="btn btn-pay w-100 fs-5"><i class="fa-solid fa-circle-check me-2"></i>Bayar Lunas Sekarang</button>
+                    <a th:href="@{/buyer/dashboard}" class="btn-back"><i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Dashboard (Bayar Nanti)</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectPaymentMethod(methodName, event) {
+            // Remove selected class from all method cards
+            const cards = document.querySelectorAll('.payment-method-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            // Add selected class to the clicked card
+            event.currentTarget.classList.add('selected');
+            
+            // Update payment instructions dynamically
+            const instructions = document.getElementById('paymentInstructions');
+            let friendlyName = "";
+            let description = "";
+            
+            switch(methodName) {
+                case 'bca':
+                    friendlyName = "BCA Virtual Account";
+                    description = "Tekan 'Bayar Lunas Sekarang' untuk memproses simulasi Virtual Account BCA. Saldo Anda akan didebit secara otomatis.";
+                    break;
+                case 'mandiri':
+                    friendlyName = "Mandiri Virtual Account";
+                    description = "Gunakan Virtual Account Mandiri untuk pembayaran instan dan verifikasi tanpa upload bukti transfer.";
+                    break;
+                case 'gopay':
+                    friendlyName = "GoPay / QRIS";
+                    description = "QRIS instan akan disimulasikan. Pembayaran Anda akan diverifikasi dalam 5 detik setelah pembayaran.";
+                    break;
+                case 'dana':
+                    friendlyName = "DANA Wallet";
+                    description = "DANA Checkout instan akan memproses pembayaran ini langsung dari saldo dompet digital DANA Anda.";
+                    break;
+            }
+            
+            instructions.innerHTML = `<i class="fa-solid fa-circle-info me-2 text-success"></i>Metode terpilih: <b>${friendlyName}</b>. ${description}`;
+        }
+    </script>
+</body>
+</html>

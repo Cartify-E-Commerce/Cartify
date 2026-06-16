@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartify - Akun Saya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --cartify-green: #00aa5b; --bg-light: #f8f9fa; }
+        body { background-color: var(--bg-light); font-family: 'Segoe UI', sans-serif; }
+        .navbar-custom { background-color: white; border-bottom: 1px solid #e3e6f0; }
+        .profile-banner { background: linear-gradient(135deg, #00aa5b 0%, #008f4c 100%); color: white; border-radius: 16px; border: none; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); background-color: white; }
+        .badge-status { font-size: 11px; padding: 6px 14px; border-radius: 20px; font-weight: bold; }
+        .nav-profile-link { color: #495057; font-weight: 500; padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-profile-link:hover, .nav-profile-link.active { background-color: rgba(0, 170, 91, 0.08); color: var(--cartify-green); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom py-3 sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="index.html" style="color: var(--cartify-green) !important;">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Cartify
+            </a>
+            <div class="d-flex align-items-center ms-auto gap-4">
+                <a href="seller-dashboard.html" class="btn btn-outline-success btn-sm fw-bold rounded-pill px-3"><i class="fa-solid fa-store me-1"></i>Beralih ke Seller</a>
+                <div class="vr text-muted" style="height: 20px;"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 36px; height: 36px;">R</div>
+                    <span class="fw-bold d-none d-md-inline" id="navBuyerName" style="font-size: 14px;">Ryan Maulana</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="card-custom p-3">
+                    <div class="text-center py-3">
+                        <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center fw-bold mx-auto mb-2" style="width: 64px; height: 64px; font-size: 24px;">R</div>
+                        <h6 class="fw-bold mb-0" id="sidebarBuyerName">Ryan Maulana B. P.</h6>
+                        <small class="text-muted" id="sidebarRole">Member Buyer</small>
+                    </div>
+                    <hr class="text-muted my-2">
+                    <nav class="nav flex-column mt-2">
+                        <a class="nav-profile-link active" href="#"><i class="fa-regular fa-user"></i> Profil Saya</a>
+                        <a class="nav-profile-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Belanja Lagi</a>
+                        <a class="nav-profile-link text-danger" href="#" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Keluar</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="card profile-banner p-4 shadow-sm mb-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-9 text-center text-md-start">
+                            <h3 class="fw-bold mb-1" id="profileHeaderName">Ryan Maulana Bagus Putra</h3>
+                            <p class="mb-0 opacity-75" style="font-size: 14px;"><i class="fa-regular fa-envelope me-1"></i> <span id="profileHeaderEmail">ryanmaulana@student.telkomuniversity.ac.id</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTIFIKASI SYSTEM (OBSERVER PATTERN) -->
+                <div class="card-custom p-4 mb-4 border-start border-4 border-success">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-dark"><i class="fa-regular fa-bell me-2 text-success"></i>Notifikasi Real-time (Observer Pattern)</h5>
+                        <button onclick="markAllNotificationsRead()" class="btn btn-sm btn-outline-success fw-bold px-3 py-1 rounded-pill"><i class="fa-solid fa-check-double me-1"></i>Tandai Semua Dibaca</button>
+                    </div>
+                    <div class="d-flex flex-column gap-2" id="notificationContainer" style="max-height: 250px; overflow-y: auto;">
+                        <!-- Notifikasi dinamis dari Observer pattern di-render disini -->
+                    </div>
+                </div>
+
+                <!-- DAFTAR PESANAN AKTIF (TRANSAKSI) -->
+                <div class="card-custom p-4 mb-4 border-start border-4 border-warning">
+                    <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-truck-fast me-2 text-warning"></i>Pesanan & Transaksi Aktif</h5>
+                    <div class="d-flex flex-column gap-3" id="activeOrdersContainer">
+                        <!-- Transaksi dimuat disini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadNotifications();
+            loadOrders();
+
+            // Refresh data pesanan dan notifikasi real-time setiap 4 detik
+            setInterval(() => {
+                loadNotifications();
+                loadOrders();
+            }, 4000);
+        });
+
+        function loadProfile() {
+            fetch('/api/buyer/profile')
+                .then(res => res.json())
+                .then(p => {
+                    if (p.role === 'Guest') {
+                        alert('Akses Ditolak: Harap masuk/login terlebih dahulu!');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    if (p.role !== 'Buyer') {
+                        alert('Akses Ditolak: Halaman ini khusus untuk akun Buyer. Mengarahkan Anda ke beranda...');
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    document.getElementById('navBuyerName').innerText = p.name;
+                    document.getElementById('sidebarBuyerName').innerText = p.name;
+                    document.getElementById('profileHeaderName').innerText = p.name;
+                    document.getElementById('profileHeaderEmail').innerText = p.email;
+                    document.getElementById('sidebarRole').innerText = `Role: ${p.role}`;
+                })
+                .catch(err => console.error('Error fetching profile:', err));
+        }
+
+        function loadNotifications() {
+            const container = document.getElementById('notificationContainer');
+
+            fetch('/api/notifications')
+                .then(res => res.json())
+                .then(notifications => {
+                    container.innerHTML = '';
+                    if (notifications.length === 0) {
+                        container.innerHTML = '<div class="text-center py-3 text-muted">Belum ada notifikasi baru.</div>';
+                        return;
+                    }
+
+                    notifications.reverse().forEach(n => {
+                        const unreadClass = n.isRead ? 'bg-light text-secondary opacity-75' : 'bg-success-subtle border-success-subtle text-dark fw-semibold';
+                        const checkIcon = n.isRead ? '<i class="fa-solid fa-envelope-open text-muted"></i>' : '<i class="fa-solid fa-envelope text-success"></i>';
+
+                        const itemHtml = `
+                            <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center ${unreadClass}">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="fs-4">${checkIcon}</div>
+                                    <div>
+                                        <div style="font-size: 14px;">${n.message}</div>
+                                        <small class="text-muted" style="font-size: 11px;">${n.createdAt}</small>
+                                    </div>
+                                </div>
+                                ${!n.isRead ? `<button onclick="markNotificationRead('${n.notificationId}')" class="btn btn-sm btn-light py-1 px-2 border rounded" title="Tandai dibaca"><i class="fa-solid fa-check"></i></button>` : ''}
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', itemHtml);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching notifications:', err);
+                });
+        }
+
+        function markNotificationRead(id) {
+            fetch('/api/notifications/read', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `notificationId=${encodeURIComponent(id)}`
+            })
+            .then(res => res.json())
+            .then(() => loadNotifications())
+            .catch(err => console.error('Error:', err));
+        }
+
+        function markAllNotificationsRead() {
+            fetch('/api/notifications/read', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(res => res.json())
+            .then(() => loadNotifications())
+            .catch(err => console.error('Error:', err));
+        }
+
+        function loadOrders() {
+            const container = document.getElementById('activeOrdersContainer');
+            fetch('/api/orders')
+                .then(res => res.json())
+                .then(orders => {
+                    container.innerHTML = '';
+                    if (orders.length === 0) {
+                        container.innerHTML = '<div class="text-center py-5 text-muted"><i class="fa-solid fa-truck-fast fs-1 mb-3 d-block opacity-25"></i>Anda belum memiliki riwayat pesanan. Mulailah berbelanja!</div>';
+                        return;
+                    }
+
+                    orders.reverse().forEach(o => {
+                        let badgeColor = 'bg-secondary';
+                        if (o.status === 'PENDING') badgeColor = 'bg-dark';
+                        else if (o.status === 'PROCESSING') badgeColor = 'bg-warning text-dark';
+                        else if (o.status === 'SHIPPED') badgeColor = 'bg-primary';
+                        else if (o.status === 'DELIVERED') badgeColor = 'bg-success';
+                        else if (o.status === 'CANCELLED') badgeColor = 'bg-danger';
+
+                        let itemNames = o.items.map(i => `${i.nama} (${i.quantity}x)`).join(', ');
+                        const formatHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(o.totalAmount);
+
+                        const orderHtml = `
+                            <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center bg-white shadow-sm">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-success-subtle text-success rounded d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; font-size: 20px;"><i class="fa-solid fa-receipt"></i></div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold" style="font-size: 15px;">${itemNames}</h6>
+                                        <small class="text-muted">${o.transactionId} • Total: <b>${formatHarga}</b> • Pembayaran: <span class="badge bg-success-subtle text-success border border-success-subtle px-2" style="font-size: 10px;">${o.paymentStatus}</span></small>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge ${badgeColor} badge-status text-uppercase">${o.status}</span>
+                                    <div class="mt-1" style="font-size: 11px; color: #aaa;">${o.createdAt}</div>
+                                </div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', orderHtml);
+                    });
+                })
+                .catch(err => console.error('Error fetching orders:', err));
+        }
+
+        function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                fetch('/api/logout')
+                    .then(res => res.json())
+                    .then(() => {
+                        window.location.href = 'login.html';
+                    })
+                    .catch(err => console.error(err));
+            }
+        }
+    </script>
+</body>
+</html>

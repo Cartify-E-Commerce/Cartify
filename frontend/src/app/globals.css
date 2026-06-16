@@ -1,0 +1,550 @@
+:root {
+    --cartify-green: #00aa5b;
+    --bg-light: #f4f6f9;
+}
+
+body {
+    background-color: var(--bg-light) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* Common Header/Navbar with Glassmorphism */
+.navbar-main {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.02) !important;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 700px;
+}
+
+.search-bar input {
+    border-radius: 24px 0 0 24px !important;
+    border: 2px solid #e3e6f0;
+    border-right: none;
+    padding: 10px 20px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: var(--cartify-green);
+    box-shadow: none;
+}
+
+.search-bar button {
+    border-radius: 0 24px 24px 0 !important;
+    background-color: var(--cartify-green);
+    color: white;
+    border: 2px solid var(--cartify-green);
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #008f4c;
+    border-color: #008f4c;
+}
+
+.carousel-item img {
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.category-box {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.category-item {
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s;
+}
+
+.category-item:hover {
+    transform: translateY(-5px);
+    color: var(--cartify-green);
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background-color: #f0f8f5;
+    color: var(--cartify-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 10px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+    border-color: var(--cartify-green);
+}
+
+.product-img-box {
+    height: 180px;
+    background-color: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 40px;
+}
+
+.product-price {
+    color: var(--cartify-green);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.rating-bar {
+    background-color: #e9ecef;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-bar-fill {
+    background-color: #ffc107;
+    height: 100%;
+}
+
+/* Login Card style */
+.login-card {
+    background: white;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+}
+
+.login-header {
+    background: linear-gradient(135deg, #00aa5b, #008f4c);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.login-body {
+    padding: 40px 30px;
+}
+
+.nav-tabs-custom {
+    display: flex;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 30px;
+}
+
+.nav-link-custom {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    color: #6c757d;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.nav-link-custom.active {
+    color: var(--cartify-green);
+    border-bottom-color: var(--cartify-green);
+}
+
+.form-control-custom {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+}
+
+.form-control-custom:focus {
+    border-color: var(--cartify-green);
+    box-shadow: 0 0 0 0.2rem rgba(0, 170, 91, 0.15);
+}
+
+.btn-custom {
+    background-color: var(--cartify-green);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-custom:hover {
+    background-color: #008f4c;
+    color: white;
+}
+
+.role-btn-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.role-btn {
+    flex: 1;
+    border: 2px solid #e3e6f0;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #6c757d;
+    transition: all 0.2s;
+}
+
+.role-btn.active {
+    border-color: var(--cartify-green);
+    color: var(--cartify-green);
+    background-color: rgba(0, 170, 91, 0.05);
+}
+
+/* Dashboard items */
+.dashboard-card {
+    background: white;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.badge-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.badge-pending {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.badge-paid {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+/* Card Custom */
+.card-custom {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+/* Nav Profile Link */
+.nav-profile-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: #495057;
+    text-decoration: none !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: 5px;
+}
+
+.nav-profile-link i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-profile-link:hover {
+    background-color: #f1f3f5;
+    color: #212529;
+}
+
+.nav-profile-link.active {
+    background-color: rgba(0, 170, 91, 0.08);
+    color: var(--cartify-green);
+    font-weight: 600;
+}
+
+.nav-profile-link.text-danger:hover {
+    background-color: #fff0f0;
+}
+
+/* Profile Banner */
+.profile-banner {
+    background: linear-gradient(135deg, #00aa5b, #028a4b);
+    color: white;
+    border-radius: 16px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-banner::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+/* Micro-animations and Shadow enhancements */
+.product-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
+    border-color: var(--cartify-green) !important;
+}
+
+.btn-custom {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 10px rgba(0, 170, 91, 0.2);
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 170, 91, 0.3);
+}
+
+.card-custom {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+
+/* Premium Visual Design Enhancements */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Premium Hover Glow States */
+.premium-hover-glow {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-hover-glow:hover {
+    box-shadow: 0 10px 30px rgba(0, 170, 91, 0.15);
+    border-color: rgba(0, 170, 91, 0.4);
+    transform: translateY(-4px);
+}
+
+/* Glassmorphism Accents */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.glass-panel-dark {
+    background: rgba(25, 28, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Soft Radial Gradient Backgrounds */
+.bg-gradient-soft {
+    background: radial-gradient(circle at 10% 20%, rgba(0, 170, 91, 0.05) 0%, rgba(255, 255, 255, 0) 90%);
+}
+
+/* Force Emerald Green Over Bootstrap Blue with High Specificity */
+html body .bg-primary, html body bg-primary {
+    background-color: #00aa5b !important;
+}
+html body .text-primary, html body text-primary {
+    color: #00aa5b !important;
+}
+html body .border-primary, html body border-primary {
+    border-color: #00aa5b !important;
+}
+html body .btn-primary, html body btn-primary {
+    background-color: #00aa5b !important;
+    border-color: #00aa5b !important;
+}
+html body .btn-primary:hover {
+    background-color: #008f4c !important;
+    border-color: #008f4c !important;
+}
+html body .bg-primary-container {
+    background-color: #00aa5b !important;
+}
+html body .text-on-primary {
+    color: #ffffff !important;
+}
+html body .bg-error {
+    background-color: #ba1a1a !important;
+}
+html body .bg-warning {
+    background-color: #ffc107 !important;
+}
+
+/* Custom Cartify Theme Overrides to completely eliminate blue colors */
+.cartify-brand-text, html body a.navbar-brand, html body .text-headline-lg {
+    color: #00aa5b !important;
+}
+.cartify-search-icon, html body .material-symbols-outlined {
+    color: #00aa5b !important;
+}
+html body .text-white-icon {
+    color: white !important;
+}
+.cartify-nav-link-active {
+    color: #00aa5b !important;
+    border-color: #00aa5b !important;
+}
+.cartify-btn-primary {
+    background-color: #00aa5b !important;
+    color: white !important;
+    border: none !important;
+}
+.cartify-btn-primary:hover {
+    background-color: #008f4c !important;
+    color: white !important;
+}
+.cartify-avatar {
+    background-color: #00aa5b !important;
+    color: white !important;
+}
+.cartify-dot-active {
+    background-color: #00aa5b !important;
+}
+.cartify-text-emerald {
+    color: #00aa5b !important;
+}
+.cartify-border-emerald {
+    border-color: #00aa5b !important;
+}
+.cartify-bg-emerald {
+    background-color: #00aa5b !important;
+}
+
+/* Premium Animations & Smooth Transitions */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Page Entrance animation */
+@keyframes pageEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main, .main-content, .login-card {
+    animation: pageEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth Interactive Elements */
+a, button, select, input, textarea, .nav-link-custom, .role-btn, .nav-profile-link {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Form input focus glow */
+.form-control-custom:focus, input.form-control:focus, select.form-select:focus, textarea.form-control:focus {
+    border-color: var(--cartify-green) !important;
+    box-shadow: 0 0 0 4px rgba(0, 170, 91, 0.12) !important;
+    transform: translateY(-1px);
+}
+
+/* Tab indicator sliding look */
+.nav-link-custom {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link-custom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--cartify-green);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.nav-link-custom.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Custom interactive scale-downs */
+button:active, .btn-custom:active, .role-btn:active, .nav-link-custom:active {
+    transform: scale(0.96) !important;
+}
+
+

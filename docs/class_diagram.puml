@@ -1,0 +1,254 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface Stockable {
+  +addStock(qty: int): void
+  +reduceStock(qty: int): void
+  +getStock(): int
+}
+
+interface Reviewable {
+  +addReview(r: Review): void
+  +getAverageRating(): double
+  +getAllReviews(): List<Review>
+}
+
+interface Payable {
+  +pay(amount: double): void
+  +getPaymentStatus(): String
+}
+
+interface Observer {
+  +update(statusMessage: String): void
+}
+
+interface Subject {
+  +registerObserver(o: Observer): void
+  +removeObserver(o: Observer): void
+  +notifyObservers(statusMessage: String): void
+}
+
+abstract class User {
+  #userId: String
+  #name: String
+  #email: String
+  #password: String
+  #address: String
+  #profilePhoto: String
+  #addresses: List<String>
+  #cart: Cart
+  #orderHistory: List<Transaction>
+  +User(...)
+  +addToCart(p: Product): void
+  +removeFromCart(id: String): void
+  +checkout(): Transaction
+  +checkout(...): Transaction
+  +login(): boolean
+  +logout(): void
+  +updateProfile(): void
+  +{abstract} getRole(): String
+}
+
+abstract class Product {
+  #productId: String
+  #name: String
+  #description: String
+  #price: double
+  #stock: int
+  #imageUrl: String
+  #seller: Seller
+  #reviewList: List<Review>
+  +Product(...)
+  +{abstract} getCategory(): String
+  +addStock(qty: int): void
+  +reduceStock(qty: int): void
+  +getStock(): int
+  +addReview(r: Review): void
+  +getAverageRating(): double
+  +getAllReviews(): List<Review>
+}
+
+class Buyer {
+  +Buyer(...)
+  +writeReview(r: Review): void
+  +viewDashboard(): void
+  +getRole(): String
+}
+
+class Seller {
+  -shopName: String
+  -productList: List<Product>
+  -totalRevenue: double
+  -shopCategory: String
+  +Seller(...)
+  +addProduct(p: Product): void
+  +removeProduct(id: String): void
+  +updateProduct(p: Product): void
+  +respondToReview(r: Review): void
+  +viewDashboard(): void
+  +getRole(): String
+  +addRevenue(amount: double): void
+}
+
+class Admin {
+  -adminLevel: int
+  +Admin(...)
+  +blockUser(u: User): void
+  +deleteProduct(id: String): void
+  +manageProducts(): void
+  +getRole(): String
+}
+
+class ElectronicProduct {
+  -brand: String
+  -warrantyMonths: int
+  +ElectronicProduct(...)
+  +getCategory(): String
+  +getWarrantyInfo(): String
+}
+
+class FashionProduct {
+  -size: String
+  -material: String
+  -color: String
+  +FashionProduct(...)
+  +getCategory(): String
+  +getAvailableSizes(): List<String>
+}
+
+class FoodProduct {
+  -expiryDate: Date
+  -weightGram: double
+  +FoodProduct(...)
+  +getCategory(): String
+  +isExpired(): boolean
+}
+
+class Cart {
+  -cartId: String
+  -buyer: User
+  -itemList: List<OrderItem>
+  +Cart(...)
+  +addItem(item: OrderItem): void
+  +removeItem(productId: String): void
+  +calculateTotal(): double
+  +clearCart(): void
+}
+
+class OrderItem {
+  -id: Long
+  -product: Product
+  -quantity: int
+  +OrderItem(product: Product, quantity: int)
+  +calculateSubtotal(): double
+}
+
+class Transaction {
+  #transactionId: String
+  #buyer: User
+  #itemList: List<OrderItem>
+  #status: TransactionStatus
+  #totalAmount: double
+  #createdAt: Date
+  -paymentStatus: String
+  #shippingAddress: String
+  #courier: String
+  #shippingCost: double
+  #discount: double
+  #paymentMethod: String
+  -observers: List<Observer>
+  +Transaction(...)
+  +registerObserver(o: Observer): void
+  +removeObserver(o: Observer): void
+  +notifyObservers(statusMessage: String): void
+  +pay(amount: double): void
+  +getPaymentStatus(): String
+  +updateStatus(s: TransactionStatus): void
+}
+
+class Review {
+  -reviewId: String
+  -buyer: User
+  -product: Product
+  -rating: int
+  -comment: String
+  -reply: String
+  -createdAt: Date
+  -transactionId: String
+  +Review(...)
+  +getRating(): int
+  +setReply(message: String): void
+}
+
+class Notification {
+  -notificationId: String
+  -recipient: User
+  -message: String
+  -isRead: boolean
+  -createdAt: Date
+  +Notification(...)
+  +send(): void
+  +markAsRead(): void
+}
+
+class ProductManager {
+  -daftarProduk: ArrayList<Product>
+  +ProductManager()
+  +tambahProduk(produkBaru: Product): void
+  +lihatSemuaProduk(): void
+  +updateHargaProduk(idTarget: String, hargaBaru: double): void
+  +hapusProduk(idTarget: String): void
+  +filterBerdasarkanKategori(kategoriTarget: String): void
+}
+
+class Dashboard {
+  -user: User
+  -notificationList: List<Notification>
+  +Dashboard(...)
+  +getSummary(): Map<String, Object>
+  +getNotifications(): List<Notification>
+  +refresh(): void
+  +update(statusMessage: String): void
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+User <|-- Buyer
+User <|-- Seller
+User <|-- Admin
+
+Product <|-- ElectronicProduct
+Product <|-- FashionProduct
+Product <|-- FoodProduct
+
+Reviewable <|.. Product
+Stockable <|.. Product
+Payable <|.. Transaction
+Subject <|.. Transaction
+Observer <|.. Dashboard
+
+User "1" *-- "1" Cart : contains >
+Cart "1" o-- "*" OrderItem : aggregates >
+OrderItem "*" --> "1" Product : points to >
+
+User "1" --> "*" Transaction : orders >
+Transaction "1" *-- "*" OrderItem : details >
+
+Product "1" *-- "*" Review : has >
+Review "*" --> "1" User : written by >
+
+User "1" --> "*" Notification : receives >
+ProductManager "*" o-- "*" Product : manages >
+Transaction "1" --> "1" TransactionStatus : status >
+Dashboard "1" --> "1" User : monitors >
+Dashboard "1" o-- "*" Notification : stores >
+Transaction "*" o-- "*" Observer : notifies >
+@enduml
+
+

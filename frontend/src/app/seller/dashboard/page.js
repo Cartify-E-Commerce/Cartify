@@ -915,7 +915,7 @@ export default function SellerDashboard() {
             )}
 
             {activeTab === 'add_product' && (
-              <div className="bg-white rounded-3xl p-8 border border-outline-variant/15 shadow-sm max-w-[640px] mx-auto w-full">
+              <div className="bg-white rounded-3xl p-8 border border-outline-variant/15 shadow-sm w-full">
                 <div className="border-b pb-4 mb-6">
                   <h5 className="font-display-lg text-headline-sm font-bold text-on-surface mb-0 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#00aa5b]">add_circle</span> Tambah Produk Baru
@@ -924,94 +924,101 @@ export default function SellerDashboard() {
                 </div>
 
                 <form onSubmit={handleAddProduct} className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">ID Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder="Contoh: E03, M03"
-                      value={prodId}
-                      onChange={(e) => setProdId(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder="Nama barang..."
-                      value={prodNama}
-                      onChange={(e) => setProdNama(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kategori</label>
-                    <select
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      value={prodKategori}
-                      onChange={(e) => setProdKategori(e.target.value)}
-                      required
-                    >
-                      <option value="Elektronik">Elektronik</option>
-                      <option value="Makanan">Makanan</option>
-                      <option value="Pakaian">Pakaian</option>
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Harga (Rupiah)</label>
-                      <input
-                        type="number"
-                        className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                        placeholder="100000"
-                        value={prodHarga}
-                        onChange={(e) => setProdHarga(e.target.value)}
-                        required
-                      />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">ID Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder="Contoh: E03, M03"
+                          value={prodId}
+                          onChange={(e) => setProdId(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder="Nama barang..."
+                          value={prodNama}
+                          onChange={(e) => setProdNama(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kategori</label>
+                        <select
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          value={prodKategori}
+                          onChange={(e) => setProdKategori(e.target.value)}
+                          required
+                        >
+                          <option value="Elektronik">Elektronik</option>
+                          <option value="Makanan">Makanan</option>
+                          <option value="Pakaian">Pakaian</option>
+                        </select>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Harga (Rupiah)</label>
+                          <input
+                            type="number"
+                            className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                            placeholder="100000"
+                            value={prodHarga}
+                            onChange={(e) => setProdHarga(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Stok Awal</label>
+                          <input
+                            type="number"
+                            className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                            placeholder="10"
+                            value={prodStok}
+                            onChange={(e) => setProdStok(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Stok Awal</label>
-                      <input
-                        type="number"
-                        className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                        placeholder="10"
-                        value={prodStok}
-                        onChange={(e) => setProdStok(e.target.value)}
-                        required
-                      />
+
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deskripsi Produk</label>
+                        <textarea
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold h-[116px] resize-none"
+                          placeholder="Masukkan deskripsi produk..."
+                          value={prodDescription}
+                          onChange={(e) => setProdDescription(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">URL Gambar Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder="Masukkan URL gambar produk (opsional)..."
+                          value={prodImageUrl}
+                          onChange={(e) => setProdImageUrl(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">{getInfoKhususLabel()}</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder={getInfoKhususPlaceholder()}
+                          value={prodInfoKhusus}
+                          onChange={(e) => setProdInfoKhusus(e.target.value)}
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deskripsi Produk</label>
-                    <textarea
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold h-24"
-                      placeholder="Masukkan deskripsi produk..."
-                      value={prodDescription}
-                      onChange={(e) => setProdDescription(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">URL Gambar Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder="Masukkan URL gambar produk (opsional)..."
-                      value={prodImageUrl}
-                      onChange={(e) => setProdImageUrl(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">{getInfoKhususLabel()}</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder={getInfoKhususPlaceholder()}
-                      value={prodInfoKhusus}
-                      onChange={(e) => setProdInfoKhusus(e.target.value)}
-                      required
-                    />
                   </div>
                   <div className="flex gap-3 mt-4">
                     <button type="submit" className="px-6 py-3 bg-[#00aa5b] hover:bg-[#008f4c] text-white font-bold text-sm rounded-2xl shadow-md transition-all active:scale-95 w-full cursor-pointer">
@@ -1026,7 +1033,7 @@ export default function SellerDashboard() {
             )}
 
             {activeTab === 'edit_product' && editingProduct && (
-              <div className="bg-white rounded-3xl p-8 border border-outline-variant/15 shadow-sm max-w-[640px] mx-auto w-full">
+              <div className="bg-white rounded-3xl p-8 border border-outline-variant/15 shadow-sm w-full">
                 <div className="border-b pb-4 mb-6">
                   <h5 className="font-display-lg text-headline-sm font-bold text-on-surface mb-0 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#00aa5b]">edit</span> Edit Produk
@@ -1035,90 +1042,97 @@ export default function SellerDashboard() {
                 </div>
 
                 <form onSubmit={handleEditProduct} className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">ID Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 bg-gray-100 px-4 py-3 text-sm font-semibold text-gray-500 cursor-not-allowed animate-none"
-                      value={editingProduct.productId}
-                      disabled
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder="Nama barang..."
-                      value={editProdNama}
-                      onChange={(e) => setEditProdNama(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kategori</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 bg-gray-100 px-4 py-3 text-sm font-semibold text-gray-500 cursor-not-allowed animate-none"
-                      value={editingProduct.category}
-                      disabled
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Harga (Rupiah)</label>
-                      <input
-                        type="number"
-                        className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                        placeholder="100000"
-                        value={editProdHarga}
-                        onChange={(e) => setEditProdHarga(e.target.value)}
-                        required
-                      />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">ID Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 bg-gray-100 px-4 py-3 text-sm font-semibold text-gray-500 cursor-not-allowed animate-none"
+                          value={editingProduct.productId}
+                          disabled
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder="Nama barang..."
+                          value={editProdNama}
+                          onChange={(e) => setEditProdNama(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kategori</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 bg-gray-100 px-4 py-3 text-sm font-semibold text-gray-500 cursor-not-allowed animate-none"
+                          value={editingProduct.category}
+                          disabled
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Harga (Rupiah)</label>
+                          <input
+                            type="number"
+                            className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                            placeholder="100000"
+                            value={editProdHarga}
+                            onChange={(e) => setEditProdHarga(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Stok</label>
+                          <input
+                            type="number"
+                            className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                            placeholder="10"
+                            value={editProdStok}
+                            onChange={(e) => setEditProdStok(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Stok</label>
-                      <input
-                        type="number"
-                        className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                        placeholder="10"
-                        value={editProdStok}
-                        onChange={(e) => setEditProdStok(e.target.value)}
-                        required
-                      />
+
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deskripsi Produk</label>
+                        <textarea
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold h-[116px] resize-none"
+                          placeholder="Masukkan deskripsi lengkap produk..."
+                          value={editProdDescription}
+                          onChange={(e) => setEditProdDescription(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">URL Gambar Produk</label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder="Masukkan URL gambar produk (opsional)..."
+                          value={editProdImageUrl}
+                          onChange={(e) => setEditProdImageUrl(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+                          {editingProduct.category === 'Elektronik' ? 'Garansi (Bulan)' : editingProduct.category === 'Makanan' ? 'Tanggal Kadaluarsa' : 'Ukuran'}
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
+                          placeholder={editingProduct.category === 'Elektronik' ? 'Contoh: 12' : editingProduct.category === 'Makanan' ? 'YYYY-MM-DD' : 'Contoh: S, M, L'}
+                          value={editProdInfoKhusus}
+                          onChange={(e) => setEditProdInfoKhusus(e.target.value)}
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deskripsi Produk</label>
-                    <textarea
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold h-24"
-                      placeholder="Masukkan deskripsi lengkap produk..."
-                      value={editProdDescription}
-                      onChange={(e) => setEditProdDescription(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">URL Gambar Produk</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder="Masukkan URL gambar produk (opsional)..."
-                      value={editProdImageUrl}
-                      onChange={(e) => setEditProdImageUrl(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
-                      {editingProduct.category === 'Elektronik' ? 'Garansi (Bulan)' : editingProduct.category === 'Makanan' ? 'Tanggal Kadaluarsa' : 'Ukuran'}
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded-2xl border border-outline-variant/60 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] transition-all text-sm font-semibold"
-                      placeholder={editingProduct.category === 'Elektronik' ? 'Contoh: 12' : editingProduct.category === 'Makanan' ? 'YYYY-MM-DD' : 'Contoh: S, M, L'}
-                      value={editProdInfoKhusus}
-                      onChange={(e) => setEditProdInfoKhusus(e.target.value)}
-                      required
-                    />
                   </div>
                   <div className="flex gap-3 mt-4">
                     <button type="submit" className="px-6 py-3 bg-[#00aa5b] hover:bg-[#008f4c] text-white font-bold text-sm rounded-2xl shadow-md transition-all active:scale-95 w-full cursor-pointer">

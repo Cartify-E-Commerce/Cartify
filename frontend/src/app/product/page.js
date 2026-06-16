@@ -17,91 +17,91 @@ export function getProductImage(name = '', category = '') {
     return '/pocof9.png';
   }
   if (n.includes('zenbook') || n.includes('laptop')) {
-    return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('keychron') || n.includes('keyboard')) {
-    return 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80';
+    return '/keychron.png';
   }
   if (n.includes('master') || n.includes('mouse')) {
-    return 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80';
+    return '/mouse.png';
   }
   if (n.includes('monitor')) {
-    return 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80';
+    return '/monitor.png';
   }
   if (n.includes('sony') || n.includes('headphone')) {
-    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80';
+    return '/sony.png';
   }
   if (n.includes('galaxy') || n.includes('phone') || n.includes('hp')) {
     return 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('watch') || n.includes('smartwatch')) {
-    return 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80';
+    return '/applewatch.png';
   }
   if (n.includes('brio') || n.includes('webcam') || n.includes('camera')) {
-    return 'https://images.unsplash.com/photo-1603539943427-b0882e3c8b41?auto=format&fit=crop&w=600&q=80';
+    return '/brio.png';
   }
 
   // Fashion
   if (n.includes('kaos') || n.includes('t-shirt') || n.includes('tshirt')) {
-    return 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80';
+    return '/kaos.png';
   }
   if (n.includes('jaket') || n.includes('denim')) {
-    return 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80';
+    return '/jaket.png';
   }
   if (n.includes('hoodie')) {
     return 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('chino') || n.includes('celana')) {
-    return 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80';
+    return '/chino.png';
   }
   if (n.includes('dress')) {
-    return 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80';
+    return '/dress.jpg';
   }
   if (n.includes('sneakers') || n.includes('sepatu')) {
-    return 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80';
+    return '/sepatu.png';
   }
   if (n.includes('topi') || n.includes('baseball')) {
-    return 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80';
+    return '/topi.jpg';
   }
   if (n.includes('kemeja') || n.includes('flanel')) {
-    return 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80';
+    return '/flanel.jpg';
   }
 
   // Food
   if (n.includes('kripik') || n.includes('singkong')) {
-    return 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80';
+    return '/chips.png';
   }
   if (n.includes('roti') || n.includes('gandum') || n.includes('sourdough')) {
-    return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('cokelat') || n.includes('chocolate') || n.includes('truffle')) {
-    return 'https://images.unsplash.com/photo-1548907040-4d42b52125e1?auto=format&fit=crop&w=600&q=80';
+    return '/truffle.png';
   }
   if (n.includes('kopi') || n.includes('coffee') || n.includes('gayo')) {
-    return 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80';
+    return '/kopi.png';
   }
   if (n.includes('cookies') || n.includes('cookie')) {
     return 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('madu') || n.includes('honey')) {
-    return 'https://images.unsplash.com/photo-1587049352846-4a222e784d3e?auto=format&fit=crop&w=600&q=80';
+    return '/madu.jpg';
   }
   if (n.includes('selai') || n.includes('butter') || n.includes('peanut')) {
-    return 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80';
+    return '/butter.jpg';
   }
   if (n.includes('teh') || n.includes('matcha') || n.includes('green tea')) {
-    return 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80';
+    return '/matcha.png';
   }
 
   // Fallbacks by Category
   if (c.includes('elektronik') || c.includes('laptop')) {
-    return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=600&q=80';
   }
   if (c.includes('makanan') || c.includes('roti')) {
-    return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80';
   }
   if (c.includes('pakaian') || c.includes('baju') || c.includes('jaket')) {
-    return 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80';
   }
   
   return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
@@ -120,6 +120,34 @@ function ProductDetailContent() {
   const [selectedShop, setSelectedShop] = useState(null);
   const [showShopModal, setShowShopModal] = useState(false);
   const [shopLoading, setShopLoading] = useState(false);
+
+  const [selectedOption, setSelectedOption] = useState('');
+  const [showOptionModal, setShowOptionModal] = useState(false);
+  const [optionAction, setOptionAction] = useState('cart'); // 'cart' or 'buy'
+
+  const needsOptions = (prod) => {
+    if (!prod) return false;
+    const cat = prod.kategori.toLowerCase();
+    const name = prod.nama.toLowerCase();
+    return cat.includes('pakaian') || cat.includes('fashion') || 
+           (cat.includes('elektronik') && (name.includes('poco') || name.includes('loq') || name.includes('zenbook') || name.includes('galaxy') || name.includes('phone') || name.includes('hp') || name.includes('watch') || name.includes('smartwatch')));
+  };
+
+  const getAvailableOptions = () => {
+    if (!product) return [];
+    const cat = product.kategori.toLowerCase();
+    const name = product.nama.toLowerCase();
+    if (cat.includes('pakaian') || cat.includes('fashion')) {
+      return ['S', 'M', 'L', 'XL', 'XXL'];
+    }
+    if (cat.includes('elektronik')) {
+      if (name.includes('watch') || name.includes('smartwatch')) {
+        return ['41mm GPS', '45mm GPS', '45mm GPS + Cellular'];
+      }
+      return ['8GB RAM / 128GB Storage', '12GB RAM / 256GB Storage', '16GB RAM / 512GB Storage'];
+    }
+    return ['Default Edition', 'Premium Edition'];
+  };
 
   const handleOpenShopDetail = async (shopId) => {
     setShopLoading(true);
@@ -177,6 +205,24 @@ function ProductDetailContent() {
   };
 
   const handleAddToCart = async () => {
+    if (needsOptions(product) && !selectedOption) {
+      setOptionAction('cart');
+      setShowOptionModal(true);
+    } else {
+      await proceedToAddToCart();
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (needsOptions(product) && !selectedOption) {
+      setOptionAction('buy');
+      setShowOptionModal(true);
+    } else {
+      await proceedToBuyNow();
+    }
+  };
+
+  const proceedToAddToCart = async () => {
     if (!isLoggedIn) {
       await showAlert('Peringatan', 'Harap masuk/login terlebih dahulu sebelum berbelanja!', 'warning');
       router.push('/login');
@@ -184,16 +230,65 @@ function ProductDetailContent() {
     }
     setCartLoading(true);
     try {
-      // Add based on quantity
+      if (selectedOption) {
+        try {
+          const vars = JSON.parse(localStorage.getItem('cart_variants') || '{}');
+          vars[product.productId] = selectedOption;
+          localStorage.setItem('cart_variants', JSON.stringify(vars));
+        } catch (e) {
+          console.error(e);
+        }
+      }
       for (let i = 0; i < quantity; i++) {
         await api.addToCart(productId);
       }
-      await showAlert('Berhasil', `${product.nama} berhasil ditambahkan ke keranjang!`, 'success');
+      await showAlert('Berhasil', `${product.nama} ${selectedOption ? `(${selectedOption})` : ''} berhasil ditambahkan ke keranjang!`, 'success');
       updateDashboardSummary();
     } catch (err) {
       await showAlert('Gagal', 'Gagal menambahkan ke keranjang: ' + err.message, 'error');
     } finally {
       setCartLoading(false);
+    }
+  };
+
+  const proceedToBuyNow = async () => {
+    if (!isLoggedIn) {
+      await showAlert('Peringatan', 'Harap masuk/login terlebih dahulu sebelum berbelanja!', 'warning');
+      router.push('/login');
+      return;
+    }
+    setCartLoading(true);
+    try {
+      if (selectedOption) {
+        try {
+          const vars = JSON.parse(localStorage.getItem('cart_variants') || '{}');
+          vars[product.productId] = selectedOption;
+          localStorage.setItem('cart_variants', JSON.stringify(vars));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      for (let i = 0; i < quantity; i++) {
+        await api.addToCart(productId);
+      }
+      router.push('/checkout');
+    } catch (err) {
+      await showAlert('Gagal', 'Gagal memproses pembelian langsung: ' + err.message, 'error');
+    } finally {
+      setCartLoading(false);
+    }
+  };
+
+  const handleConfirmOption = async () => {
+    if (!selectedOption) {
+      await showAlert('Peringatan', 'Harap pilih salah satu varian terlebih dahulu!', 'warning');
+      return;
+    }
+    setShowOptionModal(false);
+    if (optionAction === 'buy') {
+      await proceedToBuyNow();
+    } else {
+      await proceedToAddToCart();
     }
   };
 
@@ -234,7 +329,7 @@ function ProductDetailContent() {
     );
   }
 
-  const imgClass = getProductImage(product.nama, product.kategori);
+  const imgClass = product.imageUrl || getProductImage(product.nama, product.kategori);
 
   return (
     <div className="bg-background min-h-screen text-on-surface font-body-md antialiased bg-gradient-soft">
@@ -346,8 +441,32 @@ function ProductDetailContent() {
               )}
             </div>
 
+            {/* Option Selector on page */}
+            {needsOptions(product) && (
+              <div className="mb-6 mt-6">
+                <h3 className="text-sm font-bold text-on-surface mb-3 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-base" style={{ color: '#00aa5b' }}>style</span> Pilih Varian:
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {getAvailableOptions().map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => setSelectedOption(opt)}
+                      className={`px-4 py-2.5 text-xs font-bold border rounded-full transition-all cursor-pointer ${
+                        selectedOption === opt 
+                          ? 'border-[#00aa5b] bg-[#00aa5b]/10 text-[#00aa5b] shadow-sm' 
+                          : 'border-outline-variant/60 bg-white hover:bg-surface-container'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Action Purchase Block */}
-            <div className="bg-surface-container-low/40 p-6 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+            <div className="bg-surface-container-low/40 p-6 rounded-2xl border flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-bold text-on-surface-variant">Jumlah:</span>
                 <div className="flex items-center border rounded-xl bg-white overflow-hidden shadow-sm">
@@ -369,15 +488,25 @@ function ProductDetailContent() {
                 </div>
               </div>
 
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stok === 0 || cartLoading}
-                className="flex-1 sm:flex-initial px-8 py-3.5 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-[#00aa5b]/20 active:scale-95 transition-all flex items-center justify-center gap-2 border-0 cursor-pointer"
-                style={{ backgroundColor: '#00aa5b' }}
-              >
-                <span className="material-symbols-outlined text-lg">add_shopping_cart</span>
-                {cartLoading ? 'Menambahkan...' : 'Tambah ke Keranjang'}
-              </button>
+              <div className="flex flex-1 sm:flex-initial gap-3 w-full md:w-auto">
+                <button
+                  onClick={handleAddToCart}
+                  disabled={product.stok === 0 || cartLoading}
+                  className="flex-1 px-6 py-3.5 border-2 border-[#00aa5b] text-[#00aa5b] font-bold rounded-2xl hover:bg-[#00aa5b]/5 active:scale-95 transition-all flex items-center justify-center gap-2 bg-transparent cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-lg">add_shopping_cart</span>
+                  {cartLoading && optionAction === 'cart' ? 'Menambahkan...' : 'Tambah Keranjang'}
+                </button>
+                <button
+                  onClick={handleBuyNow}
+                  disabled={product.stok === 0 || cartLoading}
+                  className="flex-1 px-8 py-3.5 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-[#00aa5b]/20 active:scale-95 transition-all flex items-center justify-center gap-2 border-0 cursor-pointer"
+                  style={{ backgroundColor: '#00aa5b' }}
+                >
+                  <span className="material-symbols-outlined text-lg">local_mall</span>
+                  {cartLoading && optionAction === 'buy' ? 'Memproses...' : 'Beli Langsung'}
+                </button>
+              </div>
             </div>
 
           </div>
@@ -435,6 +564,88 @@ function ProductDetailContent() {
           </div>
         </div>
       </main>
+
+      {/* Option Selection Popup Modal */}
+      {showOptionModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-outline-variant/10 animate-fade-in">
+            <div className="flex justify-between items-center border-b pb-4 mb-4">
+              <h3 className="font-bold text-base text-on-surface">Pilih Varian Produk</h3>
+              <button 
+                onClick={() => setShowOptionModal(false)}
+                className="p-1 rounded-full hover:bg-surface-container border-0 cursor-pointer flex items-center justify-center bg-transparent"
+              >
+                <span className="material-symbols-outlined text-lg">close</span>
+              </button>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-6">
+              <img 
+                src={imgClass} 
+                alt={product.nama} 
+                className="w-16 h-16 object-cover rounded-2xl border bg-surface-container-low" 
+              />
+              <div className="min-w-0 flex-1">
+                <h4 className="font-bold text-sm text-on-surface truncate">{product.nama}</h4>
+                <p className="text-sm font-extrabold mt-1" style={{ color: '#00aa5b' }}>
+                  Rp {product.harga?.toLocaleString('id-ID')}
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h5 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Varian Tersedia:</h5>
+              <div className="flex flex-wrap gap-2">
+                {getAvailableOptions().map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => setSelectedOption(opt)}
+                    className={`px-4 py-2.5 rounded-full text-xs font-bold border transition-all cursor-pointer ${
+                      selectedOption === opt 
+                        ? 'border-[#00aa5b] bg-[#00aa5b]/10 text-[#00aa5b]' 
+                        : 'border-outline-variant/50 bg-white hover:bg-surface-container'
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity Selector in Modal */}
+            <div className="flex justify-between items-center mb-6 p-4 bg-surface-container-low/50 rounded-2xl border">
+              <span className="text-xs font-bold text-on-surface-variant">Jumlah Pembelian:</span>
+              <div className="flex items-center border rounded-xl bg-white overflow-hidden shadow-sm">
+                <button 
+                  type="button" 
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  className="px-3 py-1.5 bg-transparent hover:bg-surface-container-low border-0 font-bold cursor-pointer"
+                >
+                  -
+                </button>
+                <span className="px-4 font-bold text-sm text-center min-w-8">{quantity}</span>
+                <button 
+                  type="button" 
+                  onClick={() => setQuantity(q => Math.min(product.stok, q + 1))}
+                  className="px-3 py-1.5 bg-transparent hover:bg-surface-container-low border-0 font-bold cursor-pointer"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={handleConfirmOption}
+                className="flex-1 py-3 text-white font-bold rounded-2xl hover:shadow-lg transition-all border-0 cursor-pointer text-sm"
+                style={{ backgroundColor: '#00aa5b' }}
+              >
+                Konfirmasi & {optionAction === 'buy' ? 'Beli Langsung' : 'Tambah Keranjang'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

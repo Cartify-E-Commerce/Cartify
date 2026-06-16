@@ -16,6 +16,8 @@ public abstract class Product implements Reviewable, Stockable {
     protected double price;
     protected int stock;
 
+    protected String imageUrl;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     protected Seller seller;
@@ -33,6 +35,7 @@ public abstract class Product implements Reviewable, Stockable {
         this.stock = stock;
         this.seller = seller;
         this.reviewList = new ArrayList<>();
+        this.imageUrl = null;
     }
 
     public abstract String getCategory();
@@ -90,4 +93,6 @@ public abstract class Product implements Reviewable, Stockable {
     public Seller getSeller() { return seller; }
     public void setSeller(Seller seller) { this.seller = seller; }
     public void setStock(int stock) { this.stock = stock; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

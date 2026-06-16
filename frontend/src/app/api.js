@@ -108,6 +108,10 @@ export const api = {
     method: 'POST',
     body: JSON.stringify(payload),
   }),
+  updateProduct: (payload) => request('/product/edit', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
   deleteProduct: (id) => request('/product/delete', {
     method: 'POST',
     body: JSON.stringify({ id }),

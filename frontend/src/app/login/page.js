@@ -146,17 +146,48 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPassword) {
+      setError('Nama lengkap, email, dan password wajib diisi!');
+      return;
+    }
+
+    if (trimmedName.length < 2 || trimmedName.length > 50) {
+      setError('Nama lengkap harus terdiri dari 2 hingga 50 karakter!');
+      return;
+    }
+
+    if (!/^[a-zA-Z\s'.,]+$/.test(trimmedName)) {
+      setError('Nama lengkap hanya boleh mengandung huruf, spasi, titik, koma, dan petik tunggal!');
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(trimmedEmail)) {
+      setError('Format email tidak valid!');
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-+=*#/.])[A-Za-z\d@$!%*?&_\-+=*#/.]{8,32}$/;
+    if (!passwordRegex.test(trimmedPassword)) {
+      setError('Password tidak cukup kuat! Password harus memiliki panjang 8-32 karakter dan mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter spesial (@$!%*?&_\\-+=*#/. )!');
+      return;
+    }
+
     try {
       const payload = {
-        name,
-        email,
-        password,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: trimmedPassword,
       };
       const res = await api.register(payload);
       if (res.status === 'success') {
         await showAlert('Pendaftaran Berhasil', 'Akun berhasil dibuat! Mengalihkan ke dashboard...', 'success');
         // Auto-login with credentials
-        const loginRes = await api.login(email, password);
+        const loginRes = await api.login(trimmedEmail, trimmedPassword);
         if (loginRes.status === 'success') {
           if (loginRes.user.role === 'Admin') {
             router.push('/admin');

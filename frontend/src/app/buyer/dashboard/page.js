@@ -53,7 +53,9 @@ export default function BuyerDashboard() {
 
   // Profile edit states
   const [editName, setEditName] = useState('');
-  const [editAddress, setEditAddress] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editPassword, setEditPassword] = useState('');
+  const [editAddresses, setEditAddresses] = useState([]);
   const [editPhoto, setEditPhoto] = useState('');
   
   // Become Seller states
@@ -83,7 +85,8 @@ export default function BuyerDashboard() {
       }
       setProfile(meRes.user);
       setEditName(meRes.user.name || '');
-      setEditAddress(meRes.user.address || '');
+      setEditEmail(meRes.user.email || '');
+      setEditAddresses(meRes.user.addresses || (meRes.user.address ? [meRes.user.address] : []));
       setEditPhoto(meRes.user.profilePhoto || '');
 
       // Load all dashboard info (orders, notifications, etc.)
@@ -134,16 +137,72 @@ export default function BuyerDashboard() {
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
+    const trimmedName = editName.trim();
+    const trimmedEmail = editEmail.trim().toLowerCase();
+    const trimmedPassword = editPassword.trim();
+
+    if (!trimmedName) {
+      await showAlert('Gagal', 'Nama lengkap tidak boleh kosong!', 'error');
+      return;
+    }
+    if (trimmedName.length > 50) {
+      await showAlert('Gagal', 'Nama lengkap maksimal 50 karakter!', 'error');
+      return;
+    }
+    if (!/^[a-zA-Z\s'.,]+$/.test(trimmedName)) {
+      await showAlert('Gagal', 'Nama lengkap hanya boleh mengandung huruf, spasi, titik, koma, dan petik tunggal!', 'error');
+      return;
+    }
+
+    if (!trimmedEmail) {
+      await showAlert('Gagal', 'Email tidak boleh kosong!', 'error');
+      return;
+    }
+    if (!/^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(trimmedEmail)) {
+      await showAlert('Gagal', 'Format email tidak valid!', 'error');
+      return;
+    }
+
+    if (trimmedPassword) {
+      if (trimmedPassword.length < 8 || trimmedPassword.length > 32) {
+        await showAlert('Gagal', 'Password harus terdiri dari 8 hingga 32 karakter!', 'error');
+        return;
+      }
+      const hasUpper = /[A-Z]/.test(trimmedPassword);
+      const hasLower = /[a-z]/.test(trimmedPassword);
+      const hasDigit = /[0-9]/.test(trimmedPassword);
+      const hasSpecial = /[@$!%*?&_\-+=*#\/.]/.test(trimmedPassword);
+      if (!(hasUpper && hasLower && hasDigit && hasSpecial)) {
+        await showAlert('Gagal', 'Password harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter spesial!', 'error');
+        return;
+      }
+    }
+
+    const cleanAddresses = editAddresses.map(addr => (addr || '').trim()).filter(addr => addr.length > 0);
+    for (const addr of cleanAddresses) {
+      if (addr.length > 200) {
+        await showAlert('Gagal', 'Setiap alamat maksimal 200 karakter!', 'error');
+        return;
+      }
+      if (/[<>]|javascript:|onclick|onerror|onload|<script/i.test(addr)) {
+        await showAlert('Gagal', 'Alamat tidak boleh mengandung karakter HTML/JS berbahaya!', 'error');
+        return;
+      }
+    }
+
     try {
       const payload = {
-        name: editName,
-        address: editAddress,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: trimmedPassword || undefined,
+        addresses: cleanAddresses,
         profilePhoto: editPhoto,
       };
       const res = await api.updateProfile(payload);
       if (res.status === 'success') {
         await showAlert('Berhasil', 'Profil Anda berhasil diperbarui!', 'success');
         setProfile(res.user);
+        setEditPassword('');
       }
     } catch (err) {
       await showAlert('Gagal', err.message || 'Gagal memperbarui profil.', 'error');
@@ -153,9 +212,39 @@ export default function BuyerDashboard() {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        showAlert('Gagal', 'Ukuran file terlalu besar (maksimal 10MB)!', 'error');
+        return;
+      }
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditPhoto(reader.result);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 250;
+          const MAX_HEIGHT = 250;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          setEditPhoto(dataUrl);
+        };
+        img.src = event.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -163,14 +252,34 @@ export default function BuyerDashboard() {
 
   const handleBecomeSellerSubmit = async (e) => {
     e.preventDefault();
-    if (!upgradeShopName.trim()) {
+    const trimmedShopName = upgradeShopName.trim();
+    const trimmedShopCategory = upgradeShopCategory.trim();
+
+    if (!trimmedShopName) {
       await showAlert('Error', 'Nama toko wajib diisi!', 'error');
       return;
     }
+    if (trimmedShopName.length > 50) {
+      await showAlert('Error', 'Nama toko maksimal 50 karakter!', 'error');
+      return;
+    }
+    if (!/^[a-zA-Z0-9\s'.,&-]+$/.test(trimmedShopName)) {
+      await showAlert('Error', 'Nama toko mengandung karakter tidak valid!', 'error');
+      return;
+    }
+    if (!trimmedShopCategory) {
+      await showAlert('Error', 'Kategori toko wajib diisi!', 'error');
+      return;
+    }
+    if (trimmedShopCategory.length > 50) {
+      await showAlert('Error', 'Kategori toko maksimal 50 karakter!', 'error');
+      return;
+    }
+
     try {
       const res = await api.becomeSeller({ 
-        shopName: upgradeShopName,
-        shopCategory: upgradeShopCategory 
+        shopName: trimmedShopName,
+        shopCategory: trimmedShopCategory 
       });
       if (res.status === 'success') {
         await showAlert('Toko Aktif!', res.message, 'success');
@@ -382,7 +491,7 @@ export default function BuyerDashboard() {
 
             <div className="h-8 w-px bg-outline-variant/60 mx-1"></div>
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full overflow-hidden border-2 flex items-center justify-content-center text-white font-bold text-md shadow-sm" style={{ backgroundColor: '#00aa5b', borderColor: 'rgba(0, 170, 91, 0.2)' }}>
+              <div className="w-9 h-9 rounded-full overflow-hidden border-2 flex items-center justify-center text-white font-bold text-md shadow-sm" style={{ backgroundColor: '#00aa5b', borderColor: 'rgba(0, 170, 91, 0.2)' }}>
                 {profile?.profilePhoto ? (
                   <img src={profile.profilePhoto} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
@@ -403,7 +512,7 @@ export default function BuyerDashboard() {
           <aside className="lg:col-span-3">
             <div className="glass-panel border border-outline-variant/35 rounded-3xl p-6 shadow-lg text-center">
               <div className="relative w-20 h-20 mx-auto mb-4">
-                <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-content-center text-white font-bold text-2xl shadow-md border-3 border-white" style={{ backgroundColor: '#00aa5b' }}>
+                <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center text-white font-bold text-2xl shadow-md border-3 border-white" style={{ backgroundColor: '#00aa5b' }}>
                   {profile?.profilePhoto ? (
                     <img src={profile.profilePhoto} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
@@ -519,27 +628,89 @@ export default function BuyerDashboard() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block mb-2">Nama Lengkap</label>
-                    <input 
-                      type="text" 
-                      value={editName} 
-                      onChange={(e) => setEditName(e.target.value)} 
-                      className="w-full p-3.5 border-2 border-outline-variant/30 focus:border-primary rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none text-sm transition-all" 
-                      placeholder="Nama lengkap..." 
-                      required 
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block mb-2">Nama Lengkap</label>
+                      <input 
+                        type="text" 
+                        value={editName} 
+                        onChange={(e) => setEditName(e.target.value)} 
+                        className="w-full p-3.5 border-2 border-outline-variant/30 focus:border-primary rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none text-sm transition-all" 
+                        placeholder="Nama lengkap..." 
+                        required 
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block mb-2">Email</label>
+                      <input 
+                        type="email" 
+                        value={editEmail} 
+                        onChange={(e) => setEditEmail(e.target.value)} 
+                        className="w-full p-3.5 border-2 border-outline-variant/30 focus:border-primary rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none text-sm transition-all" 
+                        placeholder="Email..." 
+                        required 
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block mb-2">Alamat Lengkap</label>
-                    <textarea 
-                      value={editAddress} 
-                      onChange={(e) => setEditAddress(e.target.value)} 
+                    <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block mb-2">Password Baru (Kosongkan jika tidak ingin mengganti)</label>
+                    <input 
+                      type="password" 
+                      value={editPassword} 
+                      onChange={(e) => setEditPassword(e.target.value)} 
                       className="w-full p-3.5 border-2 border-outline-variant/30 focus:border-primary rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none text-sm transition-all" 
-                      rows="4" 
-                      placeholder="Alamat rumah lengkap untuk pengiriman..." 
+                      placeholder="Masukkan password baru..." 
                     />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-between items-center">
+                      <label className="text-xs font-bold text-on-surface-variant/80 uppercase tracking-wider block">Daftar Alamat Pengiriman</label>
+                      <button
+                        type="button"
+                        onClick={() => setEditAddresses([...editAddresses, ''])}
+                        className="px-3 py-1.5 border border-primary text-primary hover:bg-primary/5 rounded-xl font-bold text-xs transition-all cursor-pointer bg-transparent"
+                      >
+                        + Tambah Alamat
+                      </button>
+                    </div>
+                    {editAddresses.length === 0 ? (
+                      <p className="text-xs text-on-surface-variant/60 italic p-3 bg-surface-container-low rounded-xl">Belum ada alamat. Silakan tambah alamat baru.</p>
+                    ) : (
+                      <div className="flex flex-col gap-3">
+                        {editAddresses.map((addr, idx) => (
+                          <div key={idx} className="flex gap-2 items-center bg-surface-container-low/50 p-3 rounded-2xl border border-outline-variant/10">
+                            <span className="text-xs font-bold text-on-surface-variant/60 w-8 text-center bg-outline-variant/20 py-1 rounded-lg shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <input 
+                              type="text"
+                              value={addr}
+                              onChange={(e) => {
+                                const nextList = [...editAddresses];
+                                nextList[idx] = e.target.value;
+                                setEditAddresses(nextList);
+                              }}
+                              className="flex-1 p-2.5 border-2 border-outline-variant/20 focus:border-primary rounded-xl outline-none text-sm transition-all bg-white"
+                              placeholder={`Alamat Lengkap Ke-${idx + 1}...`}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const nextList = editAddresses.filter((_, i) => i !== idx);
+                                setEditAddresses(nextList);
+                              }}
+                              className="p-2 border border-danger/30 text-danger hover:bg-danger/5 rounded-xl transition-all cursor-pointer bg-transparent flex items-center justify-center"
+                              title="Hapus Alamat"
+                            >
+                              <span className="material-symbols-outlined text-sm">delete</span>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex gap-3 mt-3">
@@ -639,7 +810,7 @@ export default function BuyerDashboard() {
                             {o.itemList?.map((item, idx) => (
                               <div key={idx} className="flex gap-3 items-center">
                                 <img 
-                                  src={resolveProductImage(item.product?.name, item.product?.category)} 
+                                  src={item.product?.imageUrl || resolveProductImage(item.product?.name, item.product?.category)} 
                                   alt={item.product?.name} 
                                   className="w-12 h-12 object-cover rounded-xl border" 
                                 />

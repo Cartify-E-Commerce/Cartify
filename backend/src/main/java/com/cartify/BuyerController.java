@@ -110,7 +110,7 @@ public class BuyerController {
     }
 
     @PostMapping("/cart/checkout")
-    public String checkout(HttpSession session, Model model) {
+    public String checkout(@RequestParam(value = "shippingAddress", required = false) String shippingAddress, HttpSession session, Model model) {
         User loggedInUser = (User) session.getAttribute("user");
         if (loggedInUser == null) {
             return "redirect:/login";
@@ -121,8 +121,9 @@ public class BuyerController {
             return "redirect:/index";
         }
 
+        String finalAddress = (shippingAddress != null && !shippingAddress.trim().isEmpty()) ? shippingAddress.trim() : buyer.getAddress();
         // Run Checkout (Initial status is PENDING & UNPAID)
-        Transaction t = buyer.checkout();
+        Transaction t = buyer.checkout(finalAddress, "JNE Regular", 15000.0, 0.0, "GoPay");
         if (t != null) {
             // Cascade save will persist the transaction through buyer.orderHistory
             // transactionRepository.save(t);

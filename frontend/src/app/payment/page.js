@@ -37,8 +37,8 @@ function PaymentPageContent() {
     e.preventDefault();
     setError('');
     const amt = parseFloat(amount);
-    if (isNaN(amt) || amt <= 0) {
-      setError('Masukkan jumlah pembayaran yang valid!');
+    if (isNaN(amt) || amt <= 0 || amt > 999999999) {
+      setError('Masukkan jumlah pembayaran yang valid (di antara Rp1 dan Rp999.999.999)!');
       return;
     }
 

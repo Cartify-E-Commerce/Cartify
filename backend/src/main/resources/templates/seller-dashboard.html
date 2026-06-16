@@ -207,7 +207,10 @@
                 <a href="/buyer/dashboard" class="btn btn-outline-custom btn-sm rounded-pill px-4"><i class="fa-solid fa-user me-1"></i>Beralih ke Buyer</a>
                 <div class="vr" style="height: 24px; background-color: rgba(15,23,42,0.1); opacity: 1;"></div>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.shopName, 0, 1).toUpperCase()}">S</div>
+                    <div class="rounded-circle overflow-hidden shadow-sm d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <img th:if="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" th:src="${user.profilePhoto}" alt="Avatar" class="w-100 h-100" style="object-fit: cover;" />
+                        <div th:unless="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" class="w-100 h-100 text-white d-flex align-items-center justify-content-center fw-bold" style="background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.shopName, 0, 1).toUpperCase()}">S</div>
+                    </div>
                     <span class="fw-bold d-none d-md-inline text-dark" id="navSellerName" style="font-size: 14px;" th:text="${user.shopName}">Toko Ryan</span>
                 </div>
             </div>

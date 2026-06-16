@@ -45,6 +45,7 @@ function CheckoutContent() {
     { id: 'Credit Card', name: 'Kartu Kredit / Debit', icon: 'credit_card' },
   ];
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]);
+  const [selectedVariants, setSelectedVariants] = useState({});
 
   const router = useRouter();
 
@@ -66,6 +67,13 @@ function CheckoutContent() {
       const dashboardData = await api.getBuyerDashboard();
       setCartItems(dashboardData.cartItems || []);
       setCartTotal(dashboardData.cartTotal || 0);
+
+      try {
+        const vars = JSON.parse(localStorage.getItem('cart_variants') || '{}');
+        setSelectedVariants(vars);
+      } catch (e) {
+        console.error(e);
+      }
     } catch (err) {
       console.error('Failed to load checkout data', err);
     } finally {
@@ -76,6 +84,10 @@ function CheckoutContent() {
   const handleApplyVoucher = (e) => {
     e.preventDefault();
     const code = voucherCodeInput.trim().toUpperCase();
+    if (code.length > 30) {
+      showAlert('Gagal', 'Kode voucher tidak valid (terlalu panjang).', 'error');
+      return;
+    }
     const found = vouchers.find(v => v.code === code);
     if (found) {
       setAppliedVoucher(found);
@@ -100,11 +112,16 @@ function CheckoutContent() {
   };
 
   const handleSaveAddress = () => {
-    if (!tempAddress.trim()) {
+    const trimmedAddress = tempAddress.trim();
+    if (!trimmedAddress) {
       showAlert('Error', 'Alamat pengiriman tidak boleh kosong!', 'error');
       return;
     }
-    setShippingAddress(tempAddress);
+    if (trimmedAddress.length > 200) {
+      showAlert('Error', 'Alamat pengiriman maksimal 200 karakter!', 'error');
+      return;
+    }
+    setShippingAddress(trimmedAddress);
     setIsEditingAddress(false);
   };
 
@@ -204,14 +221,41 @@ function CheckoutContent() {
               </div>
 
               {isEditingAddress ? (
-                <div className="flex flex-col gap-3">
-                  <textarea
-                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#00aa5b]/20 focus:border-[#00aa5b] outline-none text-sm"
-                    rows="3"
-                    value={tempAddress}
-                    onChange={(e) => setTempAddress(e.target.value)}
-                    placeholder="Masukkan alamat lengkap pengiriman..."
-                  />
+                <div className="flex flex-col gap-4">
+                  {/* Select address from registered addresses list */}
+                  {profile?.addresses && profile.addresses.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider block">Pilih dari Alamat Terdaftar</span>
+                      <div className="flex flex-col gap-2">
+                        {profile.addresses.map((addr, idx) => (
+                          <label key={idx} className="flex gap-3 items-start p-3 bg-surface-container-low/50 border border-outline-variant/15 rounded-2xl cursor-pointer hover:border-primary transition-all">
+                            <input
+                              type="radio"
+                              name="registeredAddress"
+                              checked={tempAddress === addr}
+                              onChange={() => setTempAddress(addr)}
+                              className="mt-1"
+                            />
+                            <div className="text-sm">
+                              <span className="font-bold text-xs text-on-surface-variant block mb-1">Alamat #{idx + 1}</span>
+                              <span className="text-on-surface">{addr}</span>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col gap-1 mt-2">
+                    <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider block mb-1">Alamat Kustom / Baru</span>
+                    <textarea
+                      className="w-full p-3.5 border-2 border-outline-variant/30 focus:border-primary rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none text-sm transition-all"
+                      rows="3"
+                      value={tempAddress}
+                      onChange={(e) => setTempAddress(e.target.value)}
+                      placeholder="Masukkan alamat lengkap pengiriman..."
+                    />
+                  </div>
                   <div className="flex gap-2 justify-end">
                     <button 
                       onClick={handleSaveAddress} 
@@ -351,13 +395,18 @@ function CheckoutContent() {
                 {cartItems.map((item) => (
                   <div key={item.product?.productId} className="flex py-3 items-center gap-3">
                     <img 
-                      src={getProductImage(item.product?.name, item.product?.category)} 
+                      src={item.product?.imageUrl || getProductImage(item.product?.name, item.product?.category)} 
                       alt={item.product?.name} 
                       className="w-12 h-12 object-cover rounded-lg border bg-surface-container-low" 
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-on-surface truncate mb-0.5">{item.product?.name}</p>
                       <p className="text-xs text-on-surface-variant/70">{item.quantity}x @ Rp {item.product?.price?.toLocaleString('id-ID')}</p>
+                      {selectedVariants[item.product?.productId] && (
+                        <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded text-[10px] bg-surface-container font-bold text-on-surface-variant">
+                          Varian: {selectedVariants[item.product?.productId]}
+                        </span>
+                      )}
                     </div>
                     <p className="text-sm font-bold" style={{ color: '#00aa5b' }}>
                       Rp {(item.quantity * item.product?.price).toLocaleString('id-ID')}

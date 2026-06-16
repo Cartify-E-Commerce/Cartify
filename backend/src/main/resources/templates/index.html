@@ -269,8 +269,9 @@
                     <div id="userNavbarSection">
                         <div th:if="${user != null}" class="d-flex align-items-center gap-3">
                             <a th:href="${user.role == 'Seller' ? '/seller/dashboard' : '/buyer/dashboard'}" class="text-decoration-none text-dark d-flex align-items-center gap-2">
-                                <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 34px; height: 34px; font-size: 14px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%); box-shadow: 0 4px 10px var(--emerald-glow);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
-                                    U
+                                <div class="rounded-circle overflow-hidden shadow-sm d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; box-shadow: 0 4px 10px var(--emerald-glow);">
+                                    <img th:if="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" th:src="${user.profilePhoto}" alt="Avatar" class="w-100 h-100" style="object-fit: cover;" />
+                                    <div th:unless="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" class="w-100 h-100 text-white d-flex align-items-center justify-content-center fw-bold" style="background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">U</div>
                                 </div>
                                 <span class="fw-bold fs-6 d-none d-lg-inline" th:text="${user.name}">Ryan</span>
                             </a>
@@ -323,6 +324,12 @@
                     <span class="fw-bold fs-5 text-emerald" style="color: var(--emerald-primary);" th:text="'Rp ' + ${#numbers.formatDecimal(user.cart.calculateTotal(), 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
                 </div>
                 <form action="/cart/checkout" method="POST">
+                    <div th:if="${user.addresses != null && !#lists.isEmpty(user.addresses)}" class="mb-3">
+                        <label for="shippingAddress" class="form-label small fw-bold text-secondary mb-1">Pilih Alamat Pengiriman</label>
+                        <select name="shippingAddress" id="shippingAddress" class="form-select rounded-3 text-sm" style="font-size: 13px; font-weight: 500;">
+                            <option th:each="addr, iter : ${user.addresses}" th:value="${addr}" th:text="'Alamat #' + ${iter.index + 1} + ': ' + ${addr}"></option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-emerald w-100 rounded-pill py-2.5 fw-bold" id="checkoutBtn"><i class="fa-solid fa-credit-card me-2"></i>Checkout & Bayar Lunas</button>
                 </form>
             </div>

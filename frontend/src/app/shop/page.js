@@ -17,91 +17,91 @@ export function getProductImage(name = '', category = '') {
     return '/pocof9.png';
   }
   if (n.includes('zenbook') || n.includes('laptop')) {
-    return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('keychron') || n.includes('keyboard')) {
-    return 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80';
+    return '/keychron.png';
   }
   if (n.includes('master') || n.includes('mouse')) {
-    return 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80';
+    return '/mouse.png';
   }
   if (n.includes('monitor')) {
-    return 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80';
+    return '/monitor.png';
   }
   if (n.includes('sony') || n.includes('headphone')) {
-    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80';
+    return '/sony.png';
   }
   if (n.includes('galaxy') || n.includes('phone') || n.includes('hp')) {
     return 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('watch') || n.includes('smartwatch')) {
-    return 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80';
+    return '/applewatch.png';
   }
   if (n.includes('brio') || n.includes('webcam') || n.includes('camera')) {
-    return 'https://images.unsplash.com/photo-1603539943427-b0882e3c8b41?auto=format&fit=crop&w=600&q=80';
+    return '/brio.png';
   }
 
   // Fashion
   if (n.includes('kaos') || n.includes('t-shirt') || n.includes('tshirt')) {
-    return 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80';
+    return '/kaos.png';
   }
   if (n.includes('jaket') || n.includes('denim')) {
-    return 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80';
+    return '/jaket.png';
   }
   if (n.includes('hoodie')) {
     return 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('chino') || n.includes('celana')) {
-    return 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80';
+    return '/chino.png';
   }
   if (n.includes('dress')) {
-    return 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80';
+    return '/dress.jpg';
   }
   if (n.includes('sneakers') || n.includes('sepatu')) {
-    return 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80';
+    return '/sepatu.png';
   }
   if (n.includes('topi') || n.includes('baseball')) {
-    return 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80';
+    return '/topi.jpg';
   }
   if (n.includes('kemeja') || n.includes('flanel')) {
-    return 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80';
+    return '/flanel.jpg';
   }
 
   // Food
   if (n.includes('kripik') || n.includes('singkong')) {
-    return 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80';
+    return '/chips.png';
   }
   if (n.includes('roti') || n.includes('gandum') || n.includes('sourdough')) {
-    return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('cokelat') || n.includes('chocolate') || n.includes('truffle')) {
-    return 'https://images.unsplash.com/photo-1548907040-4d42b52125e1?auto=format&fit=crop&w=600&q=80';
+    return '/truffle.png';
   }
   if (n.includes('kopi') || n.includes('coffee') || n.includes('gayo')) {
-    return 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80';
+    return '/kopi.png';
   }
   if (n.includes('cookies') || n.includes('cookie')) {
     return 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80';
   }
   if (n.includes('madu') || n.includes('honey')) {
-    return 'https://images.unsplash.com/photo-1587049352846-4a222e784d3e?auto=format&fit=crop&w=600&q=80';
+    return '/madu.jpg';
   }
   if (n.includes('selai') || n.includes('butter') || n.includes('peanut')) {
-    return 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80';
+    return '/butter.jpg';
   }
   if (n.includes('teh') || n.includes('matcha') || n.includes('green tea')) {
-    return 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80';
+    return '/matcha.png';
   }
 
   // Fallbacks by Category
   if (c.includes('elektronik') || c.includes('laptop')) {
-    return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=600&q=80';
   }
   if (c.includes('makanan') || c.includes('roti')) {
-    return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=600&q=80';
   }
   if (c.includes('pakaian') || c.includes('baju') || c.includes('jaket')) {
-    return 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80';
+    return 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80';
   }
   
   return 'https://images.unsplash.com/photo-1496181130204-755241524eab?auto=format&fit=crop&w=600&q=80';
@@ -119,12 +119,14 @@ function CatalogContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('Guest');
   const [userName, setUserName] = useState('');
+  const [userPhoto, setUserPhoto] = useState('');
   
   // Cart Offcanvas State
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [selectedVariants, setSelectedVariants] = useState({});
 
   // Product Detail Modal State
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -192,12 +194,20 @@ function CatalogContent() {
         setIsLoggedIn(true);
         setUserRole(userRes.user.role);
         setUserName(userRes.user.name);
+        setUserPhoto(userRes.user.profilePhoto || '');
         
         if (userRes.user.role === 'Buyer') {
           const dashboardData = await api.getBuyerDashboard();
           setCartCount(dashboardData.cartCount || 0);
           setCartItems(dashboardData.cartItems || []);
           setCartTotal(dashboardData.cartTotal || 0);
+          
+          try {
+            const vars = JSON.parse(localStorage.getItem('cart_variants') || '{}');
+            setSelectedVariants(vars);
+          } catch (e) {
+            console.error(e);
+          }
           
           const allNotifs = dashboardData.notifications || [];
           setNotifications(allNotifs);
@@ -445,7 +455,11 @@ function CatalogContent() {
                 <div className="flex items-center gap-3">
                   <Link href={userRole === 'Seller' ? '/seller/dashboard' : userRole === 'Admin' ? '/admin' : '/buyer/dashboard'} className="flex items-center gap-2 hover:opacity-85 transition-all" style={{ textDecoration: 'none' }}>
                     <div className="w-10 h-10 rounded-full overflow-hidden border-2 flex items-center justify-center text-white font-bold text-lg shadow-sm" style={{ backgroundColor: '#00aa5b', borderColor: 'rgba(0, 170, 91, 0.2)' }}>
-                      {userName ? userName.charAt(0).toUpperCase() : 'U'}
+                      {userPhoto ? (
+                        <img src={userPhoto} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        userName ? userName.charAt(0).toUpperCase() : 'U'
+                      )}
                     </div>
                     <span className="hidden md:inline font-bold text-sm text-on-surface align-middle">{userName ? userName.split(' ')[0] : 'User'}</span>
                   </Link>
@@ -612,7 +626,7 @@ function CatalogContent() {
               </div>
             ) : (
               products.map((p) => {
-                const imgClass = getProductImage(p.name, p.category);
+                const imgClass = p.imageUrl || getProductImage(p.name, p.category);
 
                 return (
                   <Link key={p.productId} href={`/product?productId=${p.productId}`} className="group bg-white rounded-3xl overflow-hidden shadow-md premium-hover-glow cursor-pointer border border-outline-variant/10 flex flex-col text-decoration-none text-inherit">
@@ -760,7 +774,7 @@ function CatalogContent() {
                             {cartItems.map((item) => (
                               <li key={item.product?.productId} className="flex py-6">
                                 <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-low relative">
-                                  <img src={getProductImage(item.product?.name, item.product?.category)} alt={item.product?.name} className="w-full h-full object-cover" />
+                                  <img src={item.product?.imageUrl || getProductImage(item.product?.name, item.product?.category)} alt={item.product?.name} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
@@ -769,6 +783,11 @@ function CatalogContent() {
                                       <p className="ml-4" style={{ color: '#00aa5b' }}>Rp {item.product?.price?.toLocaleString('id-ID')}</p>
                                     </div>
                                     <p className="mt-1 text-xs font-semibold uppercase" style={{ color: '#00aa5b' }}>{item.product?.category || 'Barang'}</p>
+                                    {selectedVariants[item.product?.productId] && (
+                                      <span className="inline-block mt-1 px-1.5 py-0.5 rounded text-[10px] bg-surface-container font-bold text-on-surface-variant w-fit">
+                                        Varian: {selectedVariants[item.product?.productId]}
+                                      </span>
+                                    )}
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-on-surface-variant">Jumlah: <b>{item.quantity}x</b></p>

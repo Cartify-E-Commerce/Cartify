@@ -160,7 +160,10 @@
                 <a href="/seller/dashboard" class="btn btn-emerald btn-sm rounded-pill px-4" style="font-size: 13px;"><i class="fa-solid fa-store me-1"></i>Beralih ke Seller</a>
                 <div class="vr" style="height: 24px; background-color: rgba(15,23,42,0.1); opacity: 1;"></div>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                    <div class="rounded-circle overflow-hidden shadow-sm d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <img th:if="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" th:src="${user.profilePhoto}" alt="Avatar" class="w-100 h-100" style="object-fit: cover;" />
+                        <div th:unless="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" class="w-100 h-100 text-white d-flex align-items-center justify-content-center fw-bold" style="background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                    </div>
                     <span class="fw-bold d-none d-md-inline text-dark" id="navBuyerName" style="font-size: 14px;" th:text="${user.name}">Ryan Maulana</span>
                 </div>
             </div>
@@ -173,7 +176,10 @@
             <div class="col-lg-3">
                 <div class="card-custom p-4">
                     <div class="text-center py-3">
-                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold mx-auto mb-3" style="width: 72px; height: 72px; font-size: 26px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%); box-shadow: 0 8px 20px var(--emerald-glow);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                        <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 72px; height: 72px; box-shadow: 0 8px 20px var(--emerald-glow);">
+                            <img th:if="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" th:src="${user.profilePhoto}" alt="Avatar" class="w-100 h-100" style="object-fit: cover;" />
+                            <div th:unless="${user.profilePhoto != null && !user.profilePhoto.isEmpty()}" class="w-100 h-100 text-white d-flex align-items-center justify-content-center fw-bold" style="font-size: 26px; background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-primary) 100%);" th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">R</div>
+                        </div>
                         <h6 class="fw-bold mb-1 text-dark" id="sidebarBuyerName" th:text="${user.name}">Ryan Maulana B. P.</h6>
                         <span class="badge badge-emerald px-2.5 py-1 mb-2 rounded-pill small" id="sidebarRole" th:text="'Role: ' + ${user.role}" style="font-size: 11px;">Member Buyer</span>
                     </div>

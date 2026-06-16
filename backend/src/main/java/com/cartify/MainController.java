@@ -126,6 +126,7 @@ public class MainController {
         response.put("harga", targetProduct.getPrice());
         response.put("stok", targetProduct.getStock());
         response.put("deskripsi", targetProduct.getDescription());
+        response.put("imageUrl", targetProduct.getImageUrl());
         response.put("averageRating", avg);
         response.put("totalReviews", totalRev);
         response.put("distribution", dist);

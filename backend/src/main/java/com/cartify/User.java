@@ -20,6 +20,11 @@ public abstract class User {
     @Column(columnDefinition = "LONGTEXT")
     protected String profilePhoto;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "address", columnDefinition = "VARCHAR(200)")
+    protected List<String> addresses = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
     protected Cart cart;
@@ -35,6 +40,10 @@ public abstract class User {
         this.email = email;
         this.password = password;
         this.address = address;
+        this.addresses = new ArrayList<>();
+        if (address != null && !address.trim().isEmpty()) {
+            this.addresses.add(address.trim());
+        }
         this.cart = new Cart("CART-" + userId, this, new ArrayList<>());
         this.orderHistory = new ArrayList<>();
     }
@@ -127,6 +136,15 @@ public abstract class User {
     public void setPassword(String password) { this.password = password; }
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
+    public List<String> getAddresses() {
+        if (addresses == null) {
+            addresses = new ArrayList<>();
+        }
+        return addresses;
+    }
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
     public String getProfilePhoto() { return profilePhoto; }
     public void setProfilePhoto(String profilePhoto) { this.profilePhoto = profilePhoto; }
     public Cart getCart() { return cart; }

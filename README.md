@@ -7,11 +7,11 @@
 
 | No | Nama Anggota | NIM | Fitur / Modul | Kelas & Interface yang Dibuat |
 | :---: | :--- | :---: | :--- | :--- |
-| 1 | **Ryan Maulana Bagus Putra** | 103012430029 | Dashboard & Notifikasi | `Dashboard`, `Notification`, `Observer` *(Interface)* |
-| 2 | **Rahmatul Akbar Alim** | 103012400172 | Manajemen Pengguna | `User` *(Abstract)*, `Buyer`, `Seller`, `Admin` |
-| 3 | **Azmi Hanif Fauzil Islami** | 103012430018 | Manajemen Produk | `Product` *(Abstract)*, `ElectronicProduct`, `FashionProduct`, `FoodProduct`, `Stockable` *(Interface)* |
-| 4 | **Pascal Zaidane Athallah** | 103012400033 | Manajemen Transaksi | `Cart`, `OrderItem`, `Transaction`, `Payable` *(Interface)*, `TransactionStatus` *(Enum)* |
-| 5 | **Muhammad Rafiul Izzah** | 103012430004 | Ulasan & Rating | `Review`, `RatingCalculator`, `Reviewable` *(Interface)* |
+| 1 | **Ryan Maulana Bagus Putra** | 103012430029 | Skema DB, Auth, & REST API | `User` (Single Table), `DatabaseSeeder`, Controllers |
+| 2 | **Rahmatul Akbar Alim** | 103012400172 | Manajemen Pengguna & Notifikasi | `User`, `Buyer`, `Seller`, `Admin`, `Observer`, `Subject` |
+| 3 | **Azmi Hanif Fauzil Islami** | 103012430018 | Katalog Produk | `Product`, `ElectronicProduct`, `FashionProduct`, `FoodProduct`, `Stockable` |
+| 4 | **Pascal Zaidane Athallah** | 103012400033 | Keranjang Belanja & Checkout (JNE) | `Cart`, `OrderItem`, `Transaction`, `Payable`, `TransactionStatus` |
+| 5 | **Muhammad Rafiul Izzah** | 103012430004 | Ulasan & Rating Produk | `Review`, `RatingCalculator`, `Reviewable` |
 
 ---
 
@@ -59,7 +59,7 @@ Seluruh berkas dokumentasi resmi proyek Tugas Besar ini disimpan di dalam folder
 
 ### Persyaratan Sistem
 - Node.js (v18 ke atas)
-- Java JDK 17
+- Java JDK 17 / 21
 - MySQL Server
 
 ### 1. Menjalankan Backend (Spring Boot)
@@ -94,6 +94,7 @@ cartify/
 ├── backend/                # Source code Spring Boot Java
 │   ├── src/main/java/      # Controller, Model, Repository
 │   └── src/main/resources/ # application.properties, Static templates
+├── docs/                   # Laporan PDF & UML Class Diagram
 ├── frontend/               # Source code Next.js
 │   ├── public/             # Aset gambar lokal (loq.png, pocof9.png, dll.)
 │   └── src/app/            # Komponen halaman (shop, product, store, buyer, seller)
